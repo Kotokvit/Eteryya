@@ -1,0 +1,3074 @@
+{
+  "metadata": {
+    "total_files": 143,
+    "categories_count": 11,
+    "source_directory": "/home/z/my-project/unpacked/🌀 Архитектура Этерии- Технологии, Логистика и Механика Мира",
+    "analysis_version": "2.0-deep",
+    "author": "Виталий Коток"
+  },
+  "categories": {
+    "биофизика_и_бестиарий": [
+      {
+        "index": 3,
+        "name": "100-etheria_sweat_vs_exudate (1).png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 4,
+        "name": "101-etheria_sweat_vs_exudate.png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 5,
+        "name": "102-etheria_temperature_dynamics (1).png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 6,
+        "name": "103-etheria_temperature_dynamics.png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 7,
+        "name": "104-etheria_thermoregulation_diagram (1).png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 8,
+        "name": "105-etheria_thermoregulation_diagram.png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 49,
+        "name": "142-скелет 2.png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 66,
+        "name": "29-EPUB-02_Биофизика_и_Бестиарий.epub.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "10-103-Реестр персонажей и иерархия сфер Этерии Реестр персонажей и иерархия сфер Этерии На основе источников и текущей хронологии книги, ниже распред…"
+      },
+      {
+        "index": 137,
+        "name": "93-etheria_cooling_mechanisms (1).png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 138,
+        "name": "94-etheria_cooling_mechanisms.png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 139,
+        "name": "95-etheria_pressure_valves (1).png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 140,
+        "name": "96-etheria_pressure_valves.png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 141,
+        "name": "97-etheria_respiratory_gas_exchange (1).png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 142,
+        "name": "98-etheria_respiratory_gas_exchange.png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 143,
+        "name": "99-etheria_sweat_vs_exudate (1).png.md",
+        "subcategory": "biomechanics_or_creature",
+        "summary": "[empty or binary content]"
+      }
+    ],
+    "география_и_карты": [
+      {
+        "index": 72,
+        "name": "34-Etheria_ATLAS_Beautiful.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 73,
+        "name": "35-Etheria_ATLAS_Beautiful.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 74,
+        "name": "36-Etheria_ATLAS_Final.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 75,
+        "name": "37-Etheria_Atlas_NorthRoute (1).png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 76,
+        "name": "38-Etheria_Atlas_NorthRoute.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 77,
+        "name": "39-Etheria_Atlas_NorthRoute_v2 (1).png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 79,
+        "name": "40-Etheria_Atlas_NorthRoute_v2.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 80,
+        "name": "41-Etheria_Atlas_v3 (1).png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 81,
+        "name": "42-Etheria_Atlas_v3 (2).png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 82,
+        "name": "43-Etheria_Atlas_v3.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 83,
+        "name": "44-Etheria_Atlas_v3.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 84,
+        "name": "45-Etheria_GEOGRAPHIC_NorthRoute_FINAL.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 85,
+        "name": "46-Etheria_Geography_FULL_v2.12.epub.md",
+        "subcategory": "map_or_atlas",
+        "summary": "Карта мира Этерии Карта мира. Термодинамический инвертор: фредерит 210 Вт/м² греет изнутри. Льда нет. T=+20°C. Северный тракт (карта)"
+      },
+      {
+        "index": 86,
+        "name": "47-Etheria_Geography_FULL_v2.13.epub.md",
+        "subcategory": "map_or_atlas",
+        "summary": "Карта мира Этерии Карта мира. Термодинамический инвертор: фредерит 210 Вт/м² греет изнутри. Льда нет. T=+20°C. Северный тракт (карта)"
+      },
+      {
+        "index": 87,
+        "name": "48-Etheria_Globe_View1_EarthSide.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 88,
+        "name": "49-Etheria_Globe_View1_EarthSide.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 90,
+        "name": "50-Etheria_Globe_View2_NorthPole.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 91,
+        "name": "51-Etheria_Globe_View2_NorthPole.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 92,
+        "name": "52-Etheria_Globe_View3_South.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 93,
+        "name": "53-Etheria_Globe_View3_South.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 94,
+        "name": "54-Etheria_Map (1).png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 95,
+        "name": "55-Etheria_Map.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 96,
+        "name": "56-Etheria_Map_QGIS (1).png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 97,
+        "name": "57-Etheria_Map_QGIS.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 98,
+        "name": "58-Etheria_Map_v2 (1).png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 99,
+        "name": "59-Etheria_Map_v2.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 101,
+        "name": "60-Etheria_NorthRoute_Elevation_Profile.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 102,
+        "name": "61-Etheria_NorthRoute_Elevation_Profile.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 103,
+        "name": "62-Etheria_NorthRoute_T21_T0_FINAL.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 104,
+        "name": "63-Etheria_NorthRoute_T21_T0_v2.pdf.md",
+        "subcategory": "map_or_atlas",
+        "summary": "10°N 20°N 30°N"
+      },
+      {
+        "index": 105,
+        "name": "64-Etheria_NorthRoute_T21_T0_v2.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 106,
+        "name": "65-Etheria_NorthRoute_T21_T0_v2.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 107,
+        "name": "66-Etheria_Terrain_Agent4_Preview.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 108,
+        "name": "67-Etheria_Terrain_Agent4_Preview.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 112,
+        "name": "70-Etheria_Transit_Points_v2.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 113,
+        "name": "71-Etheria_World_Map.pdf.md",
+        "subcategory": "map_or_atlas",
+        "summary": "60°S 30°S 0°"
+      },
+      {
+        "index": 114,
+        "name": "72-Etheria_World_Map.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 115,
+        "name": "73-Etheria_World_Map.png.md",
+        "subcategory": "map_or_atlas",
+        "summary": "[empty or binary content]"
+      }
+    ],
+    "заметки_и_черновики": [
+      {
+        "index": 33,
+        "name": "128-Анализ Системных Узлов и Конфликтов.md",
+        "subcategory": "philosophical_analysis",
+        "summary": "User: ТОМ 2. ГЛАВА 5: ЦЕНА ПРОВОДИМОСТИ (МЕТРИКА Т-21) СЦЕНА 1. АУДИТ ОБОРУДОВАНИЯ И СМЕНА РЫНКА Заброшенная насосная станция на границе Сектора Зерка…"
+      },
+      {
+        "index": 36,
+        "name": "130-Все заметки от 25.06.2026.md",
+        "subcategory": "notes_or_drafts",
+        "summary": "Фиолетовое пламя: Физика и деконструкция материи **Статус:** Канон-лок (производный от макрофизики Этерии) **Дата:** 2026-06-23"
+      },
+      {
+        "index": 39,
+        "name": "133-Лингвистическая мифология всеведущего демиурга.md",
+        "subcategory": "philosophical_analysis",
+        "summary": "Лингвистическая мифология всеведущего демиурга Хуй его знает . Исходя из сучесвительного . Хуй и падежа его . Следовательно опонент имел ввиду что Ког…"
+      },
+      {
+        "index": 40,
+        "name": "134-Математическая деконструкция концепта судьбы в Этерии.md",
+        "subcategory": "philosophical_analysis",
+        "summary": "Математическая деконструкция концепта судьбы в Этерии Принято. G-оператор проиндексирован, синхронизация подтверждена. Перехожу к деконструкции концеп…"
+      },
+      {
+        "index": 41,
+        "name": "135-Математическая деконструкция концепта судьбы в Этерии.md",
+        "subcategory": "philosophical_analysis",
+        "summary": "Математическая деконструкция концепта судьбы в Этерии Принято. G-оператор проиндексирован, синхронизация подтверждена. Перехожу к деконструкции концеп…"
+      },
+      {
+        "index": 43,
+        "name": "137-Понял. Проектор Причинности выдал два вектора — это чёткая архитектура. Прежде чем писать, сверяю вс.md",
+        "subcategory": "philosophical_analysis",
+        "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современ…"
+      },
+      {
+        "index": 48,
+        "name": "141-подумай логичеки невозможно такую ситему посроить за один год . во первых нужны ресурсы а это посоян.md",
+        "subcategory": "notes_or_drafts",
+        "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современ…"
+      },
+      {
+        "index": 50,
+        "name": "143-теперь впрос как так полусаеться что побег рея описываеться дважды - в главе 1 и второй раз глава 2 .md",
+        "subcategory": "notes_or_drafts",
+        "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современ…"
+      }
+    ],
+    "изображения_и_медиа": [
+      {
+        "index": 2,
+        "name": "10-5650875222748.mp4.md",
+        "subcategory": "audio_video_transcription",
+        "summary": "火焰燒的她叫心模樣,那隨後的我在生長 我戀的 發了西陽接受著命運的力和方貼著胸條動的心著相望 這壓不住我心生的將追逐一 只要與火生一般 不你相跟他心就很有分只願你天為愛神不好於生只有萬人以我為這一 故無之所流秦速方可調和女修行者身之果想藉公子的元丹一樣 生命為今日必須 受了這涅槃 是何人在此宣鬧啊 …"
+      },
+      {
+        "index": 30,
+        "name": "125-unnamed (1).png.md",
+        "subcategory": "image_transcription",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 31,
+        "name": "126-unnamed.png.md",
+        "subcategory": "image_transcription",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 32,
+        "name": "127-videoplayback.mp4.md",
+        "subcategory": "audio_video_transcription",
+        "summary": "Присаживайтесь поудобнее, так как в этом видео вы узнаете полную историю серии Diablo. Одним из главных лордов зла в серии Diablo является Мефиста, ко…"
+      },
+      {
+        "index": 37,
+        "name": "131-Заставьте_физику_Этерии_болеть.m4a.md",
+        "subcategory": "audio_video_transcription",
+        "summary": "В этом разборе мы погружаемся в мрачный мир этери, где жестокие законы макроэкономики управляют квантовой физикой повествования. Эм, материал невероят…"
+      },
+      {
+        "index": 44,
+        "name": "138-Сфера Предела .epub.md",
+        "subcategory": "epub_transcription",
+        "summary": "Содержание Cover PageСодержаниеГЛАВА 1 ОДЕССА. ВЕСНА. ТЕТРАДЬ В КЛЕТКУГЛАВА 2. ДОГОВОР НА ВРЕМЯГЛАВА 3. СДВИГГЛАВА 4. ГОЛОС ПУСТОТЫГЛАВА 5. ЭФФЕКТ НАБ…"
+      },
+      {
+        "index": 55,
+        "name": "19-ChatGPT Image 22 черв. 2026 р., 23_23_18.png.md",
+        "subcategory": "chatgpt_image",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 57,
+        "name": "20-ChatGPT Image 22 черв. 2026 р., 23_29_53.png.md",
+        "subcategory": "chatgpt_image",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 58,
+        "name": "21-ChatGPT Image 22 черв. 2026 р., 23_29_53.png.md",
+        "subcategory": "chatgpt_image",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 59,
+        "name": "22-ChatGPT Image 23 черв. 2026 р., 23_40_09.png.md",
+        "subcategory": "chatgpt_image",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 60,
+        "name": "23-ChatGPT Image 23 черв. 2026 р., 23_40_09.png.md",
+        "subcategory": "chatgpt_image",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 89,
+        "name": "5-110-55_Все_заметки_25.04.2026.epub.md",
+        "subcategory": "epub_transcription",
+        "summary": "Все заметки от 25.04.2026 (Том 2: Инверсия порядка — Железная Леди) (часть 1/11) ТОМ 2. ГЛАВА 4: ИНВЕРСИЯ ПОРЯДКА. РОЖДЕНИЕ ЖЕЛЕЗНОЙ ЛЕДИ (Т-22 ГОДА) …"
+      },
+      {
+        "index": 109,
+        "name": "68-Etheria_Timeline_T64_T0 (1).png.md",
+        "subcategory": "image_transcription",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 110,
+        "name": "69-Etheria_Timeline_T64_T0.png.md",
+        "subcategory": "image_transcription",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 136,
+        "name": "92-cc999e63-30e7-4d56-a833-794b06a0f27b_image.png.md",
+        "subcategory": "image_transcription",
+        "summary": "[empty or binary content]"
+      }
+    ],
+    "исследования_и_ссылки": [
+      {
+        "index": 13,
+        "name": "11-64-16_Чат_Сбор_карты_мира_ЧАСТЬ_VII.epub.md",
+        "subcategory": "conversation_research",
+        "summary": "Чат: Сбор карты мира (от ЧАСТЬ VII — Медотсек. Сферы) (часть 1/8) Вы сказали: ЧАСТЬ VII — МЕДОТСЕК. СФЕРЫ Мне не снился сон. И не было темноты. Я прос…"
+      },
+      {
+        "index": 24,
+        "name": "12-65-17_Combined_Recursive.epub.md",
+        "subcategory": "external_research",
+        "summary": "Combined Recursive (65-17) (часть 1/12) привет я хочу написать детскую книгу без цензуры . главный герой . игрок . Который попал в мир . Меча и магии …"
+      },
+      {
+        "index": 35,
+        "name": "13-71-23_NotebookLM_2026-03-02.epub.md",
+        "subcategory": "combined_recursive_research",
+        "summary": "NotebookLM Web (2026-03-02) (часть 1/12) exported: 2026-03-02T16:16:20.751Zsource: NotebookLMtitle: ЭтерияЭтерияExported: 02.03.2026, 18:16:20 UserКак…"
+      },
+      {
+        "index": 63,
+        "name": "26-DeepSeek - Давление вакуума затрудняет разрыв границ - DeepSeek.pdf.md",
+        "subcategory": "external_research",
+        "summary": "DeepSeek - Давление вакуума затрудняет разрыв границ - DeepSeek Давление вакуума затрудняет разрыв границ - DeepSeek"
+      }
+    ],
+    "канон_и_манифесты": [
+      {
+        "index": 38,
+        "name": "132-Канонизация Этерия- Решение вопросов.md",
+        "subcategory": "canonization_notes",
+        "summary": "User: документ Этерия: Архитектура канона и финальная стратегия нарратива ## IV. ВОПРОСЫ, КОТОРЫЕ ТОЛЬКО ТЫ МОЖЕШЬ РЕШИТЬ Возраст Марты в Т-24: 10 или…"
+      },
+      {
+        "index": 56,
+        "name": "2-00_КАНОН_МАНИФЕСТ (1).md.md",
+        "subcategory": "core_manifest",
+        "summary": "ЭТЕРИЯ — КАНОН-АРХИВ Предыстория: T-24 → T-0 Том 1: главы 1–26 | Дамп памяти: главы 27–32г"
+      },
+      {
+        "index": 64,
+        "name": "27-EPUB-00_Секвестр_X-0.epub.md",
+        "subcategory": "sequestration_canon",
+        "summary": "1-- RECOVERING DICTATORS' PLUNDER - GovInfo Source: https://www.govinfo.gov/content/pkg/CHRG-107hhrg79943/html/CHRG-107hhrg79943.htm"
+      },
+      {
+        "index": 67,
+        "name": "3-00_КАНОН_МАНИФЕСТ (2).md.md",
+        "subcategory": "core_manifest",
+        "summary": "ЭТЕРИЯ — КАНОН-АРХИВ Предыстория: T-24 → T-0 Том 1: главы 1–26 | Дамп памяти: главы 27–32г"
+      }
+    ],
+    "макрофизика_и_астрономия": [
+      {
+        "index": 10,
+        "name": "107-p3_conjugation_calc.py.md.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "-- coding: utf-8 -- \"\"\"P³-СОПРЯЖЁННОСТЬ: КИЕВ ↔ СЕКТОР ЧЕТЫРЕ Формальный расчёт через метрику Фубини–Штуди."
+      },
+      {
+        "index": 11,
+        "name": "108-p3_demo_combined.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 12,
+        "name": "109-p3_endogenous_combined (1).png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 14,
+        "name": "110-p3_endogenous_combined.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 15,
+        "name": "111-p3_panel_A_z2z_twist.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 16,
+        "name": "112-p3_panel_B_pgl4_transform.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 17,
+        "name": "113-p3_panel_C_w_propagation.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 18,
+        "name": "114-p3_panel_D_full_cycle.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 19,
+        "name": "115-p3_planet_3d_slice.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 20,
+        "name": "116-p3_stage1_unfold.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 21,
+        "name": "117-p3_stage2_network.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 22,
+        "name": "118-p3_stage3_z2z_loop.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 23,
+        "name": "119-p3_stage4_endogenous.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 25,
+        "name": "120-p3_vs_r3_distance.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 26,
+        "name": "121-p3_w_evolution.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 27,
+        "name": "122-p3_w_field_surface.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 42,
+        "name": "136-Механика Этерии- Анизотропная Топология и Астронавигация P3.md",
+        "subcategory": "anisotropic_topology",
+        "summary": "Механика Этерии: Анизотропная Топология и Астронавигация P3 слушай тупой ворос . а восток на вотоке запад на западе ? север на севере юг на юге ? отно…"
+      },
+      {
+        "index": 53,
+        "name": "17-ASTRONOMY_AXIOMS.json.md.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "{ \"T_eteria_years\": { \"value\": 3.488122704263713, \"sources\": { \"astropy_math\": 3.488122704263713, \"astropy_units\": 3.4881885835518696, \"sympy\": 3.4881…"
+      },
+      {
+        "index": 54,
+        "name": "18-ASTRONOMY_AXIOMS.md.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "АКСИОМЫ АСТРОНОМИИ ЭТЕРИИ Дата верификации: 2026-06-21 23:25:29 Использованные инструменты"
+      },
+      {
+        "index": 65,
+        "name": "28-EPUB-01_Макрофизика_и_Астрономия.epub.md",
+        "subcategory": "epub_macrophysics",
+        "summary": "105-48-Архитектурная спецификация Этерии- Физика и хронология системного кризиса Архитектурная спецификация Этерии: Физика и хронология системного"
+      },
+      {
+        "index": 116,
+        "name": "74-M1_M2_einstein_ring.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 117,
+        "name": "75-M1_M2_parallax_sensitivity.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 118,
+        "name": "76-P3_COMPENDIUM (1).pdf.md",
+        "subcategory": "p3_technical_doc",
+        "summary": "P³ Проективное многообразие P³ Геометрия · Эндогенная динамика · Прототип ·"
+      },
+      {
+        "index": 119,
+        "name": "77-P3_KYIV_SECTOR4_CONJUGATION.json.md.md",
+        "subcategory": "p3_conjugation_data",
+        "summary": "{ \"coordinates_verified\": { \"Great_Pyramid_Giza\": { \"lat\": 29.9792, \"lon\": 31.1342, \"source\": \"Wikipedia, latlong.net\" }, \"Ollantaytambo\": { \"lat\": -1…"
+      },
+      {
+        "index": 120,
+        "name": "78-P3_Voxel_Engine.epub.md",
+        "subcategory": "p3_technical_doc",
+        "summary": "P³ Voxel Engine — Master Architecture (часть 1/2) Движок для моделирования планеты через проективное многообразие P³. Математика POLER-FPGA адаптирова…"
+      },
+      {
+        "index": 121,
+        "name": "79-P3_schema_1_comparison.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 123,
+        "name": "80-P3_schema_2_homogeneous.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 124,
+        "name": "81-P3_schema_3_cards.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 125,
+        "name": "82-P3_schema_4_lines.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 126,
+        "name": "83-P3_schema_5_factorization.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 127,
+        "name": "84-P3_schema_6_Z2Z.png.md",
+        "subcategory": "p3_or_astro_schema",
+        "summary": "[empty or binary content]"
+      }
+    ],
+    "материаловедение_и_магия": [
+      {
+        "index": 68,
+        "name": "30-EPUB-03_Материаловедение_и_Магия.epub.md",
+        "subcategory": "materials_and_magic",
+        "summary": "125-69-Инструментарий Сферы Предела- Технологии Резонанса и Пустоты Инструментарий Сферы Предела: Технологии Резонанса и Пустоты В мире"
+      },
+      {
+        "index": 100,
+        "name": "6-18-dynamis-periscope.txt.md.md",
+        "subcategory": "dynamis_periscope",
+        "summary": "DYNAMIS ℘ Absolute Periscope ℘–O–L–ε–R[n] // DYNAMIS СЛОЙ Истинная Этерия: Независимая орбита"
+      }
+    ],
+    "нарратив_и_персонажи": [
+      {
+        "index": 45,
+        "name": "139-Техническое задание и расширенный промпт- «Рэй Вэнс- Взрослая форма (Наследник-00 - Мёртвый актив)» .md",
+        "subcategory": "narrative_or_character",
+        "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современ…"
+      },
+      {
+        "index": 51,
+        "name": "15-ALEKSEY_OUT_OF_WINDOW_CANON.md.md",
+        "subcategory": "aleksey_scene",
+        "summary": "ТРАНЗИТ АЛЕКСЕЯ ВНЕ 33-ЛЕТНЕГО ОКНА Канон v2.1 — Формальное доказательство Версия: v1.0"
+      },
+      {
+        "index": 52,
+        "name": "16-ALEKSEY_OUT_OF_WINDOW_PROOF.json.md.md",
+        "subcategory": "aleksey_scene",
+        "summary": "{ \"title\": \"Транзит Алексея вне 33-летнего окна — Формальное доказательство\", \"version\": \"v1.0\", \"canon_sources\": [ \"33_Teorema_Raspada.md (прямая цит…"
+      },
+      {
+        "index": 70,
+        "name": "32-EPUB-05_Нарративный_Канон.epub.md",
+        "subcategory": "narrative_or_character",
+        "summary": "114-58-Глава 1313 - Во всеоружии - Ранобэ.рф Source: https://xn–80ac9aeh6f.xn–p1ai/vo-vseoruzhii/glava-1313 Глава 1313 — Во всеоружии / Overgeared — Ч…"
+      },
+      {
+        "index": 111,
+        "name": "7-303_Важный_разговор.epub.md",
+        "subcategory": "narrative_or_character",
+        "summary": "Важный разговор (303) (часть 1/14) привет я хочу написать детскую книгу без цензуры . главный герой . игрок . Который попал в мир . Меча и магии . Но …"
+      },
+      {
+        "index": 122,
+        "name": "8-32e_T19_Zachatie_Alexeya_Spusk_Kaidena.md.md",
+        "subcategory": "narrative_or_character",
+        "summary": "Глава 32е. Зачатие Патча-01 и Спуск Кайдена Метрика: T-19.00.00 → T-18.99.99 Локация: Белый Замок (ярус −240 м) → Хрустальные Пики → Озеро Отражений →…"
+      },
+      {
+        "index": 133,
+        "name": "9-52-147_Важный_разговор.epub.md",
+        "subcategory": "narrative_or_character",
+        "summary": "Важный разговор (52-147) (часть 1/12) привет я хочу написать детскую книгу без цензуры . главный герой . игрок . Который попал в мир . Меча и магии . …"
+      },
+      {
+        "index": 135,
+        "name": "91-aleksey_window_proof.md.md",
+        "subcategory": "aleksey_scene",
+        "summary": "-- coding: utf-8 -- \"\"\"ТРАНЗИТ АЛЕКСЕЯ ВНЕ 33-ЛЕТНЕГО ОКНА — Формальное доказательство Канон:"
+      }
+    ],
+    "технологии_и_код": [
+      {
+        "index": 9,
+        "name": "106-litgraph-desktop (1).epub.md",
+        "subcategory": "poler_or_code",
+        "summary": "LitGraph-Desktop Repository Repository Snapshot Generated snapshot"
+      },
+      {
+        "index": 28,
+        "name": "123-poler_enhanced (копія).py.md.md",
+        "subcategory": "poler_or_code",
+        "summary": "-- coding: utf-8 -- \"\"\"POLER[n] CLI v2.0 — Расширенная версия Оригинал: poler.py v1.0.0 (POLER[n] Studio) Расширение: Super Z (для проекта Этерия)"
+      },
+      {
+        "index": 29,
+        "name": "124-poler_v6 (2).py.md.md",
+        "subcategory": "poler_or_code",
+        "summary": "-- coding: utf-8 -- \"\"\"POLER[n] v6.1 — FINAL UNIFIED BUILD + AUTO-CHUNK Объединение v4 (база) + v5 (grep killer + archive + epsilon_v4)."
+      },
+      {
+        "index": 34,
+        "name": "129-Архитектура и интеграция z-ai-web-dev-sdk в poler_toolkit.md",
+        "subcategory": "poler_or_code",
+        "summary": "Архитектура и интеграция z-ai-web-dev-sdk в poler_toolkit 1. АРХИТЕКТУРА z-ai-web-dev-sdk Всё MUCH проще чем кажется. SDK — это тонкая HTTP-обёртка (4…"
+      },
+      {
+        "index": 71,
+        "name": "33-EPUB-06_POLER_и_Технические_Логи.epub.md",
+        "subcategory": "poler_or_code",
+        "summary": "102-45-Архитектура катастрофы- Системный аудит Этерии Архитектура катастрофы: Системный аудит ЭтерииИнициализация"
+      },
+      {
+        "index": 128,
+        "name": "85-POLER_energy_analysis.png.md",
+        "subcategory": "poler_or_code",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 129,
+        "name": "86-POLER_iterations_analysis.png.md",
+        "subcategory": "poler_or_code",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 130,
+        "name": "87-POLER_scaling_curve.png.md",
+        "subcategory": "poler_or_code",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 131,
+        "name": "88-POLER_v034_scaling_curve.png.md",
+        "subcategory": "poler_or_code",
+        "summary": "[empty or binary content]"
+      },
+      {
+        "index": 134,
+        "name": "90-[SYSTEM PROMPT BEGIN] Role- You are a Reflexive Literary Agent operating on the POLER[Ψ] architectur.md",
+        "subcategory": "poler_or_code",
+        "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современ…"
+      }
+    ],
+    "экономика_и_власть": [
+      {
+        "index": 1,
+        "name": "1-- RECOVERING DICTATORS' PLUNDER - GovInfo.md",
+        "subcategory": "economics_or_power",
+        "summary": "> Source: https://www.govinfo.gov/content/pkg/CHRG-107hhrg79943/html/CHRG-107hhrg79943.htm RECOVERING DICTATORS' PLUNDER"
+      },
+      {
+        "index": 46,
+        "name": "14-A Tale of Sovereign Wealth Funds and Global Corruption - nickeled and dimed.md",
+        "subcategory": "economics_or_power",
+        "summary": "> Source: https://nickledanddimed.com/2023/09/20/a-tale-of-sovereign-wealth-funds-and-global-corruption/ A Tale of Sovereign Wealth Funds and Global C…"
+      },
+      {
+        "index": 47,
+        "name": "140-Черная_бухгалтерия_и_бетонный_секвестр_Империи.m4a.md",
+        "subcategory": "economics_or_power",
+        "summary": "Обычно бюрократия ассоциируется с чем-то, ну, бумажным и довольно скучным. Кипы пыльных отчётов, бесконечные коридоры чиновников, печати всякие. Угу. …"
+      },
+      {
+        "index": 61,
+        "name": "24-De Beers - Monopoly Broken - Australian Diamond Portfolio.md",
+        "subcategory": "economics_or_power",
+        "summary": "> Source: https://www.diamondportfolio.com.au/investor-centre/market-information/de-beers-monopoly-broken/ Just a moment... www.diamondportfolio.com.a…"
+      },
+      {
+        "index": 62,
+        "name": "25-De Beers and Beyond- The History of the International Diamond Cartel - NYU Stern.md",
+        "subcategory": "economics_or_power",
+        "summary": "> Source: https://pages.stern.nyu.edu/~lcabral/teaching/debeers3.pdf De Beers and Beyond: The History of the International Diamond Cartel∗"
+      },
+      {
+        "index": 69,
+        "name": "31-EPUB-04_Макроэкономика_и_Власть.epub.md",
+        "subcategory": "economics_or_power",
+        "summary": "100-43-Архитектура Этерии- Технический регламент и онтология системного кризиса Архитектура Этерии: Технический регламент и онтология системного"
+      },
+      {
+        "index": 78,
+        "name": "4-10 Notable Insider Trading Examples That Shook the Financial World.md",
+        "subcategory": "economics_or_power",
+        "summary": "> Source: https://zlk.com/learn/insider-trading-examples 10 Notable Insider Trading Examples That Shook the Financial World Consent"
+      },
+      {
+        "index": 132,
+        "name": "89-Panama Papers- 10 years on, the promises and the failures - Transparency International.md",
+        "subcategory": "economics_or_power",
+        "summary": "> Source: https://www.transparency.org/en/news/panama-papers-10-years Panama Papers: 10 years on, the promises and the… - Transparency.org Consent"
+      }
+    ]
+  },
+  "world_elements": {
+    "geography": {
+      "continents": [
+        {
+          "name": "Главный континент",
+          "area_km2": 46000000,
+          "description": "Основной континент Этерии (~46 млн км²), без официального названия"
+        },
+        {
+          "name": "Южный материк",
+          "area_km2": 8000000,
+          "description": "Антарктида-аналог, ~8 млн км²"
+        },
+        {
+          "name": "Северный ледовый континент",
+          "area_km2": 3000000,
+          "description": "~3 млн км², ледовый"
+        },
+        {
+          "name": "Западный материк",
+          "area_km2": 10000000,
+          "description": "~10 млн км²"
+        },
+        {
+          "name": "Восточный архипелаг",
+          "area_km2": 5000000,
+          "description": "~5 млн км², Три Острова"
+        }
+      ],
+      "regions": [
+        {
+          "name": "Проклятые Княжества",
+          "location": "Юг Главного континента",
+          "area_km2": 13700000,
+          "resource": "Орихалк и Ртуть",
+          "nature": "Зона инверсной энергии, где накапливается хаос"
+        },
+        {
+          "name": "Империя Золотого Солнца",
+          "area_km2": 8700000,
+          "resource": "Платина, φ-руда",
+          "nature": "Теократическая империя, задыхающаяся от платинового голода"
+        },
+        {
+          "name": "Леса Востока + Три Острова",
+          "area_km2": 8700000,
+          "resource": "Янтарь памяти",
+          "nature": "Эльфийская Симбиократия, зона хранения информации и гашения χ-шума"
+        },
+        {
+          "name": "Западные Хребты",
+          "area_km2": 6700000,
+          "resource": "Адамантит и Звездная сталь",
+          "nature": "Горные кланы и Орки, зона чистой кинетической силы"
+        },
+        {
+          "name": "Абресс / Бездна",
+          "area_km2": 5300000,
+          "resource": "Песноплав (демоническая биокерамика)",
+          "nature": "Столица Демонов, где Ω и χ меняются местами"
+        },
+        {
+          "name": "Северная Конфедерация",
+          "area_km2": 2600000,
+          "resource": "Платина (Платиновое плато)",
+          "nature": "Зона абсолютного демпфирования, правит Ольга (Железная Леди)"
+        },
+        {
+          "name": "Сектор Четыре",
+          "coordinates": "47.12°N, 34.89°E",
+          "nature": "Точка выхода Алексея при транзите T-0"
+        },
+        {
+          "name": "Сектор «Асбест-3»",
+          "nature": "Платиновый алтарь, место инсталляции Ольги в тело принцессы"
+        },
+        {
+          "name": "Нижний Город / Яма",
+          "nature": "Подземный рынок, база Марты и Рэя, теневая экономика"
+        },
+        {
+          "name": "Хрустальные Пики",
+          "elevation": "+3500м",
+          "nature": "Горный район, место событий Кайдена/Серафима"
+        },
+        {
+          "name": "Озеро Отражений",
+          "nature": "Рядом с Хрустальными Пиками"
+        },
+        {
+          "name": "Сектор «Цинк-4»",
+          "nature": "Рабочий сектор, забетонированный Главным Аудитором"
+        },
+        {
+          "name": "Сектор Зеркал",
+          "nature": "Финальная точка выхода Алексея в T-0"
+        }
+      ],
+      "cities": [
+        {
+          "name": "Аурелия",
+          "nature": "Главный город, столичный район"
+        },
+        {
+          "name": "Белый Замок",
+          "nature": "Родовое гнездо Вэнсов, ярусная структура до -240м"
+        },
+        {
+          "name": "Хаб",
+          "nature": "Торговый узел"
+        },
+        {
+          "name": "Колизей «Разлом»",
+          "nature": "Гренадер, арена в Т-22"
+        },
+        {
+          "name": "Шахта «Грань»",
+          "nature": "Лагерь, место пробуждения Первой Сферы Алексея"
+        }
+      ],
+      "routes": [
+        {
+          "name": "Северный тракт (North Route)",
+          "distance_km": 3000,
+          "duration_days": 100,
+          "points": 12,
+          "elevation_range": "от -1800м (штрек 17-Б) до +3500м (Хрустальные Пики)",
+          "purpose": "Маршрут Алексея T-21 → T-0"
+        },
+        {
+          "name": "Киевский транзит (P³ древняя)",
+          "nature": "Естественный 33-летний P³-коридор через Золотые Ворота"
+        },
+        {
+          "name": "Протока M1/M2",
+          "nature": "Искусственный мост в P³, построенный Архитекторами Неба в T-16"
+        }
+      ],
+      "bodies_of_water": [
+        {
+          "name": "Океан Этерии",
+          "coverage": "83-89% поверхности",
+          "area_km2": "356-383 млн"
+        }
+      ],
+      "landmarks": [
+        {
+          "name": "Платиновое плато",
+          "location": "Север",
+          "nature": "Источник платины, контролируется Северной Конфедерацией"
+        },
+        {
+          "name": "Штрек 17-Б",
+          "elevation": "-1800м",
+          "nature": "Глубочайшая шахта, точка входа Алексея"
+        },
+        {
+          "name": "Золотые Ворота (Киев)",
+          "nature": "Реликтовый P³-роутер для транзита Ольги"
+        },
+        {
+          "name": "Сфера Предела",
+          "nature": "Метафизическая граница, Седьмая Сфера"
+        }
+      ],
+      "planet_parameters": {
+        "R_km": 5838.4,
+        "M_kg": "2.9861×10²⁴",
+        "g_ms2": 5.85,
+        "orbit_au": 2.3,
+        "period_earth_years": 3.488,
+        "K_anisotropy": "9/7 = 1.28571",
+        "solar_flux_Wm2": 257.3,
+        "T_surface_C": 20,
+        "T_equil_black_C": -89.63,
+        "fredis_Wm2": 210,
+        "ocean_coverage": "83-89%",
+        "circumference_km": 36685,
+        "v_escape_kms": 8.27,
+        "atmosphere": "78% аргон (ионизируется φ-излучением → фиолетовое небо)",
+        "cyclones": "невозможны (SST тропиков 16-19°C < порога 26.5°C)"
+      }
+    },
+    "physics": {
+      "core_axioms": [
+        "P³ (Проективное Многообразие) — пространство Этерии описывается как проективное многообразие P³, не евклидово R³",
+        "Нулевой параллакс — параллакс Этерии с Земли = 0.0000″ (фундаментальное свойство топологии, не маскировка)",
+        "Анизотропия времени — K = 9/7, 18 земных лет = ~14 этерийских",
+        "Вырожденная триангуляция — линии визирования к Этерии строго параллельны, триангуляция вырождена",
+        "W=0 — Этерия в однородных координатах [X:Y:Z:W] пребывает при W=0 (точка на бесконечности)",
+        "Золотой Угол Протоки — λ = π×10⁻¹⁰ рад, фазовый параметр транзита",
+        "Энергия транзита — 8.0124×10¹⁶ Дж = 19.15 Мт ТНТ",
+        "Драконья матрица — поглощает 90% энергии транзита (17.235 Мт), 10% = CNED",
+        "CNED (ПСС-01) — Кумулятивный Неравновесный Урон, старение ×5.0",
+        "Частота Бездны — 18.7 Гц, резонанс фредерита",
+        "φ-частота — 1.4 ТГц, рабочая частота фредерита",
+        "Время T = Σ/I — операциональное уравнение POLER[Ψ]"
+      ],
+      "p3_space": {
+        "description": "Проективное многообразие P³ с анизотропной топологией. Параллельные линии пересекаются в точке на бесконечности. Земля и Этерия — топологически сопряжённая пара в единой Солнечной системе.",
+        "coordinates": "Однородные [X:Y:Z:W], Земля = [0:0:0:1], Этерия = W=0",
+        "transit_mechanism": "Фазовый скачок через Планковскую геодезическую при повороте на Золотой Угол λ",
+        "effective_distance": "d_eff → l_P (планковская длина), коллапс бесконечного проекционного расстояния",
+        "key_formulas": [
+          "1/P_syn = |1/P_eteria - 1/P_earth|",
+          "θ_max = arcsin(1/2.3) = 25.77°",
+          "Π = I - J_c^T(J_c J_c^T)^{-1}J_c (проекция причинности)"
+        ]
+      },
+      "m1_m2_system": {
+        "description": "Гравитационный Перископ из двух чёрных дыр (линз M1 и M2), построенный Архитекторами Неба в T-16",
+        "M1_kg": "2.20×10²³ (~3 массы Луны)",
+        "M2_kg": "2.94×10²³ (~4 масс Луны)",
+        "total_mass": "~7 масс Луны = 0.86% массы Земли",
+        "construction_period": "T-24 → T-16 (1999-2007), 8 циклов = 10.29 зем.лет",
+        "purpose": "НЕ сокрытие Этерии (она уже невидима от природы). Пробитие естественной анизотропии для создания управляемого моста (Протоки) к Земле для транзита Патч-01.",
+        "self_masking": "Собственный гравитационный след линз сбрасывается в то же P³-слепое пятно"
+      },
+      "poler_system": {
+        "description": "POLER[Ψ] — рефлексивный литературный движок на основе минимизации свободной энергии F = |g(p) - Ω(o)|²_G + λR_L(p)",
+        "cycle_layers": [
+          "℘ (Перцепция) — экстракция D-объекта из квантового шума",
+          "O (Образ) — топологическое обоснование, совмещение в W=0",
+          "L (Логика) — причинно-следственная сшивка",
+          "ε (Энергия значения) — семантическая нагрузка",
+          "R[n] (Резонанс) — итеративное уточнение"
+        ],
+        "key_principle": "Информационная сверхпроводимость (H^Ψ=0) — градиент смысла не встречает стохастического шума",
+        "fpga_implementation": "Verilog + Zig + RISC-V, тензорное произведение с деформацией a ⊗_ε b = a·b + ε·(a∧b)"
+      },
+      "sphere_system": {
+        "description": "7 Сфер культивации, каждая = расстояние, на которое энергия успевает выйти из тела прежде чем вернуться",
+        "spheres": [
+          {
+            "number": 1,
+            "name": "Тепло",
+            "nature": "Генерация сырой энергии, пробуждается через травму"
+          },
+          {
+            "number": 2,
+            "name": "Вектор",
+            "nature": "Проекция импульса наружу, «слышать» карту через резонанс"
+          },
+          {
+            "number": 3,
+            "name": "Поток",
+            "nature": "Маршрутизация, стабилизация вектора, обнуление внутреннего сопротивления"
+          },
+          {
+            "number": 4,
+            "name": "Связи",
+            "nature": "Синхронизация с внешней средой, резонанс"
+          },
+          {
+            "number": 5,
+            "name": "Форма",
+            "nature": "Фиксация структуры, «убеждать» материю перестраиваться"
+          },
+          {
+            "number": 6,
+            "name": "Форма (высшая)",
+            "nature": "Структурный стазис, кинетический демпфер абсолютной фиксации"
+          },
+          {
+            "number": 7,
+            "name": "Предел",
+            "nature": "Слом барьера замкнутой энергии, онтологический джейлбрейк, поле замыкается в себе"
+          }
+        ],
+        "6_stages_per_sphere": [
+          "Тепловая генерация",
+          "Уплотнение давления",
+          "Маршрутизация (Поток)",
+          "Проекция (Вектор)",
+          "Синхронизация (Связи)",
+          "Фиксация (Форма)"
+        ]
+      },
+      "violet_flame": {
+        "nature": "Оптический спектр фазового распада, НЕ химическое горение",
+        "mechanism": "φ-ионизация аргона (78% атмосферы) при 1.4 ТГц → плазма → фиолетовый цвет",
+        "product": "χ-осадок (серая пыль мёртвых атомов без связей)"
+      }
+    },
+    "biology": {
+      "species": [
+        {
+          "name": "Этерианцы",
+          "nature": "Коренные жители, ювенильная адаптация (выглядят на 13-14 лет при 200+ циклах), хемосинтез, хрупкие кости, бороды невозможны"
+        },
+        {
+          "name": "Мнемары (Первородные вампиры)",
+          "nature": "Биологические конденсаторы на разности Σ и I. КПД 89% (шум смысла) vs 12% (кровь). Прародительница: Бериаче Ард'Эш. Частота: 1.4 ТГц и 18.7 Гц"
+        },
+        {
+          "name": "Демоны Бездны",
+          "nature": "Древняя раса, рождённая из ткани планеты при остывании ядра. Организованы Дочерью Дракона в иерархию Абресса"
+        },
+        {
+          "name": "Эльфы Востока",
+          "nature": "Симбиократия Трёх Островов, φ-телескопы (D=2м, разрешение 104 км), монополия на наблюдение Земли и биоморфную инженерию"
+        },
+        {
+          "name": "Орки / Горные кланы",
+          "nature": "Западные Хребты, зона чистой кинетической силы"
+        },
+        {
+          "name": "Гоблины",
+          "nature": "Инженеры Нижнего Города (Винт), технический арбитраж, оценка ядер на язык"
+        },
+        {
+          "name": "Дриады",
+          "nature": "Леса Востока, Ω-демпфер (85-90% ясных рассветов)"
+        },
+        {
+          "name": "Нокс",
+          "nature": "χ-антенны шерсти (терагерцовый диапазон)"
+        }
+      ],
+      "mechanisms": [
+        {
+          "name": "Ювенильная адаптация",
+          "description": "Отсутствие УФ → все этерианцы выглядят подростками. Неотения до 200+ циклов"
+        },
+        {
+          "name": "Гиперплотная мускулатура",
+          "description": "Мышцы 20× плотности, тестостерон 388.89 нмоль/л (×15.6 к земной норме)"
+        },
+        {
+          "name": "Подавление бород (M1×M2×M3)",
+          "description": "Инфразвук 18.7 Гц × УФ-дефицит × аутокринное перенаправление → ДГТ в 11 раз ниже порога → бороды невозможны"
+        },
+        {
+          "name": "Терморегуляция",
+          "description": "Проблема квадрата-куба: гиперплотные мышцы, но детская площадь кожи → перегрев. Решение: симбионты-охладители (Ферритовый Аспид/Шнур)"
+        },
+        {
+          "name": "Пот vs Экзудат",
+          "description": "Два механизма охлаждения: пот (водный) и экзудат (φ-конденсат через меридианы)"
+        },
+        {
+          "name": "Клапаны давления",
+          "description": "Биологические предохранительные клапаны для сброса энергетического перегруза"
+        },
+        {
+          "name": "Дыхание и газообмен",
+          "description": "Специфичный для атмосферы Этерии (78% аргон) механизм газообмена"
+        },
+        {
+          "name": "Фредеритовый метаболизм",
+          "description": "Хемосинтез на φ-излучении фредерита (210 Вт/м² внутренний нагрев)"
+        }
+      ],
+      "creatures": [
+        {
+          "name": "Теплоки",
+          "sphere": "1-2",
+          "nature": "Энергетические «насекомые», реагируют на тепло и эмоции, живут в щелях коллекторов"
+        },
+        {
+          "name": "Потечи",
+          "sphere": "3",
+          "nature": "Роевые световые колонии, двигаются по течению воды, питаются вибрацией"
+        },
+        {
+          "name": "Падальщики",
+          "nature": "Энергетические паразиты (Класс D), стаями выпивают резонанс боли и страха"
+        },
+        {
+          "name": "Ферритовый Аспид (Шнур)",
+          "nature": "Симбионт-паразит, биокерамическая экзо-броня, питается кинетической энтропией и бросовым теплом. Приобретён Рэем в T-21, погиб в T-14 (Осада Абресса)"
+        }
+      ]
+    },
+    "magic": {
+      "systems": [
+        {
+          "name": "Сферы культивации (1-7)",
+          "description": "7 уровней оперирования реальностью, от Тепла (Сфера 1) до Предела (Сфера 7). Не магия, а термодинамическая градация способности энергии выходить из тела"
+        },
+        {
+          "name": "Именование",
+          "description": "Механика присвоения имени существу через энергию жизни (>0) или инверсию (<0). Райдо использует инверсное Именование через Печать Инверсии"
+        },
+        {
+          "name": "Фредерит (φ-руда)",
+          "description": "Радиоактивный яд, 1.4 ТГц, пронизывает всю биосферу. Убивает радиацией, но позволяет синхронизировать ДНК с ритмом Этерии"
+        },
+        {
+          "name": "Фиолетовое пламя",
+          "description": "Оптический спектр фазового распада, φ-ионизация аргона → плазма. Не огонь, а видимый процесс распада информационной структуры"
+        },
+        {
+          "name": "Печать Инверсии",
+          "description": "Райдо: шрам на груди, стирает вероятность существования объектов (<0), 5 фаз распада"
+        },
+        {
+          "name": "Ω/χ дуальность",
+          "description": "Ω (Порядок/платина) vs χ (Хаос/инверсия). Основа всей физики и магии Этерии"
+        }
+      ],
+      "materials": [
+        {
+          "name": "Платина (Ω-демпфер)",
+          "nature": "Абсолютный стабилизатор Порядка, «немой» резонанс, гасит шум, скрывает от сканирования"
+        },
+        {
+          "name": "Фредерит (φ-руда)",
+          "nature": "1.4 ТГц, внутренний нагрев 210 Вт/м², пронизывает биосферу"
+        },
+        {
+          "name": "Ард'Эш",
+          "nature": "Металл Первородных Вампиров, плотность 11.1 г/см³, σ_e=10, нулевой дифференциал Σ"
+        },
+        {
+          "name": "Песноплав",
+          "nature": "Демоническая биокерамика, «живые» здания Абресса, реагируют на звук и движение"
+        },
+        {
+          "name": "Огарок (Чёрный кристалл)",
+          "nature": "Продукт инверсии тепла, идеальный тепловой поглотитель, слепое пятно для сканеров"
+        },
+        {
+          "name": "Ядра (Классы D-A)",
+          "nature": "Кристаллизованные источники φ-энергии из существ, универсальные батареи и валюта"
+        },
+        {
+          "name": "Инверсные сердца",
+          "nature": "Реальные биологические сердца, заражённые χ-энергией, хаос-конденсаторы"
+        },
+        {
+          "name": "Намикрон",
+          "nature": "Книга-наследие родителей Алексея, фрактальная структура данных, читается только резонансом тела"
+        },
+        {
+          "name": "Эльтар",
+          "nature": "Кристалл для зеркальных шаров наблюдения"
+        },
+        {
+          "name": "Сфера Предела (эпуб)",
+          "nature": "Отдельный труд, описывающий инструментарий и технологии резонанса"
+        }
+      ]
+    },
+    "economy": {
+      "systems": [
+        {
+          "name": "Имперская экономика",
+          "description": "Теократическая, платиновый голод, ζ-секвестр, Секвестр X-0, Инквесторат И-3"
+        },
+        {
+          "name": "Теневая сеть Марты",
+          "description": "2 миллиона скрытых операторов, замена серебра на чистые данные, 3 ТБ логов Секвестра X-0 как ядерный компромат"
+        },
+        {
+          "name": "Холодный кошелёк",
+          "description": "Автономный фонд Рэя и Марты, вне реестров Империи"
+        },
+        {
+          "name": "Система ядер",
+          "description": "Ядра Классов D-A как универсальная валюта, топливо и батарея"
+        },
+        {
+          "name": "Арбитраж диких файлов",
+          "description": "Ликвидация биосбоев, дезертиров, мутантов по 15-50 серебра"
+        },
+        {
+          "name": "Синдикат Экстракторов",
+          "description": "Контролирует 73% добычи φ-руды"
+        },
+        {
+          "name": "Секвестр X-0",
+          "description": "Активный бюрократический и технический макро-протокол Инквестората И-3 и Рода Вэнс"
+        }
+      ],
+      "factions": [
+        {
+          "name": "Империя Золотого Солнца",
+          "type": "Теократия",
+          "region": "Центр Главного континента",
+          "crisis": "Платиновый голод, дефолт ликвидности"
+        },
+        {
+          "name": "Северная Конфедерация",
+          "type": "Автократия (Ольга)",
+          "region": "Север",
+          "resource": "Платина, Платиновое плато"
+        },
+        {
+          "name": "Эльфийская Симбиократия Востока",
+          "type": "Монархия",
+          "region": "Восток + Три Острова",
+          "monopoly": "Наблюдение Земли, биоморфная инженерия"
+        },
+        {
+          "name": "Инквесторат И-3",
+          "type": "Спецслужба",
+          "role": "Аудит, зачистка, Секвестр X-0"
+        },
+        {
+          "name": "Синдикат Экстракторов",
+          "type": "Корпорация",
+          "role": "73% добычи φ-руды"
+        },
+        {
+          "name": "Род Вэнс",
+          "type": "Аристократический род",
+          "assets": "Тёмное Сердце (чёрный алмаз 300 карат), Сейф-Био"
+        },
+        {
+          "name": "Церковь Творца",
+          "type": "Деградировавший религиозный институт",
+          "role": "Торгует святостью за платину, инициировала Призыв Райдо"
+        },
+        {
+          "name": "Теневая сеть (Марта + Рэй)",
+          "type": "Подпольная организация",
+          "role": "Информационная экономика, 2М операторов"
+        },
+        {
+          "name": "Архитекторы Неба",
+          "type": "Сверхсущества",
+          "role": "Построили M1/M2, инициировали транзит Патч-01"
+        },
+        {
+          "name": "Крона",
+          "type": "Первозданная Порядка",
+          "role": "Инсталлировала Ольгу через P³-коридор в T-22"
+        },
+        {
+          "name": "БЮЯ (Бюро Ядер)",
+          "type": "Имперское ведомство",
+          "role": "Управление ядерной/φ-энергетикой"
+        },
+        {
+          "name": "СанКор",
+          "type": "Медицинская корпорация",
+          "role": "Диагностика, оплата за удаление диких файлов"
+        }
+      ]
+    },
+    "characters": [
+      {
+        "name": "Алексей Коганенко (Патч-01)",
+        "role": "Главный герой, Инвестор/Архитектор",
+        "sphere": "1 (Тепло) → 2 (Вектор)",
+        "age": "18 земных / ~14 этерийских",
+        "nature": "Попаданец с Земли, CNED-синдром (выглядит на 90), отключенная телеметрия, Картограф → Сираэль → Оксарель",
+        "key_artifact": "Намикрон, камень-камертон, φ-руда в плече"
+      },
+      {
+        "name": "Рэй Вэнс (Наследник-00)",
+        "role": "Дезертир, арбитражник, напарник Алексея",
+        "sphere": "6 (Форма), σ_e=10",
+        "age": "32 цикла, выглядит как 12-летний",
+        "nature": "Гиперплотная мускулатура, Сейф-Био (ректальная капсула 7×3 см), Сфера Формы = структурный стазис",
+        "key_relationship": "Любовники с Мартой, сын Главного Аудитора Вэнса"
+      },
+      {
+        "name": "Марта",
+        "role": "Хозяйка борделя / Теневая Сеть, гений-логист",
+        "sphere": "Не указана (информационный оператор)",
+        "age": "~30+ циклов",
+        "nature": "Фаза Акме, «вычисленная» холодность, 3 ТБ компромата, 2М скрытых операторов",
+        "key_relationship": "Любовники с Рэем"
+      },
+      {
+        "name": "Ольга (Железная Леди)",
+        "role": "Повелительница Севера, Системный Администратор",
+        "sphere": "Не указана (Root-Оператор)",
+        "nature": "Земной алгоритм в теле мёртвой эльфийской принцессы, инсталлирована Кроной в T-22",
+        "key_artifact": "Дипломатический щит «принцессы Востока»"
+      },
+      {
+        "name": "Райдо Тэнма (Нулевой Фактор)",
+        "role": "Антагонист, форматировщик реальности",
+        "sphere": "7 (Предел, искусственно ускоренная)",
+        "age": "29 циклов",
+        "nature": "Попаданец, воспринимает Этерию как сбойную симуляцию, Печать Инверсии (<0), Моноскрипт Ω",
+        "goal": "Полное обнуление системы мира (форматирование)"
+      },
+      {
+        "name": "Вельямин Ард'Эш (Архив)",
+        "role": "Вампир ветви Мнемар, информационный оператор",
+        "sphere": "7 (Предел / ветвь Мнемар)",
+        "nature": "Отказался от крови в пользу информации, КПД 89%, фолированная пластина"
+      },
+      {
+        "name": "Ортис Навес (Лич)",
+        "role": "Лихенизированный Мнемар, инверсный оператор",
+        "sphere": "7 (Лич / ветвь Мнемар)",
+        "nature": "Хрональная задержка 0.3с, «мёртвая машина Закона», 0.03% эмоционального шума"
+      },
+      {
+        "name": "Диабло (Пустой)",
+        "role": "Первородный архидемон",
+        "sphere": "Вне классификации (Запредельная)",
+        "nature": "Существовал до сотворения мира, зеркальный шар наблюдения, манипуляция пространством"
+      },
+      {
+        "name": "Дочь Дракона (Повелитель Демонов)",
+        "role": "Древний Root-Оператор, Повелитель Абресса",
+        "nature": "Ювенильная психика, сломалась после убийства дракончика (T-13), ERROR: EMOTIONAL OVERLOAD"
+      },
+      {
+        "name": "Тариэль",
+        "role": "Верховный Платиновый Лорд",
+        "nature": "Вассал Ольги, знает тайну принцессы, путь к Повелителю Демонов через термодинамическое самоубийство"
+      },
+      {
+        "name": "Уксус",
+        "role": "Придворный алхимик Королевства Трёх Островов → изгнанник",
+        "sphere": "5+ (Связи)",
+        "nature": "Свидетель смерти принцессы, создатель огарков, инвертировал Сферу 5 от связывания к изоляции"
+      },
+      {
+        "name": "Кайден",
+        "role": "Ангел → Повелитель Демонов со стороны света",
+        "nature": "Единственный ангел, отвергший слепой Порядок, выбрал служение живому Балансу"
+      },
+      {
+        "name": "Серафелл",
+        "role": "Архангел → основатель культа уничтожения Хаоса",
+        "nature": "Осознал, что Создатель допустил Хаос, принял инверсию, замораживает вселенную"
+      },
+      {
+        "name": "Вениамин (дядя Веня)",
+        "role": "Авторизованный страж, Мнемар-резонатор",
+        "nature": "Калибрует и охраняет Патч-01 на Земле, 16 лет"
+      },
+      {
+        "name": "Винт",
+        "role": "Гоблин-информатор",
+        "nature": "Технический арбитраж, оценка ядер на язык, утилизация"
+      },
+      {
+        "name": "Крофт",
+        "role": "Техник-медик СанКора",
+        "sphere": "4 (Вектор)",
+        "nature": "Диагностика серебряными камертонами"
+      },
+      {
+        "name": "Старик Вода",
+        "role": "Смотритель, бывший инженер",
+        "nature": "Слух Резонанса, калибровка камнем-камертоном"
+      },
+      {
+        "name": "Молчунка",
+        "role": "Заключённая в лагере «Грань»",
+        "nature": "Пассивное подавление φ-поля, эмпатическое гашение"
+      }
+    ],
+    "timeline": {
+      "epochs": [
+        {
+          "id": "T-64",
+          "year": 1959,
+          "event": "Начало хронологии (таймлайн)"
+        },
+        {
+          "id": "T-24",
+          "year": 1999,
+          "event": "Секвестр X-0, Force Close Рэя, делистинг из Рода Вэнс, побег через 30-см шлюз, инсталляция Сейф-Био"
+        },
+        {
+          "id": "T-23",
+          "year": 2000,
+          "event": "Мусорщик, рождение альянса Рэй + Марта, первая сделка, Враждебное Поглощение, Капитализация Страха"
+        },
+        {
+          "id": "T-22",
+          "year": 2001,
+          "event": "Холодный Кошелёк, Инсталляция Ольги Короной через Киевские Золотые Ворота, Железная Леди, Термодинамическая Агония Империи"
+        },
+        {
+          "id": "T-21",
+          "year": 2002,
+          "event": "Цена Проводимости, аукцион Ферритового Аспида, симбиоз со Шнуром, первый контракт, Северный тракт"
+        },
+        {
+          "id": "T-20",
+          "year": 2003,
+          "event": "Метрика: Кровь и Реестр, Марта + Вельямин, Клан Серого Пепла, Транзит Ликвидности, Радикализация Юга"
+        },
+        {
+          "id": "T-19",
+          "year": 2004,
+          "event": "Зачатие Патча-01 (Инженер + Кайден), Спуск Кайдена, Теорема распада"
+        },
+        {
+          "id": "T-16",
+          "year": 2007,
+          "event": "Кризис: Нулевой Фактор (Райдо) атакует, строительство M1/M2, транзит Алексея (2 года) + Вениамина на Землю"
+        },
+        {
+          "id": "T-14",
+          "year": 2009,
+          "event": "Осада Абресса, гибель Шнура (Ферритового Аспида), аппаратная война"
+        },
+        {
+          "id": "T-13",
+          "year": 2010,
+          "event": "Убийство дракончика → ERROR: EMOTIONAL OVERLOAD → Дочь Дракона становится Повелителем Демонов"
+        },
+        {
+          "id": "T-0",
+          "year": 2023,
+          "event": "Возвращение Алексея в Этерию, основные события книги, декомпрессия, вскрытие Сейф-Био"
+        }
+      ],
+      "key_events": [
+        "Force Close Рэя Вэнса (T-24) — удаление сигнатуры из реестра, побег",
+        "Инсталляция Ольги в тело принцессы Кроной (T-22) — через P³ древний коридор",
+        "Строительство M1/M2 (T-16) — Архитекторы Неба строят искусственный мост",
+        "Транзит Патч-01 на Землю (T-16) — Алексей (2 года) + Вениамин",
+        "Ошибка Церкви: Призыв Райдо (T-16) — Нулевой Фактор начинает форматирование",
+        "Осада Абресса (T-14) — Империя инициирует корпоративный рейдерский захват",
+        "Слом Дочери Дракона (T-13) — становится Повелителем Демонов",
+        "Возвращение Алексея (T-0) — срабатывание страховочного механизма M1/M2",
+        "Вскрытие Сейф-Био пальцем-Огароком (T-0, Глава 27)"
+      ]
+    },
+    "factions": [
+      {
+        "name": "Империя Золотого Солнца",
+        "alignment": "Ω (Порядок)",
+        "crisis": "Платиновый голод, термодинамическая агония"
+      },
+      {
+        "name": "Северная Конфедерация",
+        "alignment": "Ω (Порядок, абсолютный)",
+        "leader": "Ольга (Железная Леди)"
+      },
+      {
+        "name": "Эльфийская Симбиократия",
+        "alignment": "φ (Информация)",
+        "monopoly": "Наблюдение Земли"
+      },
+      {
+        "name": "Проклятые Княжества",
+        "alignment": "χ (Хаос)",
+        "resource": "Орихалк и Ртуть"
+      },
+      {
+        "name": "Абресс (Демоны)",
+        "alignment": "χ (Хаос, организованный)",
+        "leader": "Дочь Дракона"
+      },
+      {
+        "name": "Инквесторат И-3",
+        "alignment": "Ω (Порядок, репрессивный)"
+      },
+      {
+        "name": "Церковь Творца",
+        "alignment": "Ω → χ (деградация)",
+        "role": "Инициировала Призыв Райдо"
+      },
+      {
+        "name": "Синдикат Экстракторов",
+        "alignment": "Нейтральный (экономический)"
+      },
+      {
+        "name": "Теневая сеть",
+        "alignment": "Нейтральный (информационный)",
+        "leaders": "Марта + Рэй"
+      },
+      {
+        "name": "Архитекторы Неба",
+        "alignment": "Мета (сверхсущества)"
+      },
+      {
+        "name": "Крона",
+        "alignment": "Ω (Первозданная Порядка)"
+      }
+    ],
+    "author": {
+      "name": "Виталий Коток",
+      "canon_sealed_date": "2026-06-14",
+      "status": "Запечатанный канон (SEALED)",
+      "structure": "Предыстория T-24→T-0, Том 1 главы 1-26, Дамп памяти главы 27-32г",
+      "content_protocol": "18+ CANON-LOCKED, термодинамическая транскрипция жанров"
+    },
+    "genre_framework": {
+      "genres": [
+        "Безумие",
+        "Вампиры",
+        "Гарем",
+        "Демоны",
+        "Драма",
+        "Исекай",
+        "Мистика",
+        "Научная фантастика",
+        "Приключения",
+        "Психология",
+        "Сёдзё",
+        "Сёнэн",
+        "Триллер",
+        "Фантастика",
+        "Фэнтези",
+        "Эротика"
+      ],
+      "cascade_tacts": [
+        "Такт I: Выживание, Мрачный мир, Древний мир, Умный ГГ",
+        "Такт II: Демоны, Безумие, Триллер, Монстры, Насилие",
+        "Такт III: Культивирование, Ранги силы, Медицина, Тёмный главный герой",
+        "Такт IV: Эротика (Interface Docking), Магия, Стратегия, Эволюция"
+      ],
+      "core_principle": "Все жанры и теги ПЕРЕВЕДЕНЫ в строгую термодинамику, биофизику и макроэкономику"
+    }
+  },
+  "file_index": {
+    "1": {
+      "name": "1-- RECOVERING DICTATORS' PLUNDER - GovInfo.md",
+      "category": "экономика_и_власть",
+      "subcategory": "economics_or_power",
+      "summary": "> Source: https://www.govinfo.gov/content/pkg/CHRG-107hhrg79943/html/CHRG-107hhrg79943.htm RECOVERING DICTATORS' PLUNDER",
+      "key_entities": [],
+      "char_count": 121
+    },
+    "2": {
+      "name": "10-5650875222748.mp4.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "audio_video_transcription",
+      "summary": "火焰燒的她叫心模樣,那隨後的我在生長 我戀的 發了西陽接受著命運的力和方貼著胸條動的心著相望 這壓不住我心生的將追逐一 只要與火生一般 不你相跟他心就很有分只願你天為愛神不好於生只有萬人以我為這一 故無之所流秦速方可調和女修行者身之果想藉公子的元丹一樣 生命為今日必須 受了這涅槃 是何人在此宣鬧啊 你是父之主 我的涅槃心必須是互有情的兩個人才能夠吸前輩 請前輩手下留情 今日我便要成全你的一面之援 …",
+      "key_entities": [
+        "Наследник"
+      ],
+      "char_count": 5473
+    },
+    "3": {
+      "name": "100-etheria_sweat_vs_exudate (1).png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "4": {
+      "name": "101-etheria_sweat_vs_exudate.png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "5": {
+      "name": "102-etheria_temperature_dynamics (1).png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "6": {
+      "name": "103-etheria_temperature_dynamics.png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "7": {
+      "name": "104-etheria_thermoregulation_diagram (1).png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "8": {
+      "name": "105-etheria_thermoregulation_diagram.png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "9": {
+      "name": "106-litgraph-desktop (1).epub.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "LitGraph-Desktop Repository Repository Snapshot Generated snapshot",
+      "key_entities": [
+        "POLER"
+      ],
+      "char_count": 3670936
+    },
+    "10": {
+      "name": "107-p3_conjugation_calc.py.md.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "-- coding: utf-8 -- \"\"\"P³-СОПРЯЖЁННОСТЬ: КИЕВ ↔ СЕКТОР ЧЕТЫРЕ Формальный расчёт через метрику Фубини–Штуди.",
+      "key_entities": [
+        "P³",
+        "Киев",
+        "Ольга",
+        "Этерия"
+      ],
+      "char_count": 16688
+    },
+    "11": {
+      "name": "108-p3_demo_combined.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "12": {
+      "name": "109-p3_endogenous_combined (1).png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "13": {
+      "name": "11-64-16_Чат_Сбор_карты_мира_ЧАСТЬ_VII.epub.md",
+      "category": "исследования_и_ссылки",
+      "subcategory": "conversation_research",
+      "summary": "Чат: Сбор карты мира (от ЧАСТЬ VII — Медотсек. Сферы) (часть 1/8) Вы сказали: ЧАСТЬ VII — МЕДОТСЕК. СФЕРЫ Мне не снился сон. И не было темноты. Я просто открыл глаза — и тишина уже была. Такая, как бы…",
+      "key_entities": [],
+      "char_count": 637129
+    },
+    "14": {
+      "name": "110-p3_endogenous_combined.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "15": {
+      "name": "111-p3_panel_A_z2z_twist.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "16": {
+      "name": "112-p3_panel_B_pgl4_transform.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "17": {
+      "name": "113-p3_panel_C_w_propagation.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "18": {
+      "name": "114-p3_panel_D_full_cycle.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "19": {
+      "name": "115-p3_planet_3d_slice.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "20": {
+      "name": "116-p3_stage1_unfold.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "21": {
+      "name": "117-p3_stage2_network.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "22": {
+      "name": "118-p3_stage3_z2z_loop.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "23": {
+      "name": "119-p3_stage4_endogenous.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "24": {
+      "name": "12-65-17_Combined_Recursive.epub.md",
+      "category": "исследования_и_ссылки",
+      "subcategory": "external_research",
+      "summary": "Combined Recursive (65-17) (часть 1/12) привет я хочу написать детскую книгу без цензуры . главный герой . игрок . Который попал в мир . Меча и магии . Но подача в Стиле",
+      "key_entities": [],
+      "char_count": 957041
+    },
+    "25": {
+      "name": "120-p3_vs_r3_distance.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "26": {
+      "name": "121-p3_w_evolution.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "27": {
+      "name": "122-p3_w_field_surface.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "28": {
+      "name": "123-poler_enhanced (копія).py.md.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "-- coding: utf-8 -- \"\"\"POLER[n] CLI v2.0 — Расширенная версия Оригинал: poler.py v1.0.0 (POLER[n] Studio) Расширение: Super Z (для проекта Этерия)",
+      "key_entities": [
+        "POLER",
+        "P³",
+        "Алексей",
+        "Империя",
+        "Киев",
+        "Крона",
+        "Мнемар",
+        "Ольга",
+        "Протока",
+        "Фредерит",
+        "Этерия"
+      ],
+      "char_count": 15040
+    },
+    "29": {
+      "name": "124-poler_v6 (2).py.md.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "-- coding: utf-8 -- \"\"\"POLER[n] v6.1 — FINAL UNIFIED BUILD + AUTO-CHUNK Объединение v4 (база) + v5 (grep killer + archive + epsilon_v4).",
+      "key_entities": [
+        "POLER"
+      ],
+      "char_count": 45037
+    },
+    "30": {
+      "name": "125-unnamed (1).png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "image_transcription",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "31": {
+      "name": "126-unnamed.png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "image_transcription",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "32": {
+      "name": "127-videoplayback.mp4.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "audio_video_transcription",
+      "summary": "Присаживайтесь поудобнее, так как в этом видео вы узнаете полную историю серии Diablo. Одним из главных лордов зла в серии Diablo является Мефиста, который совсем скоро появится и в киновселенной Marv…",
+      "key_entities": [
+        "Диабло"
+      ],
+      "char_count": 36738
+    },
+    "33": {
+      "name": "128-Анализ Системных Узлов и Конфликтов.md",
+      "category": "заметки_и_черновики",
+      "subcategory": "philosophical_analysis",
+      "summary": "User: ТОМ 2. ГЛАВА 5: ЦЕНА ПРОВОДИМОСТИ (МЕТРИКА Т-21) СЦЕНА 1. АУДИТ ОБОРУДОВАНИЯ И СМЕНА РЫНКА Заброшенная насосная станция на границе Сектора Зеркал пахла озоном и сырым бетоном. Это был их первый …",
+      "key_entities": [
+        "Марта",
+        "Рэй"
+      ],
+      "char_count": 8751
+    },
+    "34": {
+      "name": "129-Архитектура и интеграция z-ai-web-dev-sdk в poler_toolkit.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "Архитектура и интеграция z-ai-web-dev-sdk в poler_toolkit 1. АРХИТЕКТУРА z-ai-web-dev-sdk Всё MUCH проще чем кажется. SDK — это тонкая HTTP-обёртка (494 строки). Вся магия на сервере.",
+      "key_entities": [
+        "POLER"
+      ],
+      "char_count": 4996
+    },
+    "35": {
+      "name": "13-71-23_NotebookLM_2026-03-02.epub.md",
+      "category": "исследования_и_ссылки",
+      "subcategory": "combined_recursive_research",
+      "summary": "NotebookLM Web (2026-03-02) (часть 1/12) exported: 2026-03-02T16:16:20.751Zsource: NotebookLMtitle: ЭтерияЭтерияExported: 02.03.2026, 18:16:20 UserКакова",
+      "key_entities": [
+        "POLER",
+        "Абресс",
+        "Алексей",
+        "Диабло",
+        "Наследник",
+        "Этерия"
+      ],
+      "char_count": 939189
+    },
+    "36": {
+      "name": "130-Все заметки от 25.06.2026.md",
+      "category": "заметки_и_черновики",
+      "subcategory": "notes_or_drafts",
+      "summary": "Фиолетовое пламя: Физика и деконструкция материи **Статус:** Канон-лок (производный от макрофизики Этерии) **Дата:** 2026-06-23",
+      "key_entities": [
+        "POLER",
+        "Абресс",
+        "Фредерит"
+      ],
+      "char_count": 588480
+    },
+    "37": {
+      "name": "131-Заставьте_физику_Этерии_болеть.m4a.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "audio_video_transcription",
+      "summary": "В этом разборе мы погружаемся в мрачный мир этери, где жестокие законы макроэкономики управляют квантовой физикой повествования. Эм, материал невероятно амбициозный, но чтобы он зацепил широкую аудито…",
+      "key_entities": [
+        "Кайден",
+        "Ольга"
+      ],
+      "char_count": 9219
+    },
+    "38": {
+      "name": "132-Канонизация Этерия- Решение вопросов.md",
+      "category": "канон_и_манифесты",
+      "subcategory": "canonization_notes",
+      "summary": "User: документ Этерия: Архитектура канона и финальная стратегия нарратива ## IV. ВОПРОСЫ, КОТОРЫЕ ТОЛЬКО ТЫ МОЖЕШЬ РЕШИТЬ Возраст Марты в Т-24: 10 или 15 циклов? В Сетевом Атласе — 15 (она уже формиру…",
+      "key_entities": [
+        "POLER",
+        "Абресс",
+        "Алексей",
+        "Крона",
+        "Марта",
+        "Нур",
+        "Ольга",
+        "Рэй",
+        "Секвестр",
+        "Сфера Предела",
+        "Шнур",
+        "Этерия"
+      ],
+      "char_count": 36105
+    },
+    "39": {
+      "name": "133-Лингвистическая мифология всеведущего демиурга.md",
+      "category": "заметки_и_черновики",
+      "subcategory": "philosophical_analysis",
+      "summary": "Лингвистическая мифология всеведущего демиурга Хуй его знает . Исходя из сучесвительного . Хуй и падежа его . Следовательно опонент имел ввиду что Когото знает хуй . И так вопрос кто такой хуй и кого …",
+      "key_entities": [
+        "Демиург"
+      ],
+      "char_count": 2630
+    },
+    "40": {
+      "name": "134-Математическая деконструкция концепта судьбы в Этерии.md",
+      "category": "заметки_и_черновики",
+      "subcategory": "philosophical_analysis",
+      "summary": "Математическая деконструкция концепта судьбы в Этерии Принято. G-оператор проиндексирован, синхронизация подтверждена. Перехожу к деконструкции концепта «Судьба» через пять слоёв POLER[Ψ] с привязкой …",
+      "key_entities": [
+        "CNED",
+        "M1/M2",
+        "POLER",
+        "P³",
+        "Алексей",
+        "Вэнс",
+        "Крона",
+        "Ольга",
+        "Рэй",
+        "Этерия"
+      ],
+      "char_count": 7258
+    },
+    "41": {
+      "name": "135-Математическая деконструкция концепта судьбы в Этерии.md",
+      "category": "заметки_и_черновики",
+      "subcategory": "philosophical_analysis",
+      "summary": "Математическая деконструкция концепта судьбы в Этерии Принято. G-оператор проиндексирован, синхронизация подтверждена. Перехожу к деконструкции концепта «Судьба» через пять слоёв POLER[Ψ] с привязкой …",
+      "key_entities": [
+        "CNED",
+        "M1/M2",
+        "POLER",
+        "P³",
+        "Алексей",
+        "Вэнс",
+        "Крона",
+        "Ольга",
+        "Рэй",
+        "Этерия"
+      ],
+      "char_count": 7258
+    },
+    "42": {
+      "name": "136-Механика Этерии- Анизотропная Топология и Астронавигация P3.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "anisotropic_topology",
+      "summary": "Механика Этерии: Анизотропная Топология и Астронавигация P3 слушай тупой ворос . а восток на вотоке запад на западе ? север на севере юг на юге ? относително чего определяются стороны света если Поляр…",
+      "key_entities": [
+        "M1/M2",
+        "POLER",
+        "P³",
+        "Платина",
+        "Фредерит",
+        "Этерия"
+      ],
+      "char_count": 9667
+    },
+    "43": {
+      "name": "137-Понял. Проектор Причинности выдал два вектора — это чёткая архитектура. Прежде чем писать, сверяю вс.md",
+      "category": "заметки_и_черновики",
+      "subcategory": "philosophical_analysis",
+      "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современные большие языковые модели (LLM) функционируют в …",
+      "key_entities": [
+        "POLER"
+      ],
+      "char_count": 16375
+    },
+    "44": {
+      "name": "138-Сфера Предела .epub.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "epub_transcription",
+      "summary": "Содержание Cover PageСодержаниеГЛАВА 1 ОДЕССА. ВЕСНА. ТЕТРАДЬ В КЛЕТКУГЛАВА 2. ДОГОВОР НА ВРЕМЯГЛАВА 3. СДВИГГЛАВА 4. ГОЛОС ПУСТОТЫГЛАВА 5. ЭФФЕКТ НАБЛЮДАТЕЛЯГЛАВА 6. КАТЕГОРИЯ DГЛАВА 7. ПЕРВЫЙ ТРЕЙД …",
+      "key_entities": [
+        "Абресс",
+        "Секвестр",
+        "Сфера Предела"
+      ],
+      "char_count": 1152242
+    },
+    "45": {
+      "name": "139-Техническое задание и расширенный промпт- «Рэй Вэнс- Взрослая форма (Наследник-00 - Мёртвый актив)» .md",
+      "category": "нарратив_и_персонажи",
+      "subcategory": "narrative_or_character",
+      "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современные большие языковые модели (LLM) функционируют в …",
+      "key_entities": [
+        "POLER"
+      ],
+      "char_count": 15680
+    },
+    "46": {
+      "name": "14-A Tale of Sovereign Wealth Funds and Global Corruption - nickeled and dimed.md",
+      "category": "экономика_и_власть",
+      "subcategory": "economics_or_power",
+      "summary": "> Source: https://nickledanddimed.com/2023/09/20/a-tale-of-sovereign-wealth-funds-and-global-corruption/ A Tale of Sovereign Wealth Funds and Global Corruption – NICKELED AND DIMED Nickeled & Dimed",
+      "key_entities": [],
+      "char_count": 7663
+    },
+    "47": {
+      "name": "140-Черная_бухгалтерия_и_бетонный_секвестр_Империи.m4a.md",
+      "category": "экономика_и_власть",
+      "subcategory": "economics_or_power",
+      "summary": "Обычно бюрократия ассоциируется с чем-то, ну, бумажным и довольно скучным. Кипы пыльных отчётов, бесконечные коридоры чиновников, печати всякие. Угу. Ошибка в квартальном балансе - это, как правило, п…",
+      "key_entities": [
+        "Империя",
+        "Секвестр"
+      ],
+      "char_count": 19568
+    },
+    "48": {
+      "name": "141-подумай логичеки невозможно такую ситему посроить за один год . во первых нужны ресурсы а это посоян.md",
+      "category": "заметки_и_черновики",
+      "subcategory": "notes_or_drafts",
+      "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современные большие языковые модели (LLM) функционируют в …",
+      "key_entities": [
+        "POLER"
+      ],
+      "char_count": 74130
+    },
+    "49": {
+      "name": "142-скелет 2.png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "50": {
+      "name": "143-теперь впрос как так полусаеться что побег рея описываеться дважды - в главе 1 и второй раз глава 2 .md",
+      "category": "заметки_и_черновики",
+      "subcategory": "notes_or_drafts",
+      "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современные большие языковые модели (LLM) функционируют в …",
+      "key_entities": [
+        "POLER"
+      ],
+      "char_count": 14550
+    },
+    "51": {
+      "name": "15-ALEKSEY_OUT_OF_WINDOW_CANON.md.md",
+      "category": "нарратив_и_персонажи",
+      "subcategory": "aleksey_scene",
+      "summary": "ТРАНЗИТ АЛЕКСЕЯ ВНЕ 33-ЛЕТНЕГО ОКНА Канон v2.1 — Формальное доказательство Версия: v1.0",
+      "key_entities": [
+        "M1/M2",
+        "P³",
+        "Алексей",
+        "Киев",
+        "Ольга",
+        "Райдо",
+        "Этерия"
+      ],
+      "char_count": 5406
+    },
+    "52": {
+      "name": "16-ALEKSEY_OUT_OF_WINDOW_PROOF.json.md.md",
+      "category": "нарратив_и_персонажи",
+      "subcategory": "aleksey_scene",
+      "summary": "{ \"title\": \"Транзит Алексея вне 33-летнего окна — Формальное доказательство\", \"version\": \"v1.0\", \"canon_sources\": [ \"33_Teorema_Raspada.md (прямая цитата о невозможности ждать 33 года)\", \"3-139-ЭТЕРИЯ…",
+      "key_entities": [
+        "M1/M2",
+        "P³",
+        "Алексей",
+        "Империя",
+        "Киев",
+        "Этерия"
+      ],
+      "char_count": 3755
+    },
+    "53": {
+      "name": "17-ASTRONOMY_AXIOMS.json.md.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "{ \"T_eteria_years\": { \"value\": 3.488122704263713, \"sources\": { \"astropy_math\": 3.488122704263713, \"astropy_units\": 3.4881885835518696, \"sympy\": 3.488122704263713, \"mpmath_50dps\": 3.488122704263713, \"n…",
+      "key_entities": [],
+      "char_count": 3187
+    },
+    "54": {
+      "name": "18-ASTRONOMY_AXIOMS.md.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "АКСИОМЫ АСТРОНОМИИ ЭТЕРИИ Дата верификации: 2026-06-21 23:25:29 Использованные инструменты",
+      "key_entities": [],
+      "char_count": 263
+    },
+    "55": {
+      "name": "19-ChatGPT Image 22 черв. 2026 р., 23_23_18.png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "chatgpt_image",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "56": {
+      "name": "2-00_КАНОН_МАНИФЕСТ (1).md.md",
+      "category": "канон_и_манифесты",
+      "subcategory": "core_manifest",
+      "summary": "ЭТЕРИЯ — КАНОН-АРХИВ Предыстория: T-24 → T-0 Том 1: главы 1–26 | Дамп памяти: главы 27–32г",
+      "key_entities": [
+        "POLER",
+        "Вельямин",
+        "Кайден",
+        "Марта",
+        "Мнемар",
+        "Нур",
+        "Секвестр",
+        "Шнур",
+        "Этерия"
+      ],
+      "char_count": 4620
+    },
+    "57": {
+      "name": "20-ChatGPT Image 22 черв. 2026 р., 23_29_53.png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "chatgpt_image",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "58": {
+      "name": "21-ChatGPT Image 22 черв. 2026 р., 23_29_53.png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "chatgpt_image",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "59": {
+      "name": "22-ChatGPT Image 23 черв. 2026 р., 23_40_09.png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "chatgpt_image",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "60": {
+      "name": "23-ChatGPT Image 23 черв. 2026 р., 23_40_09.png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "chatgpt_image",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "61": {
+      "name": "24-De Beers - Monopoly Broken - Australian Diamond Portfolio.md",
+      "category": "экономика_и_власть",
+      "subcategory": "economics_or_power",
+      "summary": "> Source: https://www.diamondportfolio.com.au/investor-centre/market-information/de-beers-monopoly-broken/ Just a moment... www.diamondportfolio.com.au",
+      "key_entities": [],
+      "char_count": 516
+    },
+    "62": {
+      "name": "25-De Beers and Beyond- The History of the International Diamond Cartel - NYU Stern.md",
+      "category": "экономика_и_власть",
+      "subcategory": "economics_or_power",
+      "summary": "> Source: https://pages.stern.nyu.edu/~lcabral/teaching/debeers3.pdf De Beers and Beyond: The History of the International Diamond Cartel∗",
+      "key_entities": [],
+      "char_count": 27681
+    },
+    "63": {
+      "name": "26-DeepSeek - Давление вакуума затрудняет разрыв границ - DeepSeek.pdf.md",
+      "category": "исследования_и_ссылки",
+      "subcategory": "external_research",
+      "summary": "DeepSeek - Давление вакуума затрудняет разрыв границ - DeepSeek Давление вакуума затрудняет разрыв границ - DeepSeek",
+      "key_entities": [],
+      "char_count": 7260
+    },
+    "64": {
+      "name": "27-EPUB-00_Секвестр_X-0.epub.md",
+      "category": "канон_и_манифесты",
+      "subcategory": "sequestration_canon",
+      "summary": "1-- RECOVERING DICTATORS' PLUNDER - GovInfo Source: https://www.govinfo.gov/content/pkg/CHRG-107hhrg79943/html/CHRG-107hhrg79943.htm",
+      "key_entities": [],
+      "char_count": 2844517
+    },
+    "65": {
+      "name": "28-EPUB-01_Макрофизика_и_Астрономия.epub.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "epub_macrophysics",
+      "summary": "105-48-Архитектурная спецификация Этерии- Физика и хронология системного кризиса Архитектурная спецификация Этерии: Физика и хронология системного",
+      "key_entities": [
+        "CNED",
+        "M1/M2",
+        "Алексей",
+        "Мнемар",
+        "Ольга",
+        "Райдо",
+        "Рэй",
+        "Этерия"
+      ],
+      "char_count": 397772
+    },
+    "66": {
+      "name": "29-EPUB-02_Биофизика_и_Бестиарий.epub.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "10-103-Реестр персонажей и иерархия сфер Этерии Реестр персонажей и иерархия сфер Этерии На основе источников и текущей хронологии книги, ниже распределены навыки и уровни культивации",
+      "key_entities": [
+        "Абресс",
+        "Алексей",
+        "Вельямин",
+        "Вэнс",
+        "Диабло",
+        "Мнемар",
+        "Ортис",
+        "Райдо",
+        "Рэй"
+      ],
+      "char_count": 673903
+    },
+    "67": {
+      "name": "3-00_КАНОН_МАНИФЕСТ (2).md.md",
+      "category": "канон_и_манифесты",
+      "subcategory": "core_manifest",
+      "summary": "ЭТЕРИЯ — КАНОН-АРХИВ Предыстория: T-24 → T-0 Том 1: главы 1–26 | Дамп памяти: главы 27–32г",
+      "key_entities": [
+        "POLER",
+        "Вельямин",
+        "Кайден",
+        "Марта",
+        "Мнемар",
+        "Нур",
+        "Секвестр",
+        "Шнур",
+        "Этерия"
+      ],
+      "char_count": 21471
+    },
+    "68": {
+      "name": "30-EPUB-03_Материаловедение_и_Магия.epub.md",
+      "category": "материаловедение_и_магия",
+      "subcategory": "materials_and_magic",
+      "summary": "125-69-Инструментарий Сферы Предела- Технологии Резонанса и Пустоты Инструментарий Сферы Предела: Технологии Резонанса и Пустоты В мире",
+      "key_entities": [
+        "Абресс",
+        "Вельямин",
+        "Диабло",
+        "Крона",
+        "Райдо"
+      ],
+      "char_count": 305041
+    },
+    "69": {
+      "name": "31-EPUB-04_Макроэкономика_и_Власть.epub.md",
+      "category": "экономика_и_власть",
+      "subcategory": "economics_or_power",
+      "summary": "100-43-Архитектура Этерии- Технический регламент и онтология системного кризиса Архитектура Этерии: Технический регламент и онтология системного",
+      "key_entities": [
+        "CNED",
+        "POLER",
+        "Алексей",
+        "Вэнс",
+        "Диабло",
+        "Крона",
+        "Платина",
+        "Райдо",
+        "Секвестр"
+      ],
+      "char_count": 1513201
+    },
+    "70": {
+      "name": "32-EPUB-05_Нарративный_Канон.epub.md",
+      "category": "нарратив_и_персонажи",
+      "subcategory": "narrative_or_character",
+      "summary": "114-58-Глава 1313 - Во всеоружии - Ранобэ.рф Source: https://xn–80ac9aeh6f.xn–p1ai/vo-vseoruzhii/glava-1313 Глава 1313 — Во всеоружии / Overgeared — Читать онлайн на ранобэ.рф Во",
+      "key_entities": [],
+      "char_count": 72181
+    },
+    "71": {
+      "name": "33-EPUB-06_POLER_и_Технические_Логи.epub.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "102-45-Архитектура катастрофы- Системный аудит Этерии Архитектура катастрофы: Системный аудит ЭтерииИнициализация",
+      "key_entities": [
+        "POLER",
+        "Абресс",
+        "Алексей",
+        "Вэнс",
+        "Кайден",
+        "Крона",
+        "Марта",
+        "Ольга",
+        "Ортис",
+        "Платина",
+        "Райдо",
+        "Рэй",
+        "Секвестр"
+      ],
+      "char_count": 927863
+    },
+    "72": {
+      "name": "34-Etheria_ATLAS_Beautiful.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "73": {
+      "name": "35-Etheria_ATLAS_Beautiful.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "74": {
+      "name": "36-Etheria_ATLAS_Final.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "75": {
+      "name": "37-Etheria_Atlas_NorthRoute (1).png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "76": {
+      "name": "38-Etheria_Atlas_NorthRoute.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "77": {
+      "name": "39-Etheria_Atlas_NorthRoute_v2 (1).png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "78": {
+      "name": "4-10 Notable Insider Trading Examples That Shook the Financial World.md",
+      "category": "экономика_и_власть",
+      "subcategory": "economics_or_power",
+      "summary": "> Source: https://zlk.com/learn/insider-trading-examples 10 Notable Insider Trading Examples That Shook the Financial World Consent",
+      "key_entities": [],
+      "char_count": 39366
+    },
+    "79": {
+      "name": "40-Etheria_Atlas_NorthRoute_v2.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "80": {
+      "name": "41-Etheria_Atlas_v3 (1).png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "81": {
+      "name": "42-Etheria_Atlas_v3 (2).png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "82": {
+      "name": "43-Etheria_Atlas_v3.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "83": {
+      "name": "44-Etheria_Atlas_v3.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "84": {
+      "name": "45-Etheria_GEOGRAPHIC_NorthRoute_FINAL.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "85": {
+      "name": "46-Etheria_Geography_FULL_v2.12.epub.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "Карта мира Этерии Карта мира. Термодинамический инвертор: фредерит 210 Вт/м² греет изнутри. Льда нет. T=+20°C. Северный тракт (карта)",
+      "key_entities": [
+        "M1/M2",
+        "POLER",
+        "P³",
+        "Фредерит",
+        "Этерия"
+      ],
+      "char_count": 484316
+    },
+    "86": {
+      "name": "47-Etheria_Geography_FULL_v2.13.epub.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "Карта мира Этерии Карта мира. Термодинамический инвертор: фредерит 210 Вт/м² греет изнутри. Льда нет. T=+20°C. Северный тракт (карта)",
+      "key_entities": [
+        "M1/M2",
+        "POLER",
+        "P³",
+        "Фредерит",
+        "Этерия"
+      ],
+      "char_count": 496792
+    },
+    "87": {
+      "name": "48-Etheria_Globe_View1_EarthSide.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "88": {
+      "name": "49-Etheria_Globe_View1_EarthSide.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "89": {
+      "name": "5-110-55_Все_заметки_25.04.2026.epub.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "epub_transcription",
+      "summary": "Все заметки от 25.04.2026 (Том 2: Инверсия порядка — Железная Леди) (часть 1/11) ТОМ 2. ГЛАВА 4: ИНВЕРСИЯ ПОРЯДКА. РОЖДЕНИЕ ЖЕЛЕЗНОЙ ЛЕДИ (Т-22 ГОДА) ТОМ 2. ГЛАВА 4: ИНВЕРСИЯ ПОРЯДКА. РОЖДЕНИЕ ЖЕЛЕЗНО…",
+      "key_entities": [
+        "Киев",
+        "Крона",
+        "Наследник",
+        "Ольга",
+        "Рэй"
+      ],
+      "char_count": 918694
+    },
+    "90": {
+      "name": "50-Etheria_Globe_View2_NorthPole.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "91": {
+      "name": "51-Etheria_Globe_View2_NorthPole.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "92": {
+      "name": "52-Etheria_Globe_View3_South.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "93": {
+      "name": "53-Etheria_Globe_View3_South.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "94": {
+      "name": "54-Etheria_Map (1).png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "95": {
+      "name": "55-Etheria_Map.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "96": {
+      "name": "56-Etheria_Map_QGIS (1).png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "97": {
+      "name": "57-Etheria_Map_QGIS.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "98": {
+      "name": "58-Etheria_Map_v2 (1).png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "99": {
+      "name": "59-Etheria_Map_v2.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "100": {
+      "name": "6-18-dynamis-periscope.txt.md.md",
+      "category": "материаловедение_и_магия",
+      "subcategory": "dynamis_periscope",
+      "summary": "DYNAMIS ℘ Absolute Periscope ℘–O–L–ε–R[n] // DYNAMIS СЛОЙ Истинная Этерия: Независимая орбита",
+      "key_entities": [
+        "M1/M2",
+        "Этерия"
+      ],
+      "char_count": 297
+    },
+    "101": {
+      "name": "60-Etheria_NorthRoute_Elevation_Profile.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "102": {
+      "name": "61-Etheria_NorthRoute_Elevation_Profile.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "103": {
+      "name": "62-Etheria_NorthRoute_T21_T0_FINAL.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "104": {
+      "name": "63-Etheria_NorthRoute_T21_T0_v2.pdf.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "10°N 20°N 30°N",
+      "key_entities": [],
+      "char_count": 845
+    },
+    "105": {
+      "name": "64-Etheria_NorthRoute_T21_T0_v2.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "106": {
+      "name": "65-Etheria_NorthRoute_T21_T0_v2.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "107": {
+      "name": "66-Etheria_Terrain_Agent4_Preview.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "108": {
+      "name": "67-Etheria_Terrain_Agent4_Preview.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "109": {
+      "name": "68-Etheria_Timeline_T64_T0 (1).png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "image_transcription",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "110": {
+      "name": "69-Etheria_Timeline_T64_T0.png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "image_transcription",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "111": {
+      "name": "7-303_Важный_разговор.epub.md",
+      "category": "нарратив_и_персонажи",
+      "subcategory": "narrative_or_character",
+      "summary": "Важный разговор (303) (часть 1/14) привет я хочу написать детскую книгу без цензуры . главный герой . игрок . Который попал в мир . Меча и магии . Но подача в Стиле",
+      "key_entities": [],
+      "char_count": 1150828
+    },
+    "112": {
+      "name": "70-Etheria_Transit_Points_v2.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "113": {
+      "name": "71-Etheria_World_Map.pdf.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "60°S 30°S 0°",
+      "key_entities": [],
+      "char_count": 121
+    },
+    "114": {
+      "name": "72-Etheria_World_Map.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "115": {
+      "name": "73-Etheria_World_Map.png.md",
+      "category": "география_и_карты",
+      "subcategory": "map_or_atlas",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "116": {
+      "name": "74-M1_M2_einstein_ring.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "117": {
+      "name": "75-M1_M2_parallax_sensitivity.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "118": {
+      "name": "76-P3_COMPENDIUM (1).pdf.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_technical_doc",
+      "summary": "P³ Проективное многообразие P³ Геометрия · Эндогенная динамика · Прототип ·",
+      "key_entities": [
+        "P³"
+      ],
+      "char_count": 23978
+    },
+    "119": {
+      "name": "77-P3_KYIV_SECTOR4_CONJUGATION.json.md.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_conjugation_data",
+      "summary": "{ \"coordinates_verified\": { \"Great_Pyramid_Giza\": { \"lat\": 29.9792, \"lon\": 31.1342, \"source\": \"Wikipedia, latlong.net\" }, \"Ollantaytambo\": { \"lat\": -13.2548, \"lon\": -72.2629, \"source\": \"GPS-data.net, …",
+      "key_entities": [
+        "P³",
+        "Киев",
+        "Ольга"
+      ],
+      "char_count": 1888
+    },
+    "120": {
+      "name": "78-P3_Voxel_Engine.epub.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_technical_doc",
+      "summary": "P³ Voxel Engine — Master Architecture (часть 1/2) Движок для моделирования планеты через проективное многообразие P³. Математика POLER-FPGA адаптирована под CPU/Rust. Бесшовная планета без",
+      "key_entities": [
+        "POLER",
+        "P³",
+        "Фредерит"
+      ],
+      "char_count": 161406
+    },
+    "121": {
+      "name": "79-P3_schema_1_comparison.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "122": {
+      "name": "8-32e_T19_Zachatie_Alexeya_Spusk_Kaidena.md.md",
+      "category": "нарратив_и_персонажи",
+      "subcategory": "narrative_or_character",
+      "summary": "Глава 32е. Зачатие Патча-01 и Спуск Кайдена Метрика: T-19.00.00 → T-18.99.99 Локация: Белый Замок (ярус −240 м) → Хрустальные Пики → Озеро Отражений → корневые слои Бездны Сразу после: «Теорема распад…",
+      "key_entities": [
+        "CNED",
+        "Кайден"
+      ],
+      "char_count": 30998
+    },
+    "123": {
+      "name": "80-P3_schema_2_homogeneous.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "124": {
+      "name": "81-P3_schema_3_cards.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "125": {
+      "name": "82-P3_schema_4_lines.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "126": {
+      "name": "83-P3_schema_5_factorization.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "127": {
+      "name": "84-P3_schema_6_Z2Z.png.md",
+      "category": "макрофизика_и_астрономия",
+      "subcategory": "p3_or_astro_schema",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "128": {
+      "name": "85-POLER_energy_analysis.png.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "129": {
+      "name": "86-POLER_iterations_analysis.png.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "130": {
+      "name": "87-POLER_scaling_curve.png.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "131": {
+      "name": "88-POLER_v034_scaling_curve.png.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "132": {
+      "name": "89-Panama Papers- 10 years on, the promises and the failures - Transparency International.md",
+      "category": "экономика_и_власть",
+      "subcategory": "economics_or_power",
+      "summary": "> Source: https://www.transparency.org/en/news/panama-papers-10-years Panama Papers: 10 years on, the promises and the… - Transparency.org Consent",
+      "key_entities": [],
+      "char_count": 40850
+    },
+    "133": {
+      "name": "9-52-147_Важный_разговор.epub.md",
+      "category": "нарратив_и_персонажи",
+      "subcategory": "narrative_or_character",
+      "summary": "Важный разговор (52-147) (часть 1/12) привет я хочу написать детскую книгу без цензуры . главный герой . игрок . Который попал в мир . Меча и магии . Но подача в Стиле",
+      "key_entities": [],
+      "char_count": 957114
+    },
+    "134": {
+      "name": "90-[SYSTEM PROMPT BEGIN] Role- You are a Reflexive Literary Agent operating on the POLER[Ψ] architectur.md",
+      "category": "технологии_и_код",
+      "subcategory": "poler_or_code",
+      "summary": "User: Архитектура и методология Литературного Двигателя POLER[Ψ] Концептуальный фундамент: От предсказания токенов к моделированию реальности Современные большие языковые модели (LLM) функционируют в …",
+      "key_entities": [
+        "POLER"
+      ],
+      "char_count": 32979
+    },
+    "135": {
+      "name": "91-aleksey_window_proof.md.md",
+      "category": "нарратив_и_персонажи",
+      "subcategory": "aleksey_scene",
+      "summary": "-- coding: utf-8 -- \"\"\"ТРАНЗИТ АЛЕКСЕЯ ВНЕ 33-ЛЕТНЕГО ОКНА — Формальное доказательство Канон:",
+      "key_entities": [
+        "M1/M2",
+        "P³",
+        "Этерия"
+      ],
+      "char_count": 11651
+    },
+    "136": {
+      "name": "92-cc999e63-30e7-4d56-a833-794b06a0f27b_image.png.md",
+      "category": "изображения_и_медиа",
+      "subcategory": "image_transcription",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "137": {
+      "name": "93-etheria_cooling_mechanisms (1).png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "138": {
+      "name": "94-etheria_cooling_mechanisms.png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "139": {
+      "name": "95-etheria_pressure_valves (1).png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "140": {
+      "name": "96-etheria_pressure_valves.png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "141": {
+      "name": "97-etheria_respiratory_gas_exchange (1).png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "142": {
+      "name": "98-etheria_respiratory_gas_exchange.png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    },
+    "143": {
+      "name": "99-etheria_sweat_vs_exudate (1).png.md",
+      "category": "биофизика_и_бестиарий",
+      "subcategory": "biomechanics_or_creature",
+      "summary": "[empty or binary content]",
+      "key_entities": [],
+      "char_count": 0
+    }
+  }
+}
