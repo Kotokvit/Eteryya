@@ -1,0 +1,32 @@
+.calibre {
+  display: block;
+  font-family: serif;
+  font-size: 1em;
+  line-height: 1.5;
+  max-width: 60em;
+  margin: 0 5pt;
+  padding: 1em 0;
+}
+.calibre1 {
+  color: #58a6ff;
+  display: block;
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 1.2;
+  padding-bottom: 0.3em;
+  page-break-before: always;
+  margin: 2em 0 0.67em;
+  border-bottom: #58a6ff solid 2px;
+}
+.calibre2 {
+  display: block;
+  margin: 1em 0;
+}
+.calibre3 {
+  font-style: italic;
+}
+.calibre4 {
+  font-size: 0.75em;
+  line-height: normal;
+  vertical-align: super;
+}

@@ -1,0 +1,12 @@
+body { font-family: serif; line-height: 1.5; padding: 1em; max-width: 60em; margin: 0 auto; }
+h1 { color: #58a6ff; border-bottom: 2px solid #58a6ff; padding-bottom: 0.3em; margin-top: 2em; }
+h2 { color: #f0883e; margin-top: 1.5em; }
+h3 { color: #56d364; }
+h4 { color: #bc8cff; }
+code { background: #f4f4f4; padding: 2px 4px; font-family: monospace; font-size: 0.9em; }
+pre { background: #f4f4f4; padding: 0.5em; overflow-x: auto; border-left: 3px solid #58a6ff; }
+pre code { background: none; padding: 0; }
+blockquote { border-left: 3px solid #58a6ff; padding-left: 1em; color: #555; }
+table { border-collapse: collapse; margin: 1em 0; }
+td, th { border: 1px solid #ccc; padding: 6px 12px; }
+th { background: #f0f0f0; font-weight: bold; }

@@ -1,0 +1,13 @@
+body {
+  margin-left: .5em;
+  margin-right: .5em;
+  text-align: justify;
+}
+
+p {
+  text-align: justify;
+  text-indent: 2em;
+  margin: 0px;
+}
+
+.cover-copyright { text-align: center; font-size: .7em; font-style: italic; }

@@ -1,0 +1,133 @@
+.calibre {
+  display: block;
+  font-family: "Noto Serif", "Liberation Serif", serif;
+  font-size: 1.125em;
+  line-height: 1.6;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0 5pt;
+}
+.calibre1 {
+  color: #2c3e50;
+  display: block;
+  font-family: "Noto Sans", "Liberation Sans", sans-serif;
+  font-size: 1.62963em;
+  font-weight: bold;
+  line-height: 1.2;
+  padding-bottom: 0.3em;
+  margin: 0.67em 0;
+  border-bottom: #34495e solid 2px;
+}
+.calibre2 {
+  font-weight: bold;
+}
+.calibre3 {
+  display: block;
+}
+.calibre4 {
+  display: block;
+}
+.calibre5 {
+  color: #34495e;
+  display: block;
+  font-family: "Noto Sans", "Liberation Sans", sans-serif;
+  font-size: 1.25926em;
+  font-weight: bold;
+  line-height: 1.2;
+  padding-bottom: 0.2em;
+  margin: 2em 0 0.83em;
+  border-bottom: #bdc3c7 solid 1px;
+}
+.calibre6 {
+  display: block;
+  list-style-type: disc;
+  margin-bottom: 1em;
+  margin-right: 0;
+  margin-top: 1em;
+}
+.calibre7 {
+  display: list-item;
+}
+.calibre8 {
+  color: #2c3e50;
+  display: block;
+  font-family: "Noto Sans", "Liberation Sans", sans-serif;
+  font-size: 1.62963em;
+  font-weight: bold;
+  line-height: 1.2;
+  padding-bottom: 0.3em;
+  margin: 0.67em 0;
+  border-bottom: #34495e solid 2px;
+}
+.calibre9 {
+  display: block;
+  margin: 1em 0;
+}
+.calibre10 {
+  color: #34495e;
+  display: block;
+  font-family: "Noto Sans", "Liberation Sans", sans-serif;
+  font-size: 1.25926em;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 1.5em 0 1em;
+}
+.calibre11 {
+  background: #f0f0f0;
+  border-radius: 3px;
+  font-family: "DejaVu Sans Mono", "Liberation Mono", monospace;
+  padding: 0.1em 0.3em;
+}
+.calibre12 {
+  background: #f7f7f7;
+  display: block;
+  font-family: monospace;
+  font-size: 0.88889em;
+  line-height: 1.2;
+  overflow-x: auto;
+  page-break-inside: avoid;
+  white-space: pre-wrap;
+  margin: 1em 0;
+  padding: 0.7em 1em;
+  border-top: #ddd solid 1px;
+  border-right: #ddd solid 1px;
+  border-bottom: #ddd solid 1px;
+  border-left: #3498db solid 3px;
+}
+.calibre13 {
+  font-family: "DejaVu Sans Mono", "Liberation Mono", monospace;
+}
+.calibre14 {
+  display: block;
+  list-style-type: circle;
+  margin-bottom: 0;
+  margin-right: 0;
+  margin-top: 0;
+}
+.calibre15 {
+  display: block;
+  list-style-type: square;
+  margin-bottom: 0;
+  margin-right: 0;
+  margin-top: 0;
+}
+.calibre16 {
+  color: #666;
+  font-size: 1em;
+  line-height: 1.2;
+}
+.meta {
+  color: #555;
+  display: block;
+  font-size: 0.88889em;
+  margin: 1em 0 2em;
+}
+.tree {
+  display: block;
+  font-family: "DejaVu Sans Mono", monospace;
+  font-size: 0.88889em;
+  list-style-type: disc;
+  margin-bottom: 1em;
+  margin-right: 0;
+  margin-top: 1em;
+}
