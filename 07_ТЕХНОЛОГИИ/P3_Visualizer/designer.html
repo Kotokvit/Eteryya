@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DYNAMIS v3.0 — World Designer</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#08080c;--bg2:#0e0e14;--bg3:#14141c;--fg:#d0d0d0;--fg2:#888;--accent:#7af;--accent2:#7f7;--border:#2a2a3a;--red:#f44;--green:#4f4;--orange:#fa7;--purple:#a4f}
+body{background:var(--bg);color:var(--fg);font-family:'Courier New',monospace;font-size:12px;overflow:hidden;height:100vh}
+#app{display:grid;grid-template-columns:1fr 320px;grid-template-rows:40px 1fr 48px;height:100vh}
+#topbar{grid-column:1/3;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:12px}
+#topbar h1{font-size:13px;color:var(--accent);font-weight:400;letter-spacing:1px}
+#topbar .badge{background:var(--accent);color:#000;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700}
+#viewport{position:relative;overflow:hidden;background:var(--bg)}
+#glcanvas{width:100%;height:100%;display:block}
+#overlay{position:absolute;bottom:12px;left:12px;font-size:10px;color:var(--fg2);pointer-events:none}
+#panel{background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
+#panel::-webkit-scrollbar{width:5px}
+#panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.section{border-bottom:1px solid var(--border);padding:8px 10px}
+.section-title{color:var(--accent);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;font-weight:700;cursor:pointer}
+.section-title:hover{color:#fff}
+.section-body{overflow:hidden;transition:max-height 0.2s}
+.row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.row label{color:var(--fg2);font-size:10px;white-space:nowrap}
+.row .val{color:var(--accent);font-size:10px;min-width:50px;text-align:right;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;height:3px;-webkit-appearance:none;background:var(--border);border-radius:1px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:8px;height:8px;background:var(--accent);border-radius:50%;cursor:pointer}
+input[type=number],input[type=text],select{background:var(--bg);border:1px solid var(--border);color:var(--fg);padding:2px 6px;font-size:10px;font-family:inherit;border-radius:2px;width:100%}
+.btn{background:var(--bg3);border:1px solid var(--border);color:var(--fg2);padding:4px 8px;font-size:10px;font-family:inherit;cursor:pointer;border-radius:2px;transition:all .15s;width:100%;margin-bottom:3px}
+.btn:hover{border-color:var(--accent);color:var(--fg)}
+.btn-accent{border-color:var(--accent);color:var(--accent)}
+.btn-accent:hover{background:rgba(119,170,255,.15)}
+.node-list{max-height:140px;overflow-y:auto;margin-top:4px}
+.node-item{display:flex;align-items:center;gap:4px;padding:2px 0;font-size:9px;cursor:pointer}
+.node-item:hover{color:var(--accent)}
+.node-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+#bottombar{grid-column:1/3;background:var(--bg3);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:12px;font-size:10px;overflow-x:auto}
+.stat{white-space:nowrap}
+.stat .k{color:var(--fg2)}
+.stat .v{color:var(--accent)}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <h1>DYNAMIS v3.0 — World Designer</h1>
+  <span class="badge">P³</span>
+  <span style="color:var(--fg2);font-size:10px">PGL(4,R) · Fubini-Study · W-калибровка</span>
+</div>
+
+<!-- VIEWPORT -->
+<div id="viewport">
+  <canvas id="glcanvas"></canvas>
+  <div id="overlay">Перетаскивание: вращение | Колёсико: масштаб | Клик: добавить узел</div>
+</div>
+
+<!-- PANEL -->
+<div id="panel">
+
+<!-- World Properties -->
+<div class="section">
+  <div class="section-title">🌐 Свойства мира</div>
+  <div class="section-body">
+    <div class="row"><label>Название</label><input type="text" id="wName" value="Этерия" style="width:120px"></div>
+    <div class="row"><label>R (км)</label><input type="number" id="wRadius" value="5838.4" step="0.1" style="width:80px"></div>
+    <div class="row"><label>K = 9/7</label><span class="val" id="wK">1.285714</span></div>
+    <div class="row"><label>λ (зол.угол)</label><span class="val" id="wLambda">3.14e-10</span></div>
+    <div class="row"><label>18.7 Гц</label><span class="val">резонанс</span></div>
+  </div>
+</div>
+
+<!-- Terrain -->
+<div class="section">
+  <div class="section-title">🏔️ Рельеф</div>
+  <div class="section-body">
+    <div class="row"><label>Стиль</label>
+      <select id="tStyle" style="width:100px">
+        <option value="earth">Земля</option>
+        <option value="etheria" selected>Этерия</option>
+        <option value="flat">Плоский</option>
+        <option value="volcano">Вулкан</option>
+      </select>
+    </div>
+    <div class="row"><label>Разрешение</label><input type="range" id="tRes" min="20" max="180" value="90"></div>
+    <div class="row"><label>W-модель</label>
+      <select id="tWModel" style="width:100px">
+        <option value="distance">distance</option>
+        <option value="elevation">elevation</option>
+        <option value="uniform">uniform</option>
+      </select>
+    </div>
+    <button class="btn btn-accent" id="btnGenTerrain">Сгенерировать рельеф</button>
+    <button class="btn" id="btnImportDEM">Импорт DEM (HGT/ASC/CSV)</button>
+  </div>
+</div>
+
+<!-- Nodes -->
+<div class="section">
+  <div class="section-title">📍 Узлы мира</div>
+  <div class="section-body">
+    <div class="row"><label>Имя</label><input type="text" id="nName" value="Новый узел" style="width:100px"></div>
+    <div class="row"><label>Lat</label><input type="number" id="nLat" value="50.45" step="0.01" style="width:70px"></div>
+    <div class="row"><label>Lon</label><input type="number" id="nLon" value="30.52" step="0.01" style="width:70px"></div>
+    <div class="row"><label>W</label><input type="number" id="nW" value="0.8" step="0.01" min="0" max="1" style="width:60px"></div>
+    <button class="btn btn-accent" id="btnAddNode">Добавить узел</button>
+    <div class="node-list" id="nodeList"></div>
+  </div>
+</div>
+
+<!-- Spacetime -->
+<div class="section">
+  <div class="section-title">⏱️ P³×R Время</div>
+  <div class="section-body">
+    <div class="row"><label>c_eff (км/с)</label><span class="val" id="stCeff">385447</span></div>
+    <div class="row"><label>dt (мс)</label><span class="val" id="stDt">53.48</span></div>
+    <div class="row"><label>Шагов</label><input type="range" id="stSteps" min="1" max="200" value="50"></div>
+    <div class="row"><label>Показать конусы</label><input type="range" id="stCones" min="0" max="1" value="1"></div>
+    <button class="btn btn-accent" id="btnEvolve">Эволюция мира</button>
+    <button class="btn" id="btnResetTime">Сбросить время</button>
+  </div>
+</div>
+
+<!-- PGL(4) Transform -->
+<div class="section">
+  <div class="section-title">🔄 PGL(4,R) Трансформация</div>
+  <div class="section-body">
+    <div class="row"><label>Тип</label>
+      <select id="pglType" style="width:100px">
+        <option value="identity">I (тождество)</option>
+        <option value="z2z">g (Z/2Z)</option>
+        <option value="rotation">Вращение</option>
+        <option value="custom">Произвольная</option>
+      </select>
+    </div>
+    <div class="row"><label>Угол (°)</label><input type="range" id="pglAngle" min="0" max="360" value="0"></div>
+    <div class="row"><label>Плоскость</label>
+      <select id="pglPlane" style="width:80px">
+        <option value="XY">XY</option><option value="XZ">XZ</option>
+        <option value="XW" selected>XW</option><option value="YZ">YZ</option>
+        <option value="YW">YW</option><option value="ZW">ZW</option>
+      </select>
+    </div>
+    <button class="btn" id="btnApplyPGL">Применить</button>
+    <button class="btn" id="btnResetPGL">Сбросить</button>
+  </div>
+</div>
+
+<!-- Export -->
+<div class="section">
+  <div class="section-title">💾 Экспорт</div>
+  <div class="section-body">
+    <button class="btn" id="btnExportJSON">Экспорт JSON</button>
+    <button class="btn" id="btnExportCSV">Экспорт CSV</button>
+    <button class="btn" id="btnExportOBJ">Экспорт OBJ (3D)</button>
+    <button class="btn" id="btnScreenshot">Скриншот PNG</button>
+  </div>
+</div>
+
+</div>
+
+<!-- BOTTOM BAR -->
+<div id="bottombar">
+  <div class="stat"><span class="k">Точек: </span><span class="v" id="sPoints">0</span></div>
+  <div class="stat"><span class="k">Узлов: </span><span class="v" id="sNodes">0</span></div>
+  <div class="stat"><span class="k">Линий: </span><span class="v" id="sLines">0</span></div>
+  <div class="stat"><span class="k">Карта: </span><span class="v" id="sCard">UW</span></div>
+  <div class="stat"><span class="k">d_FS: </span><span class="v" id="sDFS">—</span></div>
+  <div class="stat"><span class="k">W: </span><span class="v" id="sW">—</span></div>
+  <div class="stat"><span class="k">FPS: </span><span class="v" id="sFPS">60</span></div>
+</div>
+
+</div>
+
+<!-- P³ WebGL Renderer -->
+<script src="p3_webgl.js"></script>
+<script>
+"use strict";
+
+// ═══════════════════════════════════════════
+// WORLD STATE
+// ═══════════════════════════════════════════
+
+const world = {
+  name: 'Этерия',
+  radius: 5838.4,
+  K: 9/7,
+  lambda: Math.PI * 1e-10,
+  nodes: [],
+  terrainPoints: [],
+  terrainLines: [],
+  worldlines: [],
+  time: 0,
+  pgl4: [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]
+};
+
+// Default nodes (Этерия)
+const DEFAULT_NODES = [
+  { name:"Киев",     lat:50.45, lon:30.52,  W:0.80, r:0.47,g:0.67,b:1.00 },
+  { name:"Сектор 4", lat:47.13, lon:34.89,  W:0.82, r:0.47,g:1.00,b:0.47 },
+  { name:"Гиза",     lat:29.98, lon:31.13,  W:0.75, r:1.00,g:0.67,b:0.47 },
+  { name:"Одесса",   lat:46.48, lon:30.73,  W:0.78, r:1.00,g:0.47,b:1.00 },
+  { name:"Бездна",   lat:-60.0, lon:0.0,    W:0.001,r:0.64,g:0.27,b:1.00 },
+];
+
+DEFAULT_NODES.forEach(n => world.nodes.push({...n}));
+
+// ═══════════════════════════════════════════
+// RENDERER
+// ═══════════════════════════════════════════
+
+const canvas = document.getElementById('glcanvas');
+const renderer = new P3WebGLRenderer(canvas);
+
+let lastFrame = 0;
+let fps = 60;
+
+function animate(now) {
+  const dt = now - lastFrame;
+  lastFrame = now;
+  fps = fps * 0.95 + (1000 / Math.max(dt, 1)) * 0.05;
+
+  world.time = now / 1000;
+  renderer.render(world.time);
+
+  document.getElementById('sFPS').textContent = Math.round(fps);
+  requestAnimationFrame(animate);
+}
+
+// ═══════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════
+
+function generateTerrain() {
+  const style = document.getElementById('tStyle').value;
+  const res = parseInt(document.getElementById('tRes').value);
+  const { points, lines } = renderer.generateTerrain(res, res * 2, style);
+  world.terrainPoints = points;
+  world.terrainLines = lines;
+  updateBuffers();
+}
+
+function updateBuffers() {
+  // Merge all points: terrain + worldline events + node markers
+  const allPoints = [...world.terrainPoints];
+  const allLines = [...world.terrainLines];
+
+  // Add nodes as bright markers
+  world.nodes.forEach(n => {
+    const latR = n.lat * Math.PI / 180;
+    const lonR = n.lon * Math.PI / 180;
+    const X = Math.cos(latR) * Math.cos(lonR);
+    const Y = Math.cos(latR) * Math.sin(lonR);
+    const Z = Math.sin(latR);
+    allPoints.push({ X, Y, Z, W: n.W, r: n.r, g: n.g, b: n.b, size: 6, card: 0 });
+  });
+
+  // Add worldlines
+  if (world.worldlines.length > 0) {
+    const wlData = renderer.generateWorldlines(world.worldlines, 40, world.time);
+    allPoints.push(...wlData.points);
+    allLines.push(...wlData.lines);
+  }
+
+  renderer.uploadPoints(allPoints);
+  renderer.uploadLines(allLines);
+
+  // Stats
+  document.getElementById('sPoints').textContent = allPoints.length;
+  document.getElementById('sNodes').textContent = world.nodes.length;
+  document.getElementById('sLines').textContent = allLines.length;
+}
+
+function addNode() {
+  const name = document.getElementById('nName').value || `Узел ${world.nodes.length}`;
+  const lat = parseFloat(document.getElementById('nLat').value);
+  const lon = parseFloat(document.getElementById('nLon').value);
+  const W = parseFloat(document.getElementById('nW').value);
+  const colors = [[0.47,0.67,1],[0.47,1,0.47],[1,0.67,0.47],[1,0.47,1],[0.64,0.27,1]];
+  const c = colors[world.nodes.length % colors.length];
+  world.nodes.push({ name, lat, lon, W, r:c[0], g:c[1], b:c[2] });
+  refreshNodeList();
+  updateBuffers();
+}
+
+function removeNode(idx) {
+  world.nodes.splice(idx, 1);
+  refreshNodeList();
+  updateBuffers();
+}
+
+function refreshNodeList() {
+  const list = document.getElementById('nodeList');
+  list.innerHTML = '';
+  world.nodes.forEach((n, i) => {
+    const div = document.createElement('div');
+    div.className = 'node-item';
+    div.innerHTML = `<span class="node-dot" style="background:rgb(${n.r*255|0},${n.g*255|0},${n.b*255|0})"></span>
+      <span style="flex:1">${n.name}</span>
+      <span style="color:var(--fg2)">${n.lat.toFixed(1)}° ${n.lon.toFixed(1)}° W=${n.W.toFixed(3)}</span>
+      <span style="color:var(--red);cursor:pointer" onclick="removeNode(${i})">✗</span>`;
+    list.appendChild(div);
+  });
+}
+
+function evolveWorld() {
+  const steps = parseInt(document.getElementById('stSteps').value);
+  // Build worldline nodes from current world.nodes
+  world.worldlines = world.nodes.map(n => {
+    const latR = n.lat * Math.PI / 180;
+    const lonR = n.lon * Math.PI / 180;
+    return {
+      X: Math.cos(latR) * Math.cos(lonR),
+      Y: Math.cos(latR) * Math.sin(lonR),
+      Z: Math.sin(latR),
+      W: n.W,
+      r: n.r, g: n.g, b: n.b
+    };
+  });
+  updateBuffers();
+}
+
+function applyPGL4() {
+  const type = document.getElementById('pglType').value;
+  const angle = parseFloat(document.getElementById('pglAngle').value) * Math.PI / 180;
+  const plane = document.getElementById('pglPlane').value;
+
+  let m = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
+
+  if (type === 'z2z') {
+    m = [-1,0,0,0, 0,-1,0,0, 0,0,-1,0, 0,0,0,1];
+  } else if (type === 'rotation') {
+    m = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
+    const c = Math.cos(angle), s = Math.sin(angle);
+    const [i,j] = {XY:[0,1],XZ:[0,2],XW:[0,3],YZ:[1,2],YW:[1,3],ZW:[2,3]}[plane] || [0,3];
+    m[i*4+i] = c; m[i*4+j] = -s;
+    m[j*4+i] = s; m[j*4+j] = c;
+  }
+
+  renderer.pgl4 = new Float32Array(m);
+  updateBuffers();
+}
+
+function resetPGL4() {
+  renderer.pgl4 = new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
+  updateBuffers();
+}
+
+// ═══════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════
+
+function exportJSON() {
+  const data = {
+    version: '3.0',
+    world: { name: world.name, radius: world.radius, K: world.K },
+    nodes: world.nodes,
+    terrain: { nPoints: world.terrainPoints.length, style: document.getElementById('tStyle').value },
+    pgl4: Array.from(renderer.pgl4),
+    time: world.time
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `${world.name}_world_${Date.now()}.json`; a.click();
+}
+
+function exportCSV() {
+  let csv = 'name,lat,lon,W,X,Y,Z\n';
+  world.nodes.forEach(n => {
+    const latR=n.lat*Math.PI/180, lonR=n.lon*Math.PI/180;
+    csv += `${n.name},${n.lat},${n.lon},${n.W},${Math.cos(latR)*Math.cos(lonR)},${Math.cos(latR)*Math.sin(lonR)},${Math.sin(latR)}\n`;
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `${world.name}_nodes_${Date.now()}.csv`; a.click();
+}
+
+function exportOBJ() {
+  let obj = `# DYNAMIS v3.0 — ${world.name} World\n# P³ → OBJ projection\n\n`;
+  world.terrainPoints.forEach((p, i) => {
+    const norm = Math.sqrt(p.X*p.X+p.Y*p.Y+p.Z*p.Z+p.W*p.W);
+    const x = p.X/(p.W||0.001), y = p.Y/(p.W||0.001), z = p.Z/(p.W||0.001);
+    obj += `v ${x.toFixed(6)} ${y.toFixed(6)} ${z.toFixed(6)}\n`;
+  });
+  const blob = new Blob([obj], {type:'text/plain'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `${world.name}_world.obj`; a.click();
+}
+
+function screenshot() {
+  canvas.toBlob(blob => {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = `${world.name}_screenshot.png`; a.click();
+  });
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+
+document.getElementById('btnGenTerrain').onclick = generateTerrain;
+document.getElementById('btnAddNode').onclick = addNode;
+document.getElementById('btnEvolve').onclick = evolveWorld;
+document.getElementById('btnResetTime').onclick = () => { world.time = 0; world.worldlines = []; updateBuffers(); };
+document.getElementById('btnApplyPGL').onclick = applyPGL4;
+document.getElementById('btnResetPGL').onclick = resetPGL4;
+document.getElementById('btnExportJSON').onclick = exportJSON;
+document.getElementById('btnExportCSV').onclick = exportCSV;
+document.getElementById('btnExportOBJ').onclick = exportOBJ;
+document.getElementById('btnScreenshot').onclick = screenshot;
+
+// Live update on slider change
+document.getElementById('pglAngle').oninput = applyPGL4;
+document.getElementById('tRes').oninput = generateTerrain;
+document.getElementById('tStyle').onchange = generateTerrain;
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.key === 'g') generateTerrain();
+  if (e.key === 'e') evolveWorld();
+  if (e.key === 'r') resetPGL4();
+});
+
+// Click on canvas to add node
+canvas.addEventListener('dblclick', e => {
+  const name = `Узел ${world.nodes.length}`;
+  world.nodes.push({ name, lat: Math.random()*120-60, lon: Math.random()*360-180, W: 0.8, r:0.47,g:0.67,b:1 });
+  refreshNodeList();
+  updateBuffers();
+});
+
+// Initial generation
+refreshNodeList();
+generateTerrain();
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
