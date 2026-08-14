@@ -10,6 +10,8 @@ pub fn build(b: *std.Build) void {
     // ========================================================
     // Фаза 1: Ядро + Идемпотенты + Геодезические + Мост
     //         + Cross-ratio + Safety (type-level guarantees)
+    // Фаза 2: GPU (WGSL) + raylib мост + Инварианты
+    //         + Алгебра (Грассман/Клиффорд/Плюккер)
     // ========================================================
 
     // --- Kernel tests ---
@@ -60,7 +62,39 @@ pub fn build(b: *std.Build) void {
     });
     const run_safety_tests = b.addRunArtifact(safety_tests);
 
-    // --- Test step: run all module tests ---
+    // --- GPU module tests (WGSL shaders + CPU equivalents) ---
+    const gpu_tests = b.addTest(.{
+        .root_source_file = b.path("src/p3_gpu.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    const run_gpu_tests = b.addRunArtifact(gpu_tests);
+
+    // --- Raylib bridge tests ---
+    const raylib_tests = b.addTest(.{
+        .root_source_file = b.path("src/p3_raylib.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    const run_raylib_tests = b.addRunArtifact(raylib_tests);
+
+    // --- Invariant module tests ---
+    const invariant_tests = b.addTest(.{
+        .root_source_file = b.path("src/p3_invariant.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    const run_invariant_tests = b.addRunArtifact(invariant_tests);
+
+    // --- Algebra module tests (Grassmann/Plücker) ---
+    const algebra_tests = b.addTest(.{
+        .root_source_file = b.path("src/p3_algebra.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    const run_algebra_tests = b.addRunArtifact(algebra_tests);
+
+    // --- Test step: run ALL module tests ---
     const test_step = b.step("test", "Run all P³ engine tests");
     test_step.dependOn(&run_kernel_tests.step);
     test_step.dependOn(&run_idempotent_tests.step);
@@ -68,6 +102,10 @@ pub fn build(b: *std.Build) void {
     test_step.dependOn(&run_bridge_tests.step);
     test_step.dependOn(&run_crossratio_tests.step);
     test_step.dependOn(&run_safety_tests.step);
+    test_step.dependOn(&run_gpu_tests.step);
+    test_step.dependOn(&run_raylib_tests.step);
+    test_step.dependOn(&run_invariant_tests.step);
+    test_step.dependOn(&run_algebra_tests.step);
 
     // --- Individual test steps ---
     const kernel_test_step = b.step("test-kernel", "Run p3_kernel tests only");
@@ -87,4 +125,16 @@ pub fn build(b: *std.Build) void {
 
     const safety_test_step = b.step("test-safety", "Run p3_safety tests only");
     safety_test_step.dependOn(&run_safety_tests.step);
+
+    const gpu_test_step = b.step("test-gpu", "Run p3_gpu tests only");
+    gpu_test_step.dependOn(&run_gpu_tests.step);
+
+    const raylib_test_step = b.step("test-raylib", "Run p3_raylib tests only");
+    raylib_test_step.dependOn(&run_raylib_tests.step);
+
+    const invariant_test_step = b.step("test-invariant", "Run p3_invariant tests only");
+    invariant_test_step.dependOn(&run_invariant_tests.step);
+
+    const algebra_test_step = b.step("test-algebra", "Run p3_algebra tests only");
+    algebra_test_step.dependOn(&run_algebra_tests.step);
 }
