@@ -1,0 +1,29 @@
+# DYNAMIS v2.1 — docker-compose
+# Usage: docker-compose up -d
+# Then open http://localhost:8080
+
+version: '3.8'
+
+services:
+  dynamis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dynamis
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - DYNAMIS_VERSION=2.1
+      - P3_RADIUS_KM=5838.4
+      - K_ANISO=1.28571428571
+    volumes:
+      - dynamis-data:/dynamis/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  dynamis-data:

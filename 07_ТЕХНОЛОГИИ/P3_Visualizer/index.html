@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DYNAMIS v2.0 — P³ Абсолютный Канон</title>
+<title>DYNAMIS v2.1 — P³ Абсолютный Канон</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#08080c;--bg2:#0e0e14;--bg3:#14141c;--fg:#d0d0d0;--fg2:#888;--accent:#7af;--border:#2a2a3a;--card-uw:#7af;--card-ux:#7f7;--card-uy:#fa7;--card-uz:#f7f;--skew1:#0ff;--skew2:#ff0;--omega:#44f;--chi:#f44;--null:#a4f;--geodesic:#fff;--cost:#fa0;--m1:#0ff;--m2:#f0f;--red:#f44;--green:#4f4}
@@ -1811,8 +1811,49 @@ function mainLoop(timestamp) {
 // Initial audit
 updateAudit();
 
-// Start
+// ═══════════════════════════════════════════
+// EXTENSION HOOK: режимы 9 (Spacetime) и 10 (DEM)
+// ═══════════════════════════════════════════
+const _origRender = typeof renderMode === 'function' ? renderMode : null;
+
+// Monkey-patch mode buttons to include modes 9 and 10
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const m = parseInt(btn.dataset.mode);
+    if (m === 9 || m === 10) {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentMode = m;
+    }
+  });
+});
+
+// Override mainLoop render to include new modes
+const _origMainLoop = mainLoop;
+mainLoop = function(time) {
+  // Check if currentMode is 9 or 10 before original render
+  if (currentMode === 9 || currentMode === 10) {
+    const cv = document.getElementById('cv');
+    const ctx = cv.getContext('2d');
+    const W = cv.width, H = cv.height;
+    ctx.fillStyle = '#08080c';
+    ctx.fillRect(0, 0, W, H);
+    const t = performance.now() / 1000;
+    if (currentMode === 9) renderSpacetime(ctx, W, H, t);
+    if (currentMode === 10) renderDEMTerrain(ctx, W, H, t);
+    // FPS
+    document.getElementById('fps-label').textContent = '60 FPS';
+    requestAnimationFrame(mainLoop);
+    return;
+  }
+  // Otherwise call original loop
+  _origMainLoop(time);
+};
+
+// Restart loop with patched version
+cancelAnimationFrame(0);
 requestAnimationFrame(mainLoop);
 </script>
+<script src="extensions.js"></script>
 </body>
 </html>
