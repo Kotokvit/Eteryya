@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P³ Визуализатор — Проективная геометрия Этерии</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Courier New', monospace; overflow: hidden; }
+#container { display: flex; width: 100vw; height: 100vh; }
+#canvas3d { flex: 1; }
+#sidebar { width: 340px; background: #111118; border-left: 1px solid #2a2a3a; overflow-y: auto; padding: 12px; }
+h2 { color: #7af; font-size: 14px; margin: 8px 0 4px; text-transform: uppercase; letter-spacing: 1px; }
+.panel { background: #1a1a25; border: 1px solid #2a2a3a; border-radius: 4px; padding: 8px; margin-bottom: 8px; }
+label { font-size: 11px; color: #888; display: block; margin: 4px 0 2px; }
+.value { color: #7f7; font-size: 12px; }
+.warn { color: #f77; }
+.info { color: #7af; }
+canvas { display: block; }
+.btn { background: #2a2a3a; color: #7af; border: 1px solid #3a3a5a; padding: 4px 10px; border-radius: 3px; cursor: pointer; font-size: 11px; margin: 2px; font-family: inherit; }
+.btn:hover { background: #3a3a5a; }
+.btn.active { background: #3a5a3a; color: #7f7; border-color: #5a7a5a; }
+.slider-row { display: flex; align-items: center; gap: 6px; }
+.slider-row input[type=range] { flex: 1; }
+.slider-row .sv { color: #7f7; font-size: 11px; min-width: 40px; text-align: right; }
+#hud { position: absolute; top: 8px; left: 8px; color: #7af; font-size: 11px; pointer-events: none; z-index: 10; }
+#hud div { margin: 2px 0; }
+.chart-canvas { width: 100%; height: 100px; background: #0a0a0f; border: 1px solid #2a2a3a; border-radius: 2px; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div id="container">
+  <div id="canvas3d"></div>
+  <div id="sidebar">
+    <h2>P³ Визуализатор</h2>
+    <div class="panel">
+      <h2>Режим</h2>
+      <div id="mode-buttons">
+        <button class="btn active" data-mode="factorization">S³→P³ Факторизация</button>
+        <button class="btn" data-mode="atlas">4 Аффинных Карты</button>
+        <button class="btn" data-mode="z2z">Z/2Z Петля</button>
+        <button class="btn" data-mode="omega_chi">Ω / χ Гиперплоскости</button>
+        <button class="btn" data-mode="w_calibration">W(s) Калибровка</button>
+        <button class="btn" data-mode="null_fluid">L_∅ Нуль-жидкость</button>
+        <button class="btn" data-mode="krug_kostei">Круг Костей</button>
+        <button class="btn" data-mode="conjugation">Конъюгация SO(3)</button>
+      </div>
+    </div>
+    <div class="panel" id="panel-params">
+      <h2>Параметры</h2>
+      <label>Радиус планеты R (км)</label>
+      <div class="slider-row">
+        <input type="range" id="sl-radius" min="3000" max="8000" value="5838" step="1">
+        <span class="sv" id="sv-radius">5838</span>
+      </div>
+      <label>Расстояние s (км)</label>
+      <div class="slider-row">
+        <input type="range" id="sl-distance" min="0" max="20000" value="5000" step="10">
+        <span class="sv" id="sv-distance">5000</span>
+      </div>
+      <label>Угол θ Ω/χ (°)</label>
+      <div class="slider-row">
+        <input type="range" id="sl-theta" min="0" max="90" value="80" step="0.1">
+        <span class="sv" id="sv-theta">80.0</span>
+      </div>
+      <label>Скорость анимации</label>
+      <div class="slider-row">
+        <input type="range" id="sl-speed" min="0" max="5" value="1" step="0.1">
+        <span class="sv" id="sv-speed">1.0</span>
+      </div>
+    </div>
+    <div class="panel" id="panel-readout">
+      <h2>Вычисления</h2>
+      <div id="readout"></div>
+    </div>
+    <div class="panel">
+      <h2>W(s) = cos(s/2R)</h2>
+      <canvas id="chart-w" class="chart-canvas"></canvas>
+    </div>
+    <div class="panel">
+      <h2>ρ_∅(θ) = sin²(θ−85°)·H(θ−85°)</h2>
+      <canvas id="chart-rho" class="chart-canvas"></canvas>
+    </div>
+    <div class="panel">
+      <h2>Z/2Z Голономия</h2>
+      <canvas id="chart-z2z" class="chart-canvas"></canvas>
+    </div>
+  </div>
+</div>
+<div id="hud">
+  <div id="hud-mode"></div>
+  <div id="hud-coords"></div>
+  <div id="hud-card"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ============================================================
+// P³ ВИЗУАЛИЗАТОР — Проективная геометрия Этерии
+// ============================================================
+
+const DEG = Math.PI / 180;
+const TWO_PI = 2 * Math.PI;
+
+let params = {
+  mode: 'factorization',
+  R: 5838.4,
+  s: 5000,
+  theta: 80,
+  speed: 1,
+  time: 0,
+};
+
+// Three.js
+const container = document.getElementById('canvas3d');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, 1, 0.01, 100);
+camera.position.set(3, 2, 3);
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setClearColor(0x0a0a0f);
+container.appendChild(renderer.domElement);
+
+// OrbitControls
+let orbit = { theta: 0.8, phi: 0.6, r: 5, target: new THREE.Vector3() };
+let mouseDown = false, mousePrev = { x: 0, y: 0 };
+renderer.domElement.addEventListener('mousedown', e => { mouseDown = true; mousePrev = { x: e.clientX, y: e.clientY }; });
+renderer.domElement.addEventListener('mouseup', () => mouseDown = false);
+renderer.domElement.addEventListener('mouseleave', () => mouseDown = false);
+renderer.domElement.addEventListener('mousemove', e => {
+  if (!mouseDown) return;
+  const dx = e.clientX - mousePrev.x, dy = e.clientY - mousePrev.y;
+  orbit.theta -= dx * 0.005;
+  orbit.phi = Math.max(-Math.PI/2+0.01, Math.min(Math.PI/2-0.01, orbit.phi - dy * 0.005));
+  mousePrev = { x: e.clientX, y: e.clientY };
+});
+renderer.domElement.addEventListener('wheel', e => {
+  orbit.r = Math.max(1, Math.min(20, orbit.r * (1 + e.deltaY * 0.001)));
+});
+
+function updateCamera() {
+  camera.position.set(
+    orbit.r * Math.cos(orbit.phi) * Math.cos(orbit.theta),
+    orbit.r * Math.sin(orbit.phi),
+    orbit.r * Math.cos(orbit.phi) * Math.sin(orbit.theta)
+  );
+  camera.lookAt(orbit.target);
+}
+
+function clearScene() {
+  while (scene.children.length) scene.remove(scene.children[0]);
+}
+
+function addAxis(len, color, dir) {
+  const mat = new THREE.LineBasicMaterial({ color });
+  const pts = [new THREE.Vector3(), dir.clone().multiplyScalar(len)];
+  const geom = new THREE.BufferGeometry().setFromPoints(pts);
+  scene.add(new THREE.Line(geom, mat));
+}
+
+function addLabel(text, pos, color) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256; canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = color || '#7af';
+  ctx.font = 'bold 24px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(text, 128, 40);
+  const tex = new THREE.CanvasTexture(canvas);
+  const mat = new THREE.SpriteMaterial({ map: tex, transparent: true });
+  const sprite = new THREE.Sprite(mat);
+  sprite.position.copy(pos);
+  sprite.scale.set(0.8, 0.2, 1);
+  scene.add(sprite);
+}
+
+function makePoint(pos, color, size) {
+  const geom = new THREE.SphereGeometry(size || 0.04, 16, 16);
+  const mat = new THREE.MeshBasicMaterial({ color });
+  const mesh = new THREE.Mesh(geom, mat);
+  mesh.position.copy(pos);
+  scene.add(mesh);
+  return mesh;
+}
+
+function makeLine(points, color, linewidth) {
+  const mat = new THREE.LineBasicMaterial({ color, linewidth: linewidth || 1 });
+  const geom = new THREE.BufferGeometry().setFromPoints(points);
+  const line = new THREE.Line(geom, mat);
+  scene.add(line);
+  return line;
+}
+
+function W_of_s(s_km, R_km) { return Math.cos(s_km / (2 * R_km)); }
+function rho_null(theta_deg) {
+  const t = theta_deg - 85;
+  if (t <= 0) return 0;
+  return Math.sin(t * DEG) ** 2;
+}
+function whichCard(x, y, z, w) {
+  const absW = Math.abs(w), absX = Math.abs(x), absY = Math.abs(y), absZ = Math.abs(z);
+  const mx = Math.max(absW, absX, absY, absZ);
+  if (mx === absW) return 'U_W';
+  if (mx === absX) return 'U_X';
+  if (mx === absY) return 'U_Y';
+  return 'U_Z';
+}
+
+// ============================================================
+// MODES
+// ============================================================
+const modes = {};
+
+modes.factorization = function() {
+  const R = 1.5;
+  const sphereGeom = new THREE.SphereGeometry(R, 32, 32);
+  const sphereMat = new THREE.MeshBasicMaterial({ color: 0x334466, wireframe: true, transparent: true, opacity: 0.15 });
+  scene.add(new THREE.Mesh(sphereGeom, sphereMat));
+  addAxis(2, 0x555555, new THREE.Vector3(1,0,0));
+  addAxis(2, 0x555555, new THREE.Vector3(0,1,0));
+  addAxis(2, 0x555555, new THREE.Vector3(0,0,1));
+  addLabel('X', new THREE.Vector3(2.1,0,0), '#f88');
+  addLabel('Y', new THREE.Vector3(0,2.1,0), '#8f8');
+  addLabel('Z', new THREE.Vector3(0,0,2.1), '#88f');
+
+  const t = params.time;
+  const phi = t * 0.5;
+  const thetaPt = Math.PI / 4 + 0.3 * Math.sin(t * 0.3);
+  const s3x = Math.sin(thetaPt) * Math.cos(phi);
+  const s3y = Math.sin(thetaPt) * Math.sin(phi);
+  const s3z = Math.cos(thetaPt);
+  const s3w = 0.5 + 0.5 * Math.sin(t * 0.7);
+  const norm = Math.sqrt(s3x*s3x + s3y*s3y + s3z*s3z + s3w*s3w);
+  const px = s3x/norm, py = s3y/norm, pz = s3z/norm, pw = s3w/norm;
+  const stD = 1 + pw;
+  const r3x = px/stD, r3y = py/stD, r3z = pz/stD;
+  const stDA = 1 - pw;
+  const a3x = -px/stDA, a3y = -py/stDA, a3z = -pz/stDA;
+
+  makePoint(new THREE.Vector3(r3x, r3y, r3z), 0x77ff77, 0.06);
+  makePoint(new THREE.Vector3(a3x, a3y, a3z), 0xff7777, 0.06);
+  makeLine([new THREE.Vector3(r3x,r3y,r3z), new THREE.Vector3(0,0,0), new THREE.Vector3(a3x,a3y,a3z)], 0xffff44, 1);
+  addLabel('p', new THREE.Vector3(r3x,r3y+0.15,r3z), '#7f7');
+  addLabel('-p', new THREE.Vector3(a3x,a3y+0.15,a3z), '#f77');
+  addLabel('P3: [p] = [-p]', new THREE.Vector3(0,-0.5,0), '#ff4');
+
+  const gcPts = [];
+  for (let i = 0; i <= 100; i++) {
+    const a = TWO_PI * i / 100;
+    gcPts.push(new THREE.Vector3(R*Math.cos(a)*Math.cos(phi), R*Math.cos(a)*Math.sin(phi), R*Math.sin(a)));
+  }
+  makeLine(gcPts, 0x448844, 1);
+
+  return `[${px.toFixed(3)} : ${py.toFixed(3)} : ${pz.toFixed(3)} : ${pw.toFixed(3)}]\nS3: p <-> -p -> один класс в P3`;
+};
+
+modes.atlas = function() {
+  const chartColors = { U_W: 0x4477aa, U_X: 0xaa4477, U_Y: 0x77aa44, U_Z: 0xaa7744 };
+  const N = 12;
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      for (let k = 0; k < N; k++) {
+        const x = (i/N-0.5)*3, y = (j/N-0.5)*3, z = (k/N-0.5)*3, w = 1.0;
+        const card = whichCard(x,y,z,w);
+        const geom = new THREE.SphereGeometry(0.025,6,6);
+        const mat = new THREE.MeshBasicMaterial({ color: chartColors[card], transparent: true, opacity: 0.4 });
+        const mesh = new THREE.Mesh(geom, mat);
+        mesh.position.set(x,y,z);
+        scene.add(mesh);
+      }
+    }
+  }
+
+  const s = params.s, R_km = params.R, t = params.time;
+  const alpha = t * 0.3, halfAngle = s / (2 * R_km);
+  const sw = Math.cos(halfAngle), sx = Math.sin(halfAngle)*Math.cos(alpha), sy = Math.sin(halfAngle)*Math.sin(alpha);
+  const card = whichCard(sx,sy,0,sw);
+  makePoint(new THREE.Vector3(sx*1.5,sy*1.5,0), chartColors[card], 0.08);
+
+  const planeMat = new THREE.MeshBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.08, side: THREE.DoubleSide });
+  const planeGeom = new THREE.PlaneGeometry(4,4);
+  const plane = new THREE.Mesh(planeGeom, planeMat);
+  plane.rotation.x = Math.PI/2;
+  scene.add(plane);
+  addLabel('W=0 (P2_inf)', new THREE.Vector3(0,0.05,1.5), '#f44');
+  addLabel('U_W', new THREE.Vector3(1.5,0.3,0), '#47a');
+  addLabel('U_X', new THREE.Vector3(-1.5,0.3,0), '#a47');
+  addLabel('U_Y', new THREE.Vector3(0,1.5,0), '#7a4');
+
+  return `Активная карта: ${card}\ns = ${s} км, W = ${sw.toFixed(4)}\nМёбиус-переход при W->0`;
+};
+
+modes.z2z = function() {
+  const R = 1.5, t = params.time;
+  const loopPts = [], loopPts2 = [];
+  for (let i = 0; i <= 100; i++) {
+    const a = Math.PI * i / 100;
+    loopPts.push(new THREE.Vector3(R*Math.cos(a),0,R*Math.sin(a)));
+    loopPts2.push(new THREE.Vector3(-R*Math.cos(a),0,-R*Math.sin(a)));
+  }
+  makeLine(loopPts, 0x7777ff, 2);
+  makeLine(loopPts2, 0xff7777, 2);
+
+  const loopT = (t*0.3) % 2;
+  const a1 = Math.PI * loopT;
+  const ptX = R*Math.cos(a1), ptZ = R*Math.sin(a1);
+  const isFirst = loopT <= 1;
+  makePoint(new THREE.Vector3(ptX,0,ptZ), isFirst ? 0xffff00 : 0x00ffff, 0.08);
+  makePoint(new THREE.Vector3(R,0,0), 0xffffff, 0.06);
+  makePoint(new THREE.Vector3(-R,0,0), 0xffffff, 0.06);
+  addLabel('[1:0:0:0]', new THREE.Vector3(R,0.2,0), '#fff');
+  addLabel('[-1:0:0:0]=[1:0:0:0]', new THREE.Vector3(-R,0.2,0), '#fff');
+  addLabel(`Hol = ${isFirst ? '-1 (нетривиально!)' : '+1 (тривиально)'}`, new THREE.Vector3(0,-0.5,0), isFirst ? '#f77' : '#7f7');
+
+  const frameAngle = Math.PI * loopT, frameLen = 0.4;
+  const cx = R*Math.cos(a1), cz = R*Math.sin(a1);
+  const fo = new THREE.Vector3(cx,0,cz);
+  makeLine([fo, new THREE.Vector3(cx+frameLen*Math.cos(frameAngle),0,cz+frameLen*Math.sin(frameAngle))], 0xffaa00, 1);
+  makeLine([fo, new THREE.Vector3(cx-frameLen*Math.sin(frameAngle),0,cz+frameLen*Math.cos(frameAngle))], 0x00ffaa, 1);
+
+  return `Обход: ${loopT.toFixed(2)}/2\nГолономия: ${isFirst ? '-1' : '+1'}\npi_1(P3) = Z/2Z\n1 оборот -> класс 1\n2 оборота -> класс 0`;
+};
+
+modes.omega_chi = function() {
+  const theta = params.theta;
+  const omegaMat = new THREE.MeshBasicMaterial({ color: 0x4477ff, transparent: true, opacity: 0.12, side: THREE.DoubleSide });
+  const omegaGeom = new THREE.PlaneGeometry(4,4);
+  scene.add(new THREE.Mesh(omegaGeom, omegaMat));
+  addLabel('Omega (W=1, Порядок)', new THREE.Vector3(0,1.5,0), '#47f');
+
+  const chiMat = new THREE.MeshBasicMaterial({ color: 0xff4444, transparent: true, opacity: 0.12, side: THREE.DoubleSide });
+  const chiGeom = new THREE.PlaneGeometry(4,4);
+  const chiMesh = new THREE.Mesh(chiGeom, chiMat);
+  chiMesh.rotation.x = theta * DEG;
+  scene.add(chiMesh);
+  addLabel('chi (Z=0, Хаос)', new THREE.Vector3(0,-1.5*Math.cos(theta*DEG),1.5*Math.sin(theta*DEG)), '#f44');
+
+  makeLine([new THREE.Vector3(-2,0,0), new THREE.Vector3(2,0,0)], 0xffff00, 2);
+  addLabel('Omega ^ chi', new THREE.Vector3(1.5,0.1,0), '#ff4');
+
+  const arcPts = [], arcR = 0.8;
+  for (let i = 0; i <= 30; i++) {
+    const a = (theta*i/30)*DEG;
+    arcPts.push(new THREE.Vector3(0, arcR*Math.cos(a), arcR*Math.sin(a)));
+  }
+  makeLine(arcPts, 0xffff44, 1);
+  addLabel(`theta = ${theta.toFixed(1)} deg`, new THREE.Vector3(0,arcR*0.8,arcR*0.3), '#ff4');
+
+  const rho = rho_null(theta);
+  makePoint(new THREE.Vector3(0,0.5*Math.cos(theta*DEG),0.5*Math.sin(theta*DEG)), theta>85?0xff0000:(theta>80?0xff8800:0x00ff88), 0.06);
+
+  return `theta(Omega,chi) = ${theta.toFixed(1)} deg\nrho_null = ${rho.toFixed(6)}\n${theta>85?'!! ВНУТРИ L_null — нуль-жидкость!':theta>80?'!! Пороговая зона (Круг Костей)':'Omega-доминирует (Порядок)'}`;
+};
+
+modes.w_calibration = function() {
+  const R_km = params.R, t = params.time, maxS = Math.PI * R_km;
+  const planetR = 1.5;
+  const planetPts = [];
+  for (let i = 0; i <= 100; i++) {
+    const a = TWO_PI*i/100;
+    planetPts.push(new THREE.Vector3(planetR*Math.cos(a), planetR*Math.sin(a), 0));
+  }
+  makeLine(planetPts, 0x446688, 1);
+
+  makePoint(new THREE.Vector3(0,planetR,0), 0xffffff, 0.06);
+  addLabel('Наблюдатель', new THREE.Vector3(0,planetR+0.2,0), '#fff');
+
+  const s = (t*500) % maxS;
+  const halfAngle = s/(2*R_km), surfAngle = 2*halfAngle;
+  const ptX = planetR*Math.sin(surfAngle), ptY = planetR*Math.cos(surfAngle);
+  const W = W_of_s(s, R_km);
+  const wColor = W>0.5?0x00ff88:(W>0.1?0xffaa00:0xff4444);
+  makePoint(new THREE.Vector3(ptX,ptY,0), wColor, 0.06);
+
+  const barH = W*1.5;
+  makeLine([new THREE.Vector3(2,0,0),new THREE.Vector3(2,barH,0)], wColor, 2);
+  addLabel(`W=${W.toFixed(4)}`, new THREE.Vector3(2.2,barH,0), W>0.5?'#0f8':'#fa0');
+  addLabel('W', new THREE.Vector3(2.2,1.6,0), '#888');
+
+  const arcPts = [];
+  for (let i = 0; i <= 30; i++) {
+    const a = surfAngle*i/30;
+    arcPts.push(new THREE.Vector3(planetR*Math.sin(a), planetR*Math.cos(a), 0));
+  }
+  makeLine(arcPts, 0xffff44, 1);
+
+  makePoint(new THREE.Vector3(0,-planetR,0), 0xff0000, 0.04);
+  addLabel('Антипод (W=0)', new THREE.Vector3(0,-planetR-0.2,0), '#f44');
+
+  const card = W>0.01?'U_W':'U_X / U_Y';
+  addLabel(`Карта: ${card}`, new THREE.Vector3(0,-0.5,0), '#7af');
+
+  return `s = ${s.toFixed(0)} км / ${maxS.toFixed(0)} км\nW(s) = cos(s/2R) = ${W.toFixed(6)}\nКарта: ${card}\nR = ${R_km} км (Этерия)`;
+};
+
+modes.null_fluid = function() {
+  const R = 1.5, theta = params.theta, t = params.time;
+  const sphereGeom = new THREE.SphereGeometry(R,32,32);
+  const sphereMat = new THREE.MeshBasicMaterial({ color: 0x334466, wireframe: true, transparent: true, opacity: 0.1 });
+  scene.add(new THREE.Mesh(sphereGeom, sphereMat));
+
+  const rho = rho_null(theta);
+  const ptAngle = theta*DEG, ptR = R*0.8;
+  const pt = new THREE.Vector3(ptR*Math.sin(ptAngle)*Math.cos(t*0.5), ptR*Math.cos(ptAngle), ptR*Math.sin(ptAngle)*Math.sin(t*0.5));
+  makePoint(pt, rho>0?0xff4444:0x44ff44, 0.08);
+
+  const conePts = [];
+  const coneR = R*Math.sin(85*DEG), coneH = R*Math.cos(85*DEG);
+  for (let i = 0; i <= 64; i++) {
+    const a = TWO_PI*i/64;
+    conePts.push(new THREE.Vector3(coneR*Math.cos(a), -coneH, coneR*Math.sin(a)));
+  }
+  makeLine(conePts, 0xff8800, 1);
+  addLabel('theta=85 (порог L_null)', new THREE.Vector3(0,-coneH-0.2,coneR), '#f80');
+
+  for (let i = 0; i < 150; i++) {
+    const a1 = Math.random()*TWO_PI, a2 = Math.random()*Math.PI, r = Math.random()*R;
+    const th = a2/DEG;
+    const lr = rho_null(th);
+    if (lr < 0.01) continue;
+    const c = new THREE.Color().setHSL(0,1,0.2+0.6*lr);
+    const g = new THREE.SphereGeometry(0.015,6,6);
+    const m = new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.3+0.5*lr });
+    const mesh = new THREE.Mesh(g, m);
+    mesh.position.set(r*Math.sin(a2)*Math.cos(a1), r*Math.cos(a2), r*Math.sin(a2)*Math.sin(a1));
+    scene.add(mesh);
+  }
+
+  addLabel(`Hol = ${theta>85?'-1 (нетривиально)':'1 (тривиально)'}`, new THREE.Vector3(0,-0.5,0), theta>85?'#f77':'#7f7');
+
+  return `theta = ${theta.toFixed(1)} deg\nrho_null = sin^2(${(theta-85).toFixed(1)} deg)*H = ${rho.toFixed(6)}\nn_null = i*n_Omega*sqrt(e_chi/e_Omega) (мнимый!)\ndelta_opt = 25.4 mkm\n${theta>85?'!! НУЛЬ-ЖИДКОСТЬ АКТИВНА':'Omega-область (Порядок)'}`;
+};
+
+modes.krug_kostei = function() {
+  const R = 1.5, t = params.time, N = 12, thetaK = 80*DEG;
+  const circleR = 1.0;
+  const circlePts = [];
+  for (let i = 0; i <= 100; i++) {
+    const a = TWO_PI*i/100;
+    circlePts.push(new THREE.Vector3(circleR*Math.cos(a),0,circleR*Math.sin(a)));
+  }
+  makeLine(circlePts, 0x888844, 1);
+
+  for (let k = 0; k < N; k++) {
+    const phi = TWO_PI*k/N;
+    const pos = new THREE.Vector3(circleR*Math.cos(phi), 0.3*Math.sin(t*0.5+k*TWO_PI/N), circleR*Math.sin(phi));
+    makePoint(pos, 0xdddddd, 0.06);
+    makePoint(pos.clone().add(new THREE.Vector3(0,0.15,0)), 0xff4444, 0.04);
+    addLabel(`${k+1}`, pos.clone().add(new THREE.Vector3(0,-0.15,0)), '#888');
+  }
+
+  makePoint(new THREE.Vector3(0,0,0), 0xffff00, 0.05);
+  addLabel('Круг Костей d=120m', new THREE.Vector3(0,-0.5,0), '#ff4');
+
+  for (let k = 0; k < N; k++) {
+    const phi = TWO_PI*k/N;
+    makeLine([new THREE.Vector3(0,0,0), new THREE.Vector3(circleR*Math.cos(phi),0,circleR*Math.sin(phi))], 0x442222, 1);
+  }
+
+  addLabel('theta ~ 80 (пороговая зона)', new THREE.Vector3(0,0.6,0), '#f80');
+  addLabel('Нокс: ядра -> абсорбированы', new THREE.Vector3(0,-0.8,0), '#f44');
+  addLabel('Кости -> на месте', new THREE.Vector3(0,-1.0,0), '#fa4');
+
+  return `12 chi-Левиафанов, d=120m\ntheta ~ 80 deg (порог L_null при 85)\n18.7 GHz x 100 (chi-резонанс)\nЯдра: абсорбированы Нокс\nКости: остались`;
+};
+
+modes.conjugation = function() {
+  const R = 1.5, t = params.time;
+  const sites = [
+    { name: 'Giza', lat: 29.9792, lon: 31.1342 },
+    { name: 'Stonehenge', lat: 51.1789, lon: -1.8262 },
+    { name: 'Kyiv', lat: 50.4543, lon: 30.5164 },
+    { name: 'Sector4', lat: 50.7876, lon: 26.1366 },
+    { name: 'Gobekli', lat: 37.2233, lon: 38.9224 },
+    { name: 'Baalbek', lat: 34.1847, lon: 36.2039 },
+    { name: 'Teotih.', lat: 19.6923, lon: -98.8438 },
+    { name: 'Ollant.', lat: -13.2588, lon: -72.2631 },
+    { name: 'PumaP.', lat: -17.1960, lon: -68.6760 },
+  ];
+
+  const sitePos = sites.map(s => {
+    const latR = s.lat*DEG, lonR = s.lon*DEG;
+    return new THREE.Vector3(R*Math.cos(latR)*Math.cos(lonR), R*Math.sin(latR), R*Math.cos(latR)*Math.sin(lonR));
+  });
+
+  const sphereGeom = new THREE.SphereGeometry(R,32,32);
+  const sphereMat = new THREE.MeshBasicMaterial({ color: 0x223344, wireframe: true, transparent: true, opacity: 0.08 });
+  scene.add(new THREE.Mesh(sphereGeom, sphereMat));
+
+  sites.forEach((s, i) => {
+    makePoint(sitePos[i], 0x77ff77, 0.04);
+    addLabel(s.name, sitePos[i].clone().normalize().multiplyScalar(R+0.2), '#7f7');
+  });
+
+  makeLine([sitePos[2], sitePos[3]], 0xffff00, 2);
+
+  const kyiv = sites[2], s4 = sites[3];
+  const dlon = (s4.lon - kyiv.lon)*DEG;
+  const a1 = kyiv.lat*DEG, a2 = s4.lat*DEG;
+  const gcd = Math.acos(Math.sin(a1)*Math.sin(a2)+Math.cos(a1)*Math.cos(a2)*Math.cos(dlon));
+  const dFS = gcd/2;
+  const sE = 2*6378*dFS, sEt = 2*5838.4*dFS;
+
+  addLabel(`d_FS ~ ${(dFS/DEG).toFixed(2)} deg`, new THREE.Vector3(0,-0.3,0), '#ff4');
+  addLabel(`s_phys(Earth) = ${sE.toFixed(0)} km`, new THREE.Vector3(0,-0.5,0), '#7af');
+  addLabel(`s_phys(Eteria) = ${sEt.toFixed(0)} km`, new THREE.Vector3(0,-0.7,0), '#7af');
+  addLabel('Kyiv = Sector4 в P3', new THREE.Vector3(0,-0.9,0), '#ff4');
+
+  return `Kyiv<->Sector4 конъюгация:\nd_FS ~ ${(dFS/DEG).toFixed(2)} deg\ns_phys(Earth) ~ ${sE.toFixed(0)} km\ns_phys(Eteria) ~ ${sEt.toFixed(0)} km\nТОЖДЕСТВЕННЫ в P3`;
+};
+
+// ============================================================
+// CHARTS
+// ============================================================
+
+function drawChartW() {
+  const canvas = document.getElementById('chart-w');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth*2; canvas.height = canvas.offsetHeight*2;
+  const w = canvas.width, h = canvas.height;
+  const R_km = params.R, maxS = Math.PI*R_km;
+  ctx.fillStyle = '#0a0a0f'; ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle = '#333'; ctx.beginPath();
+  ctx.moveTo(30,h-20); ctx.lineTo(w-10,h-20); ctx.moveTo(30,10); ctx.lineTo(30,h-20); ctx.stroke();
+  ctx.fillStyle = '#888'; ctx.font = '10px monospace';
+  ctx.fillText('s (km)', w-50, h-5); ctx.fillText('W', 5, 15);
+  ctx.fillText('0', 15, h-25); ctx.fillText('1', 15, 25);
+  ctx.strokeStyle = '#7f7'; ctx.lineWidth = 2; ctx.beginPath();
+  for (let i = 0; i <= w-40; i++) {
+    const s = (i/(w-40))*maxS, W = W_of_s(s, R_km);
+    const x = 30+i, y = (h-20)-W*(h-40);
+    if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  const sCur = params.s, WCur = W_of_s(sCur, R_km);
+  const xCur = 30+(sCur/maxS)*(w-40), yCur = (h-20)-WCur*(h-40);
+  ctx.fillStyle = '#ff4'; ctx.beginPath(); ctx.arc(xCur,yCur,4,0,TWO_PI); ctx.fill();
+  ctx.strokeStyle = '#f44'; ctx.setLineDash([4,4]); ctx.beginPath();
+  ctx.moveTo(30,h-20); ctx.lineTo(w-10,h-20); ctx.stroke(); ctx.setLineDash([]);
+}
+
+function drawChartRho() {
+  const canvas = document.getElementById('chart-rho');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth*2; canvas.height = canvas.offsetHeight*2;
+  const w = canvas.width, h = canvas.height;
+  ctx.fillStyle = '#0a0a0f'; ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle = '#333'; ctx.beginPath();
+  ctx.moveTo(30,h-20); ctx.lineTo(w-10,h-20); ctx.moveTo(30,10); ctx.lineTo(30,h-20); ctx.stroke();
+  ctx.fillStyle = '#888'; ctx.font = '10px monospace';
+  ctx.fillText('theta (deg)', w-60, h-5); ctx.fillText('rho', 5, 15);
+  ctx.strokeStyle = '#f77'; ctx.lineWidth = 2; ctx.beginPath();
+  for (let i = 0; i <= w-40; i++) {
+    const theta = (i/(w-40))*90, rho = rho_null(theta);
+    const x = 30+i, y = (h-20)-rho*(h-40);
+    if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  const x85 = 30+(85/90)*(w-40);
+  ctx.strokeStyle = '#f80'; ctx.setLineDash([4,4]); ctx.beginPath();
+  ctx.moveTo(x85,10); ctx.lineTo(x85,h-20); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = '#f80'; ctx.fillText('85', x85-5, h-5);
+  const thetaCur = params.theta, rhoCur = rho_null(thetaCur);
+  const xCur = 30+(thetaCur/90)*(w-40), yCur = (h-20)-rhoCur*(h-40);
+  ctx.fillStyle = '#ff4'; ctx.beginPath(); ctx.arc(xCur,yCur,4,0,TWO_PI); ctx.fill();
+}
+
+function drawChartZ2Z() {
+  const canvas = document.getElementById('chart-z2z');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth*2; canvas.height = canvas.offsetHeight*2;
+  const w = canvas.width, h = canvas.height, t = params.time;
+  ctx.fillStyle = '#0a0a0f'; ctx.fillRect(0,0,w,h);
+  const cx = w/2, cy = h/2, r = Math.min(w,h)*0.35;
+  ctx.strokeStyle = '#335'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(cx,cy,r,0,TWO_PI); ctx.stroke();
+  const loopT = (t*0.3)%2, angle = Math.PI*loopT;
+  ctx.strokeStyle = loopT<=1?'#ff4':'#4ff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(cx,cy,r,0,-angle,true); ctx.stroke();
+  const px = cx+r*Math.cos(angle), py = cy-r*Math.sin(angle);
+  ctx.fillStyle = loopT<=1?'#ff4':'#4ff'; ctx.beginPath(); ctx.arc(px,py,5,0,TWO_PI); ctx.fill();
+  const ax = cx-r*Math.cos(angle), ay = cy+r*Math.sin(angle);
+  ctx.fillStyle = '#f77'; ctx.beginPath(); ctx.arc(ax,ay,4,0,TWO_PI); ctx.fill();
+  ctx.strokeStyle = '#555'; ctx.setLineDash([2,2]); ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(ax,ay); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = '#7f7'; ctx.font = '11px monospace';
+  ctx.fillText(loopT<=1?'Hol = -1 (1 оборот)':'Hol = +1 (2 оборота)', 10, h-10);
+  ctx.fillText(`Обход: ${loopT.toFixed(2)}/2`, 10, 15);
+}
+
+// ============================================================
+// UI
+// ============================================================
+
+document.querySelectorAll('#mode-buttons .btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#mode-buttons .btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    params.mode = btn.dataset.mode;
+  });
+});
+
+function bindSlider(id, key) {
+  const sl = document.getElementById(id);
+  const sv = document.getElementById(id.replace('sl-','sv-'));
+  sl.addEventListener('input', () => {
+    params[key] = parseFloat(sl.value);
+    sv.textContent = key==='theta' ? params[key].toFixed(1) : key==='speed' ? params[key].toFixed(1) : params[key].toFixed(0);
+  });
+}
+bindSlider('sl-radius','R');
+bindSlider('sl-distance','s');
+bindSlider('sl-theta','theta');
+bindSlider('sl-speed','speed');
+
+function onResize() {
+  const rect = container.getBoundingClientRect();
+  camera.aspect = rect.width / rect.height;
+  camera.updateProjectionMatrix();
+  renderer.setSize(rect.width, rect.height);
+}
+window.addEventListener('resize', onResize);
+onResize();
+
+// ============================================================
+// LOOP
+// ============================================================
+
+function animate() {
+  requestAnimationFrame(animate);
+  params.time += 0.016 * params.speed;
+  clearScene();
+  updateCamera();
+  const modeFn = modes[params.mode];
+  let readoutText = modeFn ? modeFn() : '';
+  document.getElementById('hud-mode').textContent = `P3 | ${params.mode}`;
+  document.getElementById('readout').innerHTML = readoutText ? readoutText.split('\n').map(l=>`<div>${l}</div>`).join('') : '';
+  drawChartW();
+  drawChartRho();
+  drawChartZ2Z();
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+</body>
+</html>
