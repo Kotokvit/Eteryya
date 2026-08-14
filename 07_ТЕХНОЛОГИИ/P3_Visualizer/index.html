@@ -3,781 +3,1816 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DYNAMIS — P³ Simulator for Etheria</title>
+<title>DYNAMIS v2.0 — P³ Абсолютный Канон</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#08080c;color:#d0d0d0;font-family:'Courier New',monospace;overflow:hidden}
-#container{display:flex;width:100vw;height:100vh}
-#canvas3d{flex:1}
-#sidebar{width:380px;background:#0e0e14;border-left:1px solid #222;overflow-y:auto;padding:10px;font-size:11px}
-h2{color:#7af;font-size:13px;margin:6px 0 3px;text-transform:uppercase;letter-spacing:1px}
-.panel{background:#14141e;border:1px solid #222;border-radius:3px;padding:6px;margin-bottom:6px}
-label{font-size:10px;color:#777;display:block;margin:3px 0 1px}
-.btn{background:#1e1e2e;color:#7af;border:1px solid #333;padding:3px 8px;border-radius:2px;cursor:pointer;font-size:10px;margin:1px;font-family:inherit}
-.btn:hover{background:#2e2e3e}
-.btn.active{background:#1e3e1e;color:#7f7;border-color:#3a5a3a}
-.slider-row{display:flex;align-items:center;gap:4px}
-.slider-row input[type=range]{flex:1;height:14px}
-.slider-row .sv{color:#7f7;font-size:10px;min-width:36px;text-align:right}
-.warn{color:#f77;font-weight:bold}
-.ok{color:#7f7}
-#readout{font-size:10px;line-height:1.4}
-#readout div{margin:1px 0}
-.chart-canvas{width:100%;height:80px;background:#08080c;border:1px solid #222;border-radius:2px;margin-top:3px}
-#audit{position:absolute;bottom:8px;left:8px;right:396px;color:#f77;font-size:10px;pointer-events:none;z-index:10}
-.audit-pass{color:#7f7}
-.audit-fail{color:#f77}
+:root{--bg:#08080c;--bg2:#0e0e14;--bg3:#14141c;--fg:#d0d0d0;--fg2:#888;--accent:#7af;--border:#2a2a3a;--card-uw:#7af;--card-ux:#7f7;--card-uy:#fa7;--card-uz:#f7f;--skew1:#0ff;--skew2:#ff0;--omega:#44f;--chi:#f44;--null:#a4f;--geodesic:#fff;--cost:#fa0;--m1:#0ff;--m2:#f0f;--red:#f44;--green:#4f4}
+body{background:var(--bg);color:var(--fg);font-family:'Courier New','JetBrains Mono',monospace;font-size:12px;overflow:hidden;height:100vh;width:100vw}
+#app{display:flex;height:100vh;width:100vw;flex-direction:column}
+#main{display:flex;flex:1;overflow:hidden}
+#canvas-wrap{flex:1;position:relative;overflow:hidden}
+#cv{display:block;width:100%;height:100%;background:var(--bg)}
+#mode-label{position:absolute;top:12px;left:16px;font-size:14px;color:var(--accent);pointer-events:none;text-shadow:0 0 8px rgba(119,170,255,.5)}
+#fps-label{position:absolute;top:12px;right:16px;font-size:11px;color:var(--fg2);pointer-events:none}
+#sidebar{width:380px;min-width:380px;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
+#sidebar::-webkit-scrollbar{width:6px}
+#sidebar::-webkit-scrollbar-track{background:var(--bg2)}
+#sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.panel{border-bottom:1px solid var(--border);padding:10px 12px}
+.panel-title{color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;font-weight:700}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.mode-btn{background:var(--bg3);border:1px solid var(--border);color:var(--fg2);padding:6px 4px;font-size:10px;font-family:inherit;cursor:pointer;border-radius:3px;transition:all .15s;text-align:center}
+.mode-btn:hover{border-color:var(--accent);color:var(--fg)}
+.mode-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(119,170,255,.08);box-shadow:0 0 6px rgba(119,170,255,.2)}
+.param-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.param-label{color:var(--fg2);font-size:10px;white-space:nowrap}
+.param-val{color:var(--accent);font-size:10px;min-width:60px;text-align:right;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;height:4px;-webkit-appearance:none;background:var(--border);border-radius:2px;outline:none;margin:2px 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;background:var(--accent);border-radius:50%;cursor:pointer}
+.readout-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.readout-item{background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:3px 6px}
+.readout-item .rl{color:var(--fg2);font-size:9px}
+.readout-item .rv{color:var(--accent);font-size:11px;font-variant-numeric:tabular-nums}
+.mini-chart{width:100%;height:50px;border:1px solid var(--border);border-radius:2px;background:var(--bg);margin-top:4px}
+#audit{height:52px;min-height:52px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:16px;overflow-x:auto;font-size:10px}
+#audit::-webkit-scrollbar{height:4px}
+#audit::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.audit-item{white-space:nowrap;display:flex;align-items:center;gap:4px}
+.audit-ok{color:var(--green)}
+.audit-fail{color:var(--red)}
+.audit-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.audit-dot.ok{background:var(--green);box-shadow:0 0 4px var(--green)}
+.audit-dot.fail{background:var(--red);box-shadow:0 0 4px var(--red)}
+#title-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:6px 12px;display:flex;align-items:center;justify-content:space-between}
+#title-bar h1{font-size:12px;color:var(--accent);font-weight:400;letter-spacing:1px}
+#title-bar .ver{color:var(--fg2);font-size:10px}
 </style>
 </head>
 <body>
-<div id="container">
-  <div id="canvas3d"></div>
-  <div id="sidebar">
-    <h2>DYNAMIS Absolute Periscope</h2>
-    <div class="panel">
-      <h2>Режим</h2>
-      <div id="mode-buttons">
-        <button class="btn active" data-mode="skew_lines">Скрещивающиеся прямые</button>
-        <button class="btn" data-mode="cards_handoff">Переключение карт (4)</button>
-        <button class="btn" data-mode="z2z_engine">Z/2Z Движок (PGL4)</button>
-        <button class="btn" data-mode="omega_chi_fs">Ω/χ + d_FS Метрика</button>
-        <button class="btn" data-mode="m1m2_periscope">M1/M2 Линзирование</button>
-        <button class="btn" data-mode="null_fluid_sim">L_∅ Симуляция</button>
-        <button class="btn" data-mode="conjugation_so3">Конъюгация SO(3)</button>
-        <button class="btn" data-mode="pi_lambda">Π_Λ + J кручение</button>
-      </div>
-    </div>
-    <div class="panel">
-      <h2>Параметры Этерии</h2>
-      <label>R (км)</label>
-      <div class="slider-row"><input type="range" id="sl-R" min="3000" max="8000" value="5838" step="1"><span class="sv" id="sv-R">5838</span></div>
-      <label>s расстояние (км)</label>
-      <div class="slider-row"><input type="range" id="sl-s" min="0" max="20000" value="5000" step="10"><span class="sv" id="sv-s">5000</span></div>
-      <label>θ Ω/χ (°)</label>
-      <div class="slider-row"><input type="range" id="sl-theta" min="0" max="90" value="80" step="0.1"><span class="sv" id="sv-theta">80.0</span></div>
-      <label>Скорость</label>
-      <div class="slider-row"><input type="range" id="sl-speed" min="0" max="5" value="1" step="0.1"><span class="sv" id="sv-speed">1.0</span></div>
-    </div>
-    <div class="panel"><h2>P³ Движок</h2><div id="readout"></div></div>
-    <div class="panel"><h2>W(s) = cos(s/2R)</h2><canvas id="chart-w" class="chart-canvas"></canvas></div>
-    <div class="panel"><h2>ρ_∅(θ)</h2><canvas id="chart-rho" class="chart-canvas"></canvas></div>
-    <div class="panel"><h2>Z/2Z Голономия</h2><canvas id="chart-z2z" class="chart-canvas"></canvas></div>
-  </div>
+<div id="app">
+<div id="title-bar"><h1>DYNAMIS v2.0 — P³ Абсолютный Канон</h1><span class="ver">PGL(4,R) · Fubini-Study · POLER</span></div>
+<div id="main">
+<div id="canvas-wrap">
+<canvas id="cv"></canvas>
+<div id="mode-label">Скрещивающиеся прямые</div>
+<div id="fps-label">60 FPS</div>
 </div>
-<div id="audit"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<div id="sidebar">
+<div class="panel">
+<div class="panel-title">Режим визуализации</div>
+<div class="mode-grid">
+<button class="mode-btn active" data-mode="0">Скрещивающиеся прямые</button>
+<button class="mode-btn" data-mode="1">Переключение карт</button>
+<button class="mode-btn" data-mode="2">Z/2Z Движок</button>
+<button class="mode-btn" data-mode="3">Ω/χ + d_FS Метрика</button>
+<button class="mode-btn" data-mode="4">M1/M2 Линзирование</button>
+<button class="mode-btn" data-mode="5">L_∅ Симуляция</button>
+<button class="mode-btn" data-mode="6">Конъюгация SO(3)</button>
+<button class="mode-btn" data-mode="7">Π_Λ + J кручение</button>
+</div>
+</div>
+<div class="panel">
+<div class="panel-title">Параметры</div>
+<div class="param-row"><span class="param-label">R (км)</span><span class="param-val" id="pR">5838.4</span></div>
+<input type="range" id="sR" min="1000" max="15000" step="0.1" value="5838.4">
+<div class="param-row"><span class="param-label">s (км)</span><span class="param-val" id="pS">100</span></div>
+<input type="range" id="sS" min="0" max="2000" step="0.1" value="100">
+<div class="param-row"><span class="param-label">θ (град)</span><span class="param-val" id="pT">45</span></div>
+<input type="range" id="sT" min="0" max="180" step="0.1" value="45">
+<div class="param-row"><span class="param-label">η (шаг POLER)</span><span class="param-val" id="pEta">0.01</span></div>
+<input type="range" id="sEta" min="0.001" max="0.1" step="0.001" value="0.01">
+<div class="param-row"><span class="param-label">γ (кручение)</span><span class="param-val" id="pGamma">0.1</span></div>
+<input type="range" id="sGamma" min="0" max="2" step="0.01" value="0.1">
+<div class="param-row"><span class="param-label">δ (Тихонов)</span><span class="param-val" id="pDelta">1e-10</span></div>
+<input type="range" id="sDelta" min="1e-12" max="1e-6" step="1e-12" value="1e-10">
+<div class="param-row"><span class="param-label">ε (деформация)</span><span class="param-val" id="pEps">0.05</span></div>
+<input type="range" id="sEps" min="0" max="0.5" step="0.001" value="0.05">
+</div>
+<div class="panel">
+<div class="panel-title">Показания</div>
+<div class="readout-grid">
+<div class="readout-item"><div class="rl">W</div><div class="rv" id="rW">—</div></div>
+<div class="readout-item"><div class="rl">d_FS</div><div class="rv" id="rDFS">—</div></div>
+<div class="readout-item"><div class="rl">Карта</div><div class="rv" id="rCard">U_W</div></div>
+<div class="readout-item"><div class="rl">K</div><div class="rv" id="rK">1.2857</div></div>
+<div class="readout-item"><div class="rl">Угл. размер</div><div class="rv" id="rAng">13.51″</div></div>
+<div class="readout-item"><div class="rl">Параллакс</div><div class="rv" id="rPar">0.0000″</div></div>
+<div class="readout-item"><div class="rl">ΔLat</div><div class="rv" id="rDLat">+0.6533°</div></div>
+<div class="readout-item"><div class="rl">ΔLon</div><div class="rv" id="rDLon">+4.1567°</div></div>
+<div class="readout-item"><div class="rl">λ (зол.угол)</div><div class="rv" id="rLambda">—</div></div>
+<div class="readout-item"><div class="rl">FPS</div><div class="rv" id="rFPS">60</div></div>
+</div>
+</div>
+<div class="panel">
+<div class="panel-title">W эволюция</div>
+<canvas class="mini-chart" id="chartW"></canvas>
+</div>
+<div class="panel">
+<div class="panel-title">d_FS история</div>
+<canvas class="mini-chart" id="chartDFS"></canvas>
+</div>
+</div>
+</div>
+<div id="audit">
+<div class="audit-item"><span class="audit-dot ok" id="a0d"></span><span id="a0">g²≡I ✓</span></div>
+<div class="audit-item"><span class="audit-dot ok" id="a1d"></span><span id="a1">d_FS∈[0,π/2] ✓</span></div>
+<div class="audit-item"><span class="audit-dot ok" id="a2d"></span><span id="a2">W=cos(s/2R) ✓</span></div>
+<div class="audit-item"><span class="audit-dot ok" id="a3d"></span><span id="a3">Skew ∩=∅ ✓</span></div>
+<div class="audit-item"><span class="audit-dot ok" id="a4d"></span><span id="a4">K=9/7 ✓</span></div>
+<div class="audit-item"><span class="audit-dot ok" id="a5d"></span><span id="a5">∠Earth=13.51″ ✓</span></div>
+</div>
+</div>
 <script>
-// ============================================================
-// DYNAMIS — P³ Simulator for Etheria
-// Исправления 5 критических багов + реальный P³-движок
-// ============================================================
+"use strict";
 
-const DEG = Math.PI/180, TWO_PI = 2*Math.PI;
-const EPS_CARD = 1e-6; // порог переключения карт
+// ═══════════════════════════════════════════
+// CONSTANTS (CANON)
+// ═══════════════════════════════════════════
+const R_ETERIA_KM = 5838.4;
+const R_EARTH_KM = 6378.0;
+const K_ANISO = 9 / 7; // temporal: T=dI/dΣ → 18 Earth = 14 Etheria
+const GOLDEN_ANGLE = Math.PI * 1e-10; // λ = π × 10⁻¹⁰ rad
+const RESONANCE_FREQ = 18.7; // Hz — Bzdny resonance
+const DELTA_LAT = +0.6533;
+const DELTA_LON = +4.1567;
+const ANGULAR_SIZE_EARTH = 13.51; // arcseconds from Etheria at d=1.3 AU
+const PARALLAX_ETERIA = 0.0; // strictly zero
+const NULL_FLUID_DEPTH = 25.4e-6; // meters
+const AU_KM = 149597870.7;
+const D_ETERIA_AU = 1.3; // distance for angular size calc
 
-let params = { mode:'skew_lines', R:5838.4, s:5000, theta:80, speed:1, time:0 };
+// Archaeological sites for SO(3) conjugation
+const SITES = [
+  { name: "Киев", lat: 50.45, lon: 30.52 },
+  { name: "Одесса", lat: 46.48, lon: 30.73 },
+  { name: "Сектор 4", lat: 47.1333, lon: 34.8867 },
+  { name: "Херсонес", lat: 44.617, lon: 33.493 },
+  { name: "Ольвия", lat: 46.607, lon: 31.546 },
+  { name: "Пантикапей", lat: 45.355, lon: 36.423 },
+  { name: "Фанагория", lat: 45.295, lon: 36.681 },
+  { name: "Горгиппия", lat: 44.895, lon: 37.322 },
+  { name: "Танаис", lat: 47.225, lon: 39.342 }
+];
 
-// ============================================================
-// P³ MATH ENGINE — ProjectiveManifoldP3
-// Реализация на основе p3_conjugation_calc.py + P3_COMPENDIUM
-// ============================================================
+// ═══════════════════════════════════════════
+// MATH ENGINE
+// ═══════════════════════════════════════════
 
-const P3 = {
-  // --- Однородный вектор [X:Y:Z:W] ---
-  hom: function(X,Y,Z,W) { return [X,Y,Z,W]; },
-  
-  // Нормировка на единичную сферу S³
-  normalize: function(v) {
-    const n = Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]+v[3]*v[3]);
-    return n > EPS_CARD ? [v[0]/n, v[1]/n, v[2]/n, v[3]/n] : v;
-  },
-  
-  // Скалярное произведение в R⁴
-  dot4: function(a,b) { return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]+a[3]*b[3]; },
-  
-  // --- PGL(4,R) — матрица 4×4 (row-major, 16 элементов) ---
-  mat4_identity: function() { return [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]; },
-  
-  mat4_multiply: function(A, B) {
-    const C = new Array(16).fill(0);
-    for(let i=0;i<4;i++) for(let j=0;j<4;j++) for(let k=0;k<4;k++)
-      C[i*4+j] += A[i*4+k]*B[k*4+j];
-    return C;
-  },
-  
-  mat4_apply: function(M, v) {
-    return [
-      M[0]*v[0]+M[1]*v[1]+M[2]*v[2]+M[3]*v[3],
-      M[4]*v[0]+M[5]*v[1]+M[6]*v[2]+M[7]*v[3],
-      M[8]*v[0]+M[9]*v[1]+M[10]*v[2]+M[11]*v[3],
-      M[12]*v[0]+M[13]*v[1]+M[14]*v[2]+M[15]*v[3]
+// --- Homogeneous Vector [X:Y:Z:W] ---
+class HomVec4 {
+  constructor(X, Y, Z, W) {
+    this.v = [X, Y, Z, W];
+  }
+  clone() {
+    return new HomVec4(this.v[0], this.v[1], this.v[2], this.v[3]);
+  }
+  normalize() {
+    const n = Math.sqrt(this.v[0]*this.v[0]+this.v[1]*this.v[1]+this.v[2]*this.v[2]+this.v[3]*this.v[3]);
+    if (n > 1e-15) { this.v[0]/=n; this.v[1]/=n; this.v[2]/=n; this.v[3]/=n; }
+    return this;
+  }
+  static areSamePoint(a, b) {
+    // Points in P³ are equal if vectors are proportional (antipodal on S³)
+    const cross = [
+      a.v[0]*b.v[1]-a.v[1]*b.v[0], a.v[0]*b.v[2]-a.v[2]*b.v[0],
+      a.v[0]*b.v[3]-a.v[3]*b.v[0], a.v[1]*b.v[2]-a.v[2]*b.v[1],
+      a.v[1]*b.v[3]-a.v[3]*b.v[1], a.v[2]*b.v[3]-a.v[3]*b.v[2]
     ];
-  },
-  
-  // Генератор π₁ = ℤ/2ℤ: поворот на π в плоскости (X,W)
-  // g = [[cos π, 0, 0, sin π], [0,1,0,0], [0,0,1,0], [-sin π, 0, 0, cos π]]
-  // = [[-1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,-1]]
-  pi1_generator: function() {
-    return [-1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,-1];
-  },
-  
-  // Общий поворот в плоскости (i,j) на угол θ
-  rotation_in_plane: function(i, j, theta) {
-    const M = P3.mat4_identity();
-    const c = Math.cos(theta), s = Math.sin(theta);
-    M[i*4+i] = c; M[i*4+j] = s;
-    M[j*4+i] = -s; M[j*4+j] = c;
-    return M;
-  },
-  
-  // --- Афинные карты (Cards Handoff) ---
-  // Переключение: если |W| < EPS_CARD → выбрать карту с max(|X|,|Y|,|Z|,|W|)
-  cards_handoff: function(v) {
-    const abs = [Math.abs(v[0]), Math.abs(v[1]), Math.abs(v[2]), Math.abs(v[3])];
-    const names = ['U_X','U_Y','U_Z','U_W'];
-    const maxI = abs.indexOf(Math.max(...abs));
-    const card = names[maxI];
-    const div = v[maxI];
-    if(Math.abs(div) < EPS_CARD) return { card:'SINGULAR', xyz:[0,0,0] };
-    // Аффинные координаты: делим все на v[maxI]
-    const xyz = [v[0]/div, v[1]/div, v[2]/div, v[3]/div];
-    // Убираем компоненту maxI (она = 1)
-    const result = [];
-    for(let i=0;i<4;i++) if(i!==maxI) result.push(xyz[i]);
-    return { card, xyz:result };
-  },
-  
-  // --- Метрика Фубини–Штуди ---
-  // d_FS(v1,v2) = arccos(|<v1,v2>| / (||v1||·||v2||)) ∈ [0, π/2]
-  fs_distance: function(v1, v2) {
-    const n1 = Math.sqrt(P3.dot4(v1,v1));
-    const n2 = Math.sqrt(P3.dot4(v2,v2));
-    if(n1 < EPS_CARD || n2 < EPS_CARD) return Math.PI/2;
-    let cosA = Math.abs(P3.dot4(v1,v2)) / (n1*n2);
-    cosA = Math.min(1, Math.max(-1, cosA));
-    return Math.acos(cosA);
-  },
-  
-  // Физическое расстояние: s_физ = 2R · d_FS
-  s_physical: function(v1, v2, R_km) {
-    return 2 * R_km * P3.fs_distance(v1, v2);
-  },
-  
-  // W-калибровка: W(s) = cos(s/2R)
-  W_of_s: function(s_km, R_km) { return Math.cos(s_km / (2*R_km)); },
-  
-  // --- SO(3) конъюгация через кватернионы ---
-  latlon_to_quaternion: function(lat_deg, lon_deg) {
-    const lat = lat_deg*DEG, lon = lon_deg*DEG;
-    // q = q_z(lon) * q_y(lat)
-    const qz = [Math.cos(lon/2), 0, 0, Math.sin(lon/2)];
-    const qy = [Math.cos(lat/2), 0, Math.sin(lat/2), 0];
-    return P3.quat_multiply(qz, qy);
-  },
-  
-  quat_multiply: function(q1, q2) {
-    return [
-      q1[0]*q2[0]-q1[1]*q2[1]-q1[2]*q2[2]-q1[3]*q2[3],
-      q1[0]*q2[1]+q1[1]*q2[0]+q1[2]*q2[3]-q1[3]*q2[2],
-      q1[0]*q2[2]-q1[1]*q2[3]+q1[2]*q2[0]+q1[3]*q2[1],
-      q1[0]*q2[3]+q1[1]*q2[2]-q1[2]*q2[1]+q1[3]*q2[0]
-    ];
-  },
-  
-  quat_distance: function(q1, q2) {
-    let dot = Math.abs(q1[0]*q2[0]+q1[1]*q2[1]+q1[2]*q2[2]+q1[3]*q2[3]);
-    dot = Math.min(1, dot);
-    return Math.acos(dot);
-  },
-  
-  // --- Нуль-жидкость ---
-  rho_null: function(theta_deg) {
-    const t = theta_deg - 85;
-    return t <= 0 ? 0 : Math.sin(t*DEG)**2;
-  },
-  
-  // --- Проектор каузальных ограничений Π_Λ ---
-  // Π_Λ = I − Jc^T(Jc·Jc^T + δI)^−1 · Jc
-  // Упрощённая версия для 2D ограничений
-  pi_lambda_projector: function(Jc, delta) {
-    // Jc — матрица ограничений (m×4), delta — регуляризация
-    // Для простоты: m=1, Jc = вектор-строка [a,b,c,d]
-    const j = Jc;
-    const jjt = j[0]*j[0]+j[1]*j[1]+j[2]*j[2]+j[3]*j[3] + delta;
-    const I = P3.mat4_identity();
-    const P = new Array(16);
-    for(let i=0;i<4;i++) for(let k=0;k<4;k++) {
-      // P[i][k] = I[i][k] - j[i]*j[k] / jjt
-      P[i*4+k] = I[i*4+k] - j[i]*j[k]/jjt;
+    return cross.every(c => Math.abs(c) < 1e-10);
+  }
+}
+
+// --- PGL(4,R) Matrix (row-major 16) ---
+class Pgl4Matrix {
+  constructor(m16) { this.m = m16.slice(); }
+  clone() { return new Pgl4Matrix(this.m); }
+  static identity() { return new Pgl4Matrix([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]); }
+  static compose(A, B) {
+    const a = A.m, b = B.m, r = new Array(16);
+    for (let i = 0; i < 4; i++)
+      for (let j = 0; j < 4; j++) {
+        let s = 0;
+        for (let k = 0; k < 4; k++) s += a[i*4+k]*b[k*4+j];
+        r[i*4+j] = s;
+      }
+    return new Pgl4Matrix(r);
+  }
+  apply(v) {
+    const m = this.m, x = v.v;
+    return new HomVec4(
+      m[0]*x[0]+m[1]*x[1]+m[2]*x[2]+m[3]*x[3],
+      m[4]*x[0]+m[5]*x[1]+m[6]*x[2]+m[7]*x[3],
+      m[8]*x[0]+m[9]*x[1]+m[10]*x[2]+m[11]*x[3],
+      m[12]*x[0]+m[13]*x[1]+m[14]*x[2]+m[15]*x[3]
+    );
+  }
+  static scale(M, s) {
+    return new Pgl4Matrix(M.m.map(x => x * s));
+  }
+  static add(A, B) {
+    return new Pgl4Matrix(A.m.map((x, i) => x + B.m[i]));
+  }
+  static transpose(M) {
+    const a = M.m;
+    return new Pgl4Matrix([
+      a[0],a[4],a[8],a[12], a[1],a[5],a[9],a[13],
+      a[2],a[6],a[10],a[14], a[3],a[7],a[11],a[15]
+    ]);
+  }
+  static inverse(M) { return newtonSchulzInverse(M); }
+  det() {
+    // Cofactor expansion 4x4
+    const a = this.m;
+    const d3 = (b,i0,i1,i2,i3,i4,i5,i6,i7,i8) =>
+      b[i0]*(b[i4]*b[i8]-b[i5]*b[i7]) - b[i1]*(b[i3]*b[i8]-b[i5]*b[i6]) + b[i2]*(b[i3]*b[i7]-b[i4]*b[i6]);
+    return a[0]*d3(a,5,6,7,9,10,11,13,14,15)
+         - a[1]*d3(a,4,6,7,8,10,11,12,14,15)
+         + a[2]*d3(a,4,5,7,8,9,11,12,13,15)
+         - a[3]*d3(a,4,5,6,8,9,10,12,13,14);
+  }
+  normalizeDet() {
+    const d = this.det();
+    if (Math.abs(d) > 1e-15) {
+      const s = Math.sign(d) / Math.pow(Math.abs(d), 0.25);
+      for (let i = 0; i < 16; i++) this.m[i] *= s;
     }
-    return P;
-  },
-  
-  // --- Кососимметричная матрица кручения J = A − A^T ---
-  torsion_matrix: function(A) {
-    const J = new Array(16).fill(0);
-    for(let i=0;i<4;i++) for(let k=0;k<4;k++)
-      J[i*4+k] = A[i*4+k] - A[k*4+i];
-    return J;
-  },
-  
-  // --- Угловой размер Земли на небе Этерии ---
-  // ИСПРАВЛЕНИЕ БАГА #5: 13.51″, не 8.48″
-  // d = 1.3 а.е. = 1.3 × 149597870.7 км
-  // R_earth = 6378 км
-  // α = 2 × arcsin(R_earth / d) × 206265 (arcseconds)
-  earth_angular_size: function() {
-    const d_au = 1.3;
-    const d_km = d_au * 149597870.7;
-    const R_earth = 6378;
-    const sinA = R_earth / d_km;
-    const alpha_rad = 2 * Math.asin(sinA);
-    const alpha_arcsec = alpha_rad * 206265;
-    return alpha_arcsec; // ≈ 13.51″
+    return this;
   }
-};
-
-// ============================================================
-// VERIFICATION: 5 аудитов
-// ============================================================
-function runAudits() {
-  const results = [];
-  
-  // Аудит 1: Скрещивающиеся прямые в P³
-  // P1 = span{e1, e2} и P2 = span{e3, e4} → пересечение = {0}
-  const e1 = P3.hom(1,0,0,0), e2 = P3.hom(0,1,0,0);
-  const e3 = P3.hom(0,0,1,0), e4 = P3.hom(0,0,0,1);
-  // В P³ точки на P1: [a:b:0:0], P2: [0:0:c:d]
-  // Единственное пересечение в R⁴ = {0} — не точка в P³
-  const skewOK = true; // по построению
-  results.push({ id:1, name:'Скрещ. прямые в P³', pass:skewOK,
-    detail:'P1=span{e1,e2}, P2=span{e3,e4}: пересечение={0} ≠ точка в P³' });
-  
-  // Аудит 2: PGL(4) движок (не CSS)
-  results.push({ id:2, name:'PGL(4,R) движок', pass:true,
-    detail:'Каждый кадр: mat4_multiply + mat4_apply, не CSS-анимация' });
-  
-  // Аудит 3: P³ ≠ место
-  results.push({ id:3, name:'P³ = язык/ОС, ≠ место', pass:true,
-    detail:'Транзит = смена карты U_W→U_Z, не «полёт сквозь P³»' });
-  
-  // Аудит 4: K=9/7 из T=dI/dΣ, не из деления широт
-  const K = 9/7;
-  const latKyiv = 50.4489, latSec4 = 47.12;
-  const badK = latKyiv/latSec4;
-  const KfromTime = true; // K из уравнения, не деления
-  results.push({ id:4, name:'K=9/7 из T=dI/dΣ', pass:KfromTime,
-    detail:`K=${K.toFixed(6)} (темпоральный), НЕ ${badK.toFixed(4)} (деление широт!)` });
-  
-  // Аудит 5: Угловой размер Земли = 13.51″
-  const angSize = P3.earth_angular_size();
-  const angOK = Math.abs(angSize - 13.51) < 0.1;
-  results.push({ id:5, name:'Угл. размер Земли', pass:angOK,
-    detail:`${angSize.toFixed(2)}″ (канон), НЕ 8.48″` });
-  
-  return results;
 }
 
-// ============================================================
-// THREE.JS
-// ============================================================
-const container = document.getElementById('canvas3d');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60,1,0.01,100);
-camera.position.set(3,2,3);
-const renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setClearColor(0x08080c);
-container.appendChild(renderer.domElement);
+// --- Newton-Schulz 4×4 inverse ---
+function newtonSchulzInverse(M, delta, maxIter) {
+  delta = delta || 1e-10;
+  maxIter = maxIter || 10;
+  // Tikhonov regularization
+  const reg = Pgl4Matrix.add(M, Pgl4Matrix.scale(Pgl4Matrix.identity(), delta));
+  // ||M||²_F
+  let normSq = 0;
+  for (let i = 0; i < 16; i++) normSq += reg.m[i]*reg.m[i];
+  if (normSq < 1e-30) return Pgl4Matrix.identity();
+  // X_0 = M^T / ||M||²
+  let X = Pgl4Matrix.scale(Pgl4Matrix.transpose(reg), 1.0 / normSq);
+  const I = Pgl4Matrix.identity();
+  for (let it = 0; it < maxIter; it++) {
+    const MX = Pgl4Matrix.compose(reg, X);
+    const twoI_MX = Pgl4Matrix.add(Pgl4Matrix.scale(I, 2), Pgl4Matrix.scale(MX, -1));
+    X = Pgl4Matrix.compose(X, twoI_MX);
+  }
+  return X;
+}
 
-let orbit = {theta:0.8, phi:0.6, r:5};
-let mouseDown=false, mousePrev={x:0,y:0};
-renderer.domElement.addEventListener('mousedown',e=>{mouseDown=true;mousePrev={x:e.clientX,y:e.clientY}});
-renderer.domElement.addEventListener('mouseup',()=>mouseDown=false);
-renderer.domElement.addEventListener('mouseleave',()=>mouseDown=false);
-renderer.domElement.addEventListener('mousemove',e=>{
-  if(!mouseDown)return;
-  orbit.theta-=(e.clientX-mousePrev.x)*0.005;
-  orbit.phi=Math.max(-Math.PI/2+0.01,Math.min(Math.PI/2-0.01,orbit.phi-(e.clientY-mousePrev.y)*0.005));
-  mousePrev={x:e.clientX,y:e.clientY};
+// --- CORDIC fast inverse sqrt ---
+function cordicInvSqrt(x) {
+  if (x <= 0) return 0;
+  const buf = new Float64Array(1);
+  const ibuf = new BigInt64Array(buf.buffer);
+  buf[0] = x;
+  let bits = ibuf[0];
+  // Fast inverse sqrt magic for f64
+  const magic = BigInt64Array.from([0x5fe6eb85be7aa8bn])[0];
+  let ybits = magic - (bits >> 1n);
+  ibuf[0] = ybits;
+  let y = buf[0];
+  const half = 0.5 * x;
+  y = y * (1.5 - half * y * y);
+  y = y * (1.5 - half * y * y);
+  y = y * (1.5 - half * y * y);
+  return y;
+}
+
+// --- Vector math ---
+function vec4dot(a, b) { return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]+a[3]*b[3]; }
+function vec4norm(a) { return Math.sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]+a[3]*a[3]); }
+function vec4scale(a, s) { return [a[0]*s, a[1]*s, a[2]*s, a[3]*s]; }
+function vec4sub(a, b) { return [a[0]-b[0], a[1]-b[1], a[2]-b[2], a[3]-b[3]]; }
+
+// --- Affine card system ---
+const Card = { UW: 0, UX: 1, UY: 2, UZ: 3 };
+const CardNames = ['U_W', 'U_X', 'U_Y', 'U_Z'];
+const CardColors = ['#7af', '#7f7', '#fa7', '#f7f'];
+
+function toAffine(v, card) {
+  const [X, Y, Z, W] = v.v;
+  switch(card) {
+    case 0: return [X/W, Y/W, Z/W]; // U_W: divide by W
+    case 1: return [Y/X, Z/X, W/X]; // U_X: divide by X
+    case 2: return [X/Y, Z/Y, W/Y]; // U_Y: divide by Y
+    case 3: return [X/Z, Y/Z, W/Z]; // U_Z: divide by Z
+  }
+}
+
+function pickBestCard(v) {
+  const abs = [Math.abs(v.v[3]), Math.abs(v.v[0]), Math.abs(v.v[1]), Math.abs(v.v[2])];
+  const maxVal = Math.max(...abs);
+  const maxIdx = abs.indexOf(maxVal);
+  return { card: maxIdx, coords: toAffine(v, maxIdx) };
+}
+
+function fromAffineToHomogeneous(x, y, z, card) {
+  switch(card) {
+    case 0: return new HomVec4(x, y, z, 1);
+    case 1: return new HomVec4(1, x, y, z);
+    case 2: return new HomVec4(x, 1, y, z);
+    case 3: return new HomVec4(x, y, 1, z);
+  }
+}
+
+// --- Fubini-Study metric ---
+function fsDistance(v1, v2) {
+  const dot = Math.abs(vec4dot(v1.v, v2.v));
+  const n1 = vec4norm(v1.v), n2 = vec4norm(v2.v);
+  if (n1 < 1e-15 || n2 < 1e-15) return Math.PI / 2;
+  const cosTheta = Math.min(1, dot / (n1 * n2));
+  return Math.acos(cosTheta);
+}
+
+// --- W calibration ---
+function wFromDistance(s_meters, R_meters) {
+  return Math.cos(s_meters / (2 * R_meters));
+}
+
+// --- Z/2Z generator ---
+function z2zGenerator() {
+  return new Pgl4Matrix([-1,0,0,0, 0,-1,0,0, 0,0,-1,0, 0,0,0,1]);
+}
+
+// --- Quaternion operations ---
+function quatMultiply(q1, q2) {
+  return [
+    q1[0]*q2[0]-q1[1]*q2[1]-q1[2]*q2[2]-q1[3]*q2[3],
+    q1[0]*q2[1]+q1[1]*q2[0]+q1[2]*q2[3]-q1[3]*q2[2],
+    q1[0]*q2[2]-q1[1]*q2[3]+q1[2]*q2[0]+q1[3]*q2[1],
+    q1[0]*q2[3]+q1[1]*q2[2]-q1[2]*q2[1]+q1[3]*q2[0]
+  ];
+}
+
+function quatConjugate(q) { return [q[0], -q[1], -q[2], -q[3]]; }
+
+function quatNorm(q) { return Math.sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]); }
+
+function quatNormalize(q) {
+  const n = quatNorm(q);
+  return n > 1e-15 ? [q[0]/n, q[1]/n, q[2]/n, q[3]/n] : [1,0,0,0];
+}
+
+function latlonToQuaternion(latDeg, lonDeg) {
+  const lat = latDeg * Math.PI / 180;
+  const lon = lonDeg * Math.PI / 180;
+  const q_z = [Math.cos(lon/2), 0, 0, Math.sin(lon/2)];
+  const q_y = [Math.cos(lat/2), 0, Math.sin(lat/2), 0];
+  return quatMultiply(q_z, q_y);
+}
+
+function quatDistance(q1, q2) {
+  const dot = Math.abs(q1[0]*q2[0]+q1[1]*q2[1]+q1[2]*q2[2]+q1[3]*q2[3]);
+  return Math.acos(Math.min(1, dot));
+}
+
+function quatToRotationMatrix(q) {
+  const [w,x,y,z] = q;
+  return new Pgl4Matrix([
+    1-2*(y*y+z*z), 2*(x*y-w*z), 2*(x*z+w*y), 0,
+    2*(x*y+w*z), 1-2*(x*x+z*z), 2*(y*z-w*x), 0,
+    2*(x*z-w*y), 2*(y*z+w*x), 1-2*(x*x+y*y), 0,
+    0, 0, 0, 1
+  ]);
+}
+
+// --- Great circle distance ---
+function greatCircleDistance(lat1, lon1, lat2, lon2, R) {
+  const toRad = Math.PI / 180;
+  const dLat = (lat2-lat1)*toRad, dLon = (lon2-lon1)*toRad;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*toRad)*Math.cos(lat2*toRad)*Math.sin(dLon/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(Math.min(1, a)));
+}
+
+// --- Surface to P³ mapping ---
+function surfaceToP3(lat, lon, elevation, R) {
+  const s = greatCircleDistance(0, 0, lat, lon, R);
+  const R_m = R * 1000;
+  const s_m = s * 1000;
+  const W = Math.cos(s_m / (2 * R_m));
+  const lonRad = lon * Math.PI / 180;
+  const latRad = lat * Math.PI / 180;
+  const alpha = Math.atan2(Math.sin(lonRad), Math.cos(latRad)*Math.cos(lonRad));
+  const sinHalf = Math.sin(s_m / (2 * R_m));
+  const X = sinHalf * Math.cos(alpha);
+  const Y = sinHalf * Math.sin(alpha);
+  const Z = Math.sin((elevation||0) / (2 * R_m));
+  return new HomVec4(X, Y, Z, W);
+}
+
+// --- Skew-symmetric resonance ---
+function computeResonance(A) {
+  const r = new Array(16).fill(0);
+  for (let i = 0; i < 4; i++)
+    for (let j = 0; j < 4; j++)
+      r[i*4+j] = A.m[i*4+j] - A.m[j*4+i];
+  return new Pgl4Matrix(r);
+}
+
+// --- Hadamard product ---
+function hadamardProduct(A, B) {
+  return new Pgl4Matrix(A.m.map((x, i) => x * B.m[i]));
+}
+
+// --- Deformed tensor product ---
+function deformedTensorProduct(X, Y, epsilon) {
+  const linear = Pgl4Matrix.compose(X, Y);
+  const had = hadamardProduct(X, Y);
+  return Pgl4Matrix.add(linear, Pgl4Matrix.scale(had, epsilon));
+}
+
+// --- Causal projector ---
+function computeProjector(Jc, delta) {
+  delta = delta || 1e-10;
+  const JcT = Pgl4Matrix.transpose(Jc);
+  const JcJcT = Pgl4Matrix.compose(Jc, JcT);
+  const deltaI = Pgl4Matrix.scale(Pgl4Matrix.identity(), delta);
+  const M = Pgl4Matrix.add(JcJcT, deltaI);
+  const MInv = newtonSchchulzInverseSafe(M, delta);
+  const JcT_MInv = Pgl4Matrix.compose(JcT, MInv);
+  const JcT_MInv_Jc = Pgl4Matrix.compose(JcT_MInv, Jc);
+  const I = Pgl4Matrix.identity();
+  return Pgl4Matrix.add(I, Pgl4Matrix.scale(JcT_MInv_Jc, -1));
+}
+
+function newtonSchchulzInverseSafe(M, delta) {
+  // Safe wrapper with more iterations
+  return newtonSchulzInverse(M, delta, 15);
+}
+
+// --- POLER cycle step ---
+function polerCycleStep(position, D, J, gradF, projector, eta, gamma) {
+  // force = D·p + γ·J·p + ∇F
+  const Dp = D.apply(position);
+  const Jp = J.apply(position);
+  const force = new HomVec4(
+    Dp.v[0]+gamma*Jp.v[0]+gradF.v[0],
+    Dp.v[1]+gamma*Jp.v[1]+gradF.v[1],
+    Dp.v[2]+gamma*Jp.v[2]+gradF.v[2],
+    Dp.v[3]+gamma*Jp.v[3]+gradF.v[3]
+  );
+  const projected = projector.apply(force);
+  // p_new = p - η·projected
+  const pnew = new HomVec4(
+    position.v[0]-eta*projected.v[0],
+    position.v[1]-eta*projected.v[1],
+    position.v[2]-eta*projected.v[2],
+    position.v[3]-eta*projected.v[3]
+  );
+  // Quantum normalization via CORDIC
+  const normSq = pnew.v[0]*pnew.v[0]+pnew.v[1]*pnew.v[1]+pnew.v[2]*pnew.v[2]+pnew.v[3]*pnew.v[3];
+  const invNorm = cordicInvSqrt(normSq);
+  pnew.v[0]*=invNorm; pnew.v[1]*=invNorm; pnew.v[2]*=invNorm; pnew.v[3]*=invNorm;
+  return pnew;
+}
+
+// --- Null fluid density ---
+function nullFluidDensity(theta_deg) {
+  // ρ_∅ = sin²(θ-85°)·H(θ-85°)
+  const shifted = theta_deg - 85;
+  const heaviside = shifted >= 0 ? 1 : 0;
+  const sinVal = Math.sin(shifted * Math.PI / 180);
+  return sinVal * sinVal * heaviside;
+}
+
+// --- Angular size calculation ---
+function angularSizeArcsec(diameter_km, distance_au) {
+  const distance_km = distance_au * AU_KM;
+  return (diameter_km / distance_km) * (180 / Math.PI) * 3600;
+}
+
+// --- Rotation generators ---
+function rotationX(angle) {
+  const c = Math.cos(angle), s = Math.sin(angle);
+  return new Pgl4Matrix([1,0,0,0, 0,c,-s,0, 0,s,c,0, 0,0,0,1]);
+}
+function rotationY(angle) {
+  const c = Math.cos(angle), s = Math.sin(angle);
+  return new Pgl4Matrix([c,0,s,0, 0,1,0,0, -s,0,c,0, 0,0,0,1]);
+}
+function rotationZ(angle) {
+  const c = Math.cos(angle), s = Math.sin(angle);
+  return new Pgl4Matrix([c,-s,0,0, s,c,0,0, 0,0,1,0, 0,0,0,1]);
+}
+function translation3D(tx, ty, tz) {
+  return new Pgl4Matrix([1,0,0,tx, 0,1,0,ty, 0,0,1,tz, 0,0,0,1]);
+}
+function scale3D(sx, sy, sz) {
+  return new Pgl4Matrix([sx,0,0,0, 0,sy,0,0, 0,0,sz,0, 0,0,0,1]);
+}
+
+// --- Line-Line intersection in P³ ---
+// Two lines in P³: span{p1,p2} and span{q1,q2}
+// They intersect iff the 4×4 matrix [p1|p2|q1|q2] has det=0
+function lineLineIntersect(p1, p2, q1, q2) {
+  const M = new Pgl4Matrix([
+    p1.v[0], p2.v[0], q1.v[0], q2.v[0],
+    p1.v[1], p2.v[1], q1.v[1], q2.v[1],
+    p1.v[2], p2.v[2], q1.v[2], q2.v[2],
+    p1.v[3], p2.v[3], q1.v[3], q2.v[3]
+  ]);
+  return M.det();
+}
+
+// --- Generate line points ---
+function linePoints(p1, p2, n) {
+  const pts = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    const v = new HomVec4(
+      (1-t)*p1.v[0]+t*p2.v[0],
+      (1-t)*p1.v[1]+t*p2.v[1],
+      (1-t)*p1.v[2]+t*p2.v[2],
+      (1-t)*p1.v[3]+t*p2.v[3]
+    );
+    pts.push(v);
+  }
+  return pts;
+}
+
+// ═══════════════════════════════════════════
+// RENDERING ENGINE
+// ═══════════════════════════════════════════
+
+const canvas = document.getElementById('cv');
+const ctx = canvas.getContext('2d');
+
+let W_canvas = 0, H_canvas = 0;
+
+function resizeCanvas() {
+  const wrap = canvas.parentElement;
+  W_canvas = wrap.clientWidth;
+  H_canvas = wrap.clientHeight;
+  canvas.width = W_canvas;
+  canvas.height = H_canvas;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Camera
+let camRotX = 0.3, camRotY = 0.5, camDist = 5.0;
+let mouseDown = false, lastMX = 0, lastMY = 0;
+
+canvas.addEventListener('mousedown', e => { mouseDown = true; lastMX = e.clientX; lastMY = e.clientY; });
+canvas.addEventListener('mousemove', e => {
+  if (!mouseDown) return;
+  camRotY += (e.clientX - lastMX) * 0.005;
+  camRotX += (e.clientY - lastMY) * 0.005;
+  camRotX = Math.max(-Math.PI/2, Math.min(Math.PI/2, camRotX));
+  lastMX = e.clientX; lastMY = e.clientY;
 });
-renderer.domElement.addEventListener('wheel',e=>{orbit.r=Math.max(1,Math.min(20,orbit.r*(1+e.deltaY*0.001)))});
+canvas.addEventListener('mouseup', () => mouseDown = false);
+canvas.addEventListener('mouseleave', () => mouseDown = false);
+canvas.addEventListener('wheel', e => {
+  camDist *= (1 + e.deltaY * 0.001);
+  camDist = Math.max(1, Math.min(20, camDist));
+  e.preventDefault();
+}, { passive: false });
 
-function updateCamera(){
-  camera.position.set(orbit.r*Math.cos(orbit.phi)*Math.cos(orbit.theta),orbit.r*Math.sin(orbit.phi),orbit.r*Math.cos(orbit.phi)*Math.sin(orbit.theta));
-  camera.lookAt(0,0,0);
-}
-function clearScene(){while(scene.children.length)scene.remove(scene.children[0])}
-
-function addLabel(text,pos,color){
-  const c=document.createElement('canvas');c.width=256;c.height=64;
-  const x=c.getContext('2d');x.fillStyle=color||'#7af';x.font='bold 22px monospace';x.textAlign='center';x.fillText(text,128,40);
-  const t=new THREE.CanvasTexture(c);const m=new THREE.SpriteMaterial({map:t,transparent:true});
-  const s=new THREE.Sprite(m);s.position.copy(pos);s.scale.set(0.7,0.18,1);scene.add(s);
-}
-function makePoint(pos,color,size){
-  const g=new THREE.SphereGeometry(size||0.04,16,16);const m=new THREE.MeshBasicMaterial({color});
-  const mesh=new THREE.Mesh(g,m);mesh.position.copy(pos);scene.add(mesh);return mesh;
-}
-function makeLine(pts,color,lw){
-  const m=new THREE.LineBasicMaterial({color,linewidth:lw||1});const g=new THREE.BufferGeometry().setFromPoints(pts);
-  const l=new THREE.Line(g,m);scene.add(l);return l;
-}
-function makeDashedLine(pts,color){
-  const m=new THREE.LineDashedMaterial({color,dashSize:0.1,gapSize:0.05});const g=new THREE.BufferGeometry().setFromPoints(pts);
-  const l=new THREE.Line(g,m);l.computeLineDistances();scene.add(l);return l;
-}
-
-// Stereographic projection S³ → R³
-function stereo(v){
-  const d=1+v[3];if(Math.abs(d)<EPS_CARD)return new THREE.Vector3(v[0]*10,v[1]*10,v[2]*10);
-  return new THREE.Vector3(v[0]/d, v[1]/d, v[2]/d);
+// Project 3D → 2D screen
+function project3D(x, y, z) {
+  // Camera rotation
+  const cX = Math.cos(camRotX), sX = Math.sin(camRotX);
+  const cY = Math.cos(camRotY), sY = Math.sin(camRotY);
+  let rx = cY*x + sY*z;
+  let ry = y;
+  let rz = -sY*x + cY*z;
+  let fy = cX*ry - sX*rz;
+  let fz = sX*ry + cX*rz;
+  // Perspective
+  const d = camDist;
+  const pz = fz + d;
+  if (pz < 0.1) return null;
+  const fov = 400;
+  const sx = W_canvas/2 + fov*rx/pz;
+  const sy = H_canvas/2 - fov*fy/pz;
+  return { x: sx, y: sy, z: pz };
 }
 
-// ============================================================
-// MODES (исправленные)
-// ============================================================
-const modes = {};
+// Draw helpers
+function drawPoint3D(x, y, z, color, radius) {
+  const p = project3D(x, y, z);
+  if (!p) return;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(p.x, p.y, Math.max(1, radius || 3), 0, Math.PI*2);
+  ctx.fill();
+}
 
-// --- 1. СКРЕЩИВАЮЩИЕСЯ ПРЯМЫЕ (исправление бага #1) ---
-modes.skew_lines = function(){
-  const R=1.5, t=params.time;
-  
-  // Draw S³ as sphere
-  const sg=new THREE.SphereGeometry(R,32,32);
-  const sm=new THREE.MeshBasicMaterial({color:0x223344,wireframe:true,transparent:true,opacity:0.08});
-  scene.add(new THREE.Mesh(sg,sm));
-  
-  // P1 = span{e1, e2} — прямая в P³ через точки [1:0:0:0] и [0:1:0:0]
-  // P2 = span{e3, e4} — прямая в P³ через точки [0:0:1:0] и [0:0:0:1]
-  // Пересечение в R⁴: только {0} → НЕТ пересечения в P³
-  
-  // Draw P1 as a circle in the XY plane
-  const p1Pts=[];
-  for(let i=0;i<=100;i++){
-    const a=TWO_PI*i/100;
-    const v=P3.normalize([Math.cos(a),Math.sin(a),0,0.01]); // small W for stereo
-    p1Pts.push(stereo(v).multiplyScalar(R));
+function drawLine3D(x1, y1, z1, x2, y2, z2, color, width) {
+  const p1 = project3D(x1, y1, z1);
+  const p2 = project3D(x2, y2, z2);
+  if (!p1 || !p2) return;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width || 1;
+  ctx.beginPath();
+  ctx.moveTo(p1.x, p1.y);
+  ctx.lineTo(p2.x, p2.y);
+  ctx.stroke();
+}
+
+function drawGlowLine3D(x1, y1, z1, x2, y2, z2, color, width) {
+  // Draw line with glow effect
+  const p1 = project3D(x1, y1, z1);
+  const p2 = project3D(x2, y2, z2);
+  if (!p1 || !p2) return;
+  // Glow
+  ctx.strokeStyle = color;
+  ctx.globalAlpha = 0.15;
+  ctx.lineWidth = (width || 1) + 6;
+  ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+  ctx.globalAlpha = 0.3;
+  ctx.lineWidth = (width || 1) + 3;
+  ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+  ctx.globalAlpha = 1.0;
+  ctx.lineWidth = width || 1;
+  ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+}
+
+function drawPolyline3D(pts, color, width, glow) {
+  if (pts.length < 2) return;
+  for (let i = 0; i < pts.length-1; i++) {
+    if (glow) drawGlowLine3D(pts[i][0],pts[i][1],pts[i][2], pts[i+1][0],pts[i+1][1],pts[i+1][2], color, width);
+    else drawLine3D(pts[i][0],pts[i][1],pts[i][2], pts[i+1][0],pts[i+1][1],pts[i+1][2], color, width);
   }
-  makeLine(p1Pts, 0x44aaff, 2);
-  
-  // Draw P2 as a circle in the ZW plane
-  const p2Pts=[];
-  for(let i=0;i<=100;i++){
-    const a=TWO_PI*i/100;
-    const v=P3.normalize([0.01,0,Math.cos(a),Math.sin(a)]); // small X for stereo
-    p2Pts.push(stereo(v).multiplyScalar(R));
+}
+
+function drawText3D(x, y, z, text, color, fontSize) {
+  const p = project3D(x, y, z);
+  if (!p) return;
+  ctx.fillStyle = color;
+  ctx.font = (fontSize || 10) + 'px Courier New';
+  ctx.fillText(text, p.x + 5, p.y - 5);
+}
+
+// Draw coordinate axes
+function drawAxes(len) {
+  len = len || 3;
+  drawLine3D(0,0,0, len,0,0, '#f44', 1);
+  drawLine3D(0,0,0, 0,len,0, '#4f4', 1);
+  drawLine3D(0,0,0, 0,0,len, '#44f', 1);
+  drawText3D(len,0,0, 'X', '#f44');
+  drawText3D(0,len,0, 'Y', '#4f4');
+  drawText3D(0,0,len, 'Z', '#44f');
+}
+
+// Draw W=0 plane at infinity (grid)
+function drawPlaneAtInfinity(color, size) {
+  color = color || 'rgba(119,170,255,0.1)';
+  size = size || 3;
+  const step = 0.5;
+  ctx.globalAlpha = 0.15;
+  for (let i = -size; i <= size; i += step) {
+    drawLine3D(i, -size, 0, i, size, 0, color, 0.5);
+    drawLine3D(-size, i, 0, size, i, 0, color, 0.5);
   }
-  makeLine(p2Pts, 0xff6644, 2);
-  
-  // Label key points
-  makePoint(stereo([1,0,0,0.01]).multiplyScalar(R), 0x44aaff, 0.06);
-  makePoint(stereo([0,1,0,0.01]).multiplyScalar(R), 0x44aaff, 0.06);
-  makePoint(stereo([0.01,0,1,0]).multiplyScalar(R), 0xff6644, 0.06);
-  makePoint(stereo([0.01,0,0,1]).multiplyScalar(R), 0xff6644, 0.06);
-  
-  addLabel('P1=span{e1,e2}', new THREE.Vector3(1.5,0.3,0), '#4af');
-  addLabel('P2=span{e3,e4}', new THREE.Vector3(0,0,1.5), '#f64');
-  addLabel('P1 ∩ P2 = {0} → ∅ в P³', new THREE.Vector3(0,-0.5,0), '#ff4');
-  
-  // Animated verification: try to find intersection
-  const animA = t * 0.7;
-  const testP1 = P3.normalize([Math.cos(animA), Math.sin(animA), 0, 0.01]);
-  const testP2 = P3.normalize([0.01, 0, Math.cos(animA*1.3), Math.sin(animA*1.3)]);
-  const dFS = P3.fs_distance(testP1, testP2);
-  makePoint(stereo(testP1).multiplyScalar(R), 0xffff00, 0.05);
-  makePoint(stereo(testP2).multiplyScalar(R), 0xff00ff, 0.05);
-  
-  return `БАГ #1 ИСПРАВЛЕН:\nВ P²: любые 2 прямые пересекаются ✓\nВ P³: существуют СКРЕЩИВАЮЩИЕСЯ прямые!\nP1=span{e1,e2}, P2=span{e3,e4}\nP1∩P2 = {0} → ∅ в P³\n\nВерно в P³:\n• Прямая ∩ Плоскость = точка ✓\n• 2 Плоскости ∩ = прямая ✓\n• 2 Прямые ∩ = ∅ (в общем случае)\n\nd_FS(P1,P2) = ${dFS.toFixed(4)} рад`;
+  ctx.globalAlpha = 1.0;
+}
+
+// Draw grid on a plane
+function drawPlaneGrid(origin, u, v, n, color, width) {
+  color = color || 'rgba(255,255,255,0.05)';
+  width = width || 0.5;
+  const o = origin;
+  for (let i = -n; i <= n; i++) {
+    const t = i / n;
+    drawLine3D(
+      o[0]+t*u[0]-n*v[0], o[1]+t*u[1]-n*v[1], o[2]+t*u[2]-n*v[2],
+      o[0]+t*u[0]+n*v[0], o[1]+t*u[1]+n*v[1], o[2]+t*u[2]+n*v[2],
+      color, width
+    );
+    drawLine3D(
+      o[0]-n*u[0]+t*v[0], o[1]-n*u[1]+t*v[1], o[2]-n*u[2]+t*v[2],
+      o[0]+n*u[0]+t*v[0], o[1]+n*u[1]+t*v[1], o[2]+n*u[2]+t*v[2],
+      color, width
+    );
+  }
+}
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+
+let currentMode = 0;
+let time = 0;
+let frameCount = 0;
+let fps = 60;
+let fpsTimer = 0;
+let fpsCount = 0;
+
+// Parameters
+let params = {
+  R: 5838.4,
+  s: 100,
+  theta: 45,
+  eta: 0.01,
+  gamma: 0.1,
+  delta: 1e-10,
+  epsilon: 0.05
 };
 
-// --- 2. ПЕРЕКЛЮЧЕНИЕ КАРТ (cards_handoff из P3_COMPENDIUM) ---
-modes.cards_handoff = function(){
-  const t=params.time, R_km=params.R;
-  
-  // Animated point moving from s=0 to s=πR
-  const maxS = Math.PI * R_km;
-  const s = (t * 300) % maxS;
-  const alpha = t * 0.2;
-  const halfAngle = s / (2*R_km);
-  
-  // Construct homogeneous vector [X:Y:Z:W]
-  const X = Math.sin(halfAngle)*Math.cos(alpha);
-  const Y = Math.sin(halfAngle)*Math.sin(alpha);
-  const Z = 0;
-  const W = Math.cos(halfAngle);
-  const v = P3.normalize([X,Y,Z,W]);
-  
-  // Cards handoff
-  const card = P3.cards_handoff(v);
-  
-  // Draw the 4 chart regions as colored quadrants
-  const colors = {U_W:0x4477aa, U_X:0xaa4477, U_Y:0x77aa44, U_Z:0xaa7744};
-  for(let i=0;i<20;i++){
-    for(let j=0;j<20;j++){
-      for(let k=0;k<20;k++){
-        const x=(i/20-0.5)*3, y=(j/20-0.5)*3, z=(k/20-0.5)*3;
-        const c=P3.cards_handoff([x,y,z,1]).card;
-        const g=new THREE.SphereGeometry(0.018,4,4);
-        const m=new THREE.MeshBasicMaterial({color:colors[c]||0x888888,transparent:true,opacity:0.25});
-        const mesh=new THREE.Mesh(g,m);mesh.position.set(x,y,z);scene.add(mesh);
+// History for charts
+const MAX_HIST = 200;
+let wHistory = [];
+let dfsHistory = [];
+
+// Audit results
+let audit = [true, true, true, true, true, true];
+
+// ═══════════════════════════════════════════
+// MODE 0: SKEW LINES
+// ═══════════════════════════════════════════
+function renderSkewLines(t) {
+  // Two skew lines in P³:
+  // L1 = span{[1:0:0:0], [0:1:0:0]} → line in XY plane (Z=0, W=0)
+  // L2 = span{[0:0:1:0], [0:0:0:1]} → line in ZW plane (X=0, Y=0)
+  // These are SKEW: span{e1,e2} ∩ span{e3,e4} = {0} → ∅ in P³
+  // The 4×4 det matrix [p1|p2|q1|q2] has det ≠ 0
+
+  const p1 = new HomVec4(1, 0, 0, 0);
+  const p2 = new HomVec4(0, 1, 0, 0);
+  const q1 = new HomVec4(0, 0, 1, 0);
+  const q2 = new HomVec4(0, 0, 0, 1);
+
+  // Verify skew: det should be nonzero
+  const detVal = lineLineIntersect(p1, p2, q1, q2);
+  audit[3] = Math.abs(detVal) > 1e-10; // Skew if det ≠ 0
+
+  // Apply time-varying rotation to make it visually interesting
+  const rot = Pgl4Matrix.compose(
+    rotationY(t * 0.3),
+    rotationX(t * 0.2)
+  );
+
+  // Draw L1 points (in affine card U_W)
+  const n = 60;
+  const L1pts = [], L2pts = [];
+  for (let i = -n; i <= n; i++) {
+    const u = i / (n * 0.3);
+    // L1: [u:1:0:0] (point on span{e1,e2})
+    let v1 = new HomVec4(u, 1, 0, 0.01); // tiny W offset for visualization
+    v1 = rot.apply(v1);
+    const c1 = pickBestCard(v1);
+    if (Math.abs(c1.coords[0]) < 10 && Math.abs(c1.coords[1]) < 10 && Math.abs(c1.coords[2]) < 10) {
+      L1pts.push(c1.coords);
+    }
+    // L2: [0:0:u:1] (point on span{e3,e4})
+    let v2 = new HomVec4(0, 0, u, 1);
+    v2 = rot.apply(v2);
+    const c2 = pickBestCard(v2);
+    if (Math.abs(c2.coords[0]) < 10 && Math.abs(c2.coords[1]) < 10 && Math.abs(c2.coords[2]) < 10) {
+      L2pts.push(c2.coords);
+    }
+  }
+
+  // Draw L1 as cyan
+  drawPolyline3D(L1pts, '#0ff', 2, true);
+  // Draw L2 as yellow
+  drawPolyline3D(L2pts, '#ff0', 2, true);
+
+  // Also demonstrate INTERSECTING lines for comparison
+  // L3 = span{[1:0:0:0], [0:0:1:0]} and L4 = span{[0:1:0:0], [0:0:1:0]}
+  // These intersect at [0:0:1:0] → det = 0
+  const p3 = new HomVec4(1, 0, 0, 0);
+  const p4 = new HomVec4(0, 0, 1, 0);
+  const q3 = new HomVec4(0, 1, 0, 0);
+  const q4 = new HomVec4(0, 0, 1, 0);
+  const detIntersecting = lineLineIntersect(p3, p4, q3, q4);
+
+  // Draw intersecting lines (dimmer)
+  const L3pts = [], L4pts = [];
+  for (let i = -n; i <= n; i++) {
+    const u = i / (n * 0.3);
+    let v3 = new HomVec4(u, 0, 1, 0.01);
+    v3 = rot.apply(v3);
+    const c3 = pickBestCard(v3);
+    if (Math.abs(c3.coords[0]) < 10 && Math.abs(c3.coords[1]) < 10 && Math.abs(c3.coords[2]) < 10)
+      L3pts.push(c3.coords);
+    let v4 = new HomVec4(0, u, 1, 0.01);
+    v4 = rot.apply(v4);
+    const c4 = pickBestCard(v4);
+    if (Math.abs(c4.coords[0]) < 10 && Math.abs(c4.coords[1]) < 10 && Math.abs(c4.coords[2]) < 10)
+      L4pts.push(c4.coords);
+  }
+  ctx.globalAlpha = 0.4;
+  drawPolyline3D(L3pts, '#0f0', 1);
+  drawPolyline3D(L4pts, '#0f0', 1);
+  ctx.globalAlpha = 1.0;
+
+  // Labels
+  if (L1pts.length > 0) drawText3D(L1pts[Math.floor(L1pts.length/2)][0], L1pts[Math.floor(L1pts.length/2)][1]+0.3, L1pts[Math.floor(L1pts.length/2)][2], 'L₁ (скрещ.)', '#0ff');
+  if (L2pts.length > 0) drawText3D(L2pts[Math.floor(L2pts.length/2)][0], L2pts[Math.floor(L2pts.length/2)][1]+0.3, L2pts[Math.floor(L2pts.length/2)][2], 'L₂ (скрещ.)', '#ff0');
+
+  // Draw intersection point of L3, L4
+  let intPt = rot.apply(new HomVec4(0, 0, 1, 0.01));
+  const intC = pickBestCard(intPt);
+  drawPoint3D(intC.coords[0], intC.coords[1], intC.coords[2], '#0f0', 5);
+
+  // Info text
+  ctx.fillStyle = '#888';
+  ctx.font = '11px Courier New';
+  ctx.fillText(`det(skew) = ${detVal.toFixed(4)} ≠ 0 → ∩ = ∅`, 16, H_canvas - 80);
+  ctx.fillText(`det(intersect) = ${detIntersecting.toFixed(6)} → ∩ = точка`, 16, H_canvas - 65);
+  ctx.fillStyle = '#0ff';
+  ctx.fillText('Cyan+Yellow: скрещивающиеся (skew) — нет пересечения в P³', 16, H_canvas - 45);
+  ctx.fillStyle = '#0f0';
+  ctx.fillText('Green: пересекающиеся — общая точка (зелёная)', 16, H_canvas - 30);
+}
+
+// ═══════════════════════════════════════════
+// MODE 1: CARD SWITCHING
+// ═══════════════════════════════════════════
+function renderCardSwitching(t) {
+  // Show a point moving through P³, switching between 4 affine cards
+  // Demonstrate Möbius transition when W → 0
+
+  // Moving point: [cos(t):sin(t):sin(2t):cos(2t)] — passes near W=0
+  const pt = new HomVec4(
+    Math.cos(t * 0.5),
+    Math.sin(t * 0.5),
+    Math.sin(t * 0.7),
+    Math.cos(t * 0.3) // W crosses zero periodically
+  );
+
+  const best = pickBestCard(pt);
+
+  // Draw all 4 affine charts as colored regions
+  const chartColors = ['#7af', '#7f7', '#fa7', '#f7f'];
+  const chartNames = ['U_W', 'U_X', 'U_Y', 'U_Z'];
+  const chartOffsets = [[-1.5,-1.5], [1.5,-1.5], [-1.5,1.5], [1.5,1.5]];
+
+  for (let c = 0; c < 4; c++) {
+    const ox = chartOffsets[c][0], oy = chartOffsets[c][1];
+    // Draw chart boundary
+    ctx.strokeStyle = chartColors[c];
+    ctx.globalAlpha = 0.3;
+    const corners = [[ox-1.2,oy-1.2,0],[ox+1.2,oy-1.2,0],[ox+1.2,oy+1.2,0],[ox-1.2,oy+1.2,0]];
+    for (let i = 0; i < 4; i++) {
+      const j = (i+1)%4;
+      drawLine3D(corners[i][0],corners[i][1],corners[i][2], corners[j][0],corners[j][1],corners[j][2], chartColors[c], 1);
+    }
+    ctx.globalAlpha = 1.0;
+
+    // Chart label
+    drawText3D(ox, oy - 1.35, 0, chartNames[c], chartColors[c], 11);
+
+    // Draw the point in this chart (if valid)
+    let coords;
+    try { coords = toAffine(pt, c); } catch(e) { continue; }
+    if (Math.abs(coords[0]) < 10 && Math.abs(coords[1]) < 10 && Math.abs(coords[2]) < 10) {
+      const px = ox + coords[0] * 0.8;
+      const py = oy - coords[1] * 0.8; // Y inverted for screen
+      const pz = coords[2] * 0.8;
+      const isBest = c === best.card;
+      drawPoint3D(px, py, pz, chartColors[c], isBest ? 8 : 4);
+      if (isBest) {
+        // Glow around active chart point
+        ctx.strokeStyle = chartColors[c];
+        ctx.globalAlpha = 0.3;
+        const pp = project3D(px, py, pz);
+        if (pp) {
+          ctx.beginPath(); ctx.arc(pp.x, pp.y, 15, 0, Math.PI*2); ctx.stroke();
+        }
+        ctx.globalAlpha = 1.0;
       }
     }
   }
-  
-  // Current point
-  const pos = stereo(v).multiplyScalar(1.5);
-  makePoint(pos, colors[card.card]||0xffffff, 0.08);
-  addLabel(`${card.card}`, pos.clone().add(new THREE.Vector3(0,0.2,0)), '#fff');
-  
-  // W=0 plane (infinity)
-  const pm=new THREE.MeshBasicMaterial({color:0xff4444,transparent:true,opacity:0.06,side:THREE.DoubleSide});
-  const pg=new THREE.PlaneGeometry(4,4);const p=new THREE.Mesh(pg,pm);p.rotation.x=Math.PI/2;scene.add(p);
-  addLabel('W=0 (P²_∞)', new THREE.Vector3(0,0.05,1.5), '#f44');
-  
-  return `КАРТОВОЕ ПЕРЕКЛЮЧЕНИЕ (cards_handoff):\nv = [${v.map(x=>x.toFixed(3)).join(' : ')}]\nАктивная карта: ${card.card}\nАффинные коорд: (${card.xyz.map(x=>x.toFixed(3)).join(', ')})\ns = ${s.toFixed(0)} км\nW = ${W.toFixed(6)}\n\n|W| < ε=${EPS_CARD} → переключение\nW=0 → антипод (смена карты)`;
-};
 
-// --- 3. Z/2Z ДВИЖОК (PGL(4,R) матрицы) ---
-modes.z2z_engine = function(){
-  const t=params.time;
-  
-  // Z/2Z generator: rotation by π in (X,W) plane
-  const g = P3.pi1_generator();
-  const I = P3.mat4_identity();
-  
-  // Verify: g² = I
-  const g2 = P3.mat4_multiply(g, g);
-  let isIdentity = true;
-  for(let i=0;i<16;i++) if(Math.abs(g2[i]-I[i])>0.001) isIdentity=false;
-  
-  // Animated point traversing the loop
-  const loopT = (t*0.3)%2; // 0..2 (two traversals)
-  
-  // Point moves via continuous rotation in (X,W) plane
-  const angle = Math.PI * loopT;
-  const flow = P3.rotation_in_plane(0, 3, angle); // rotate in (X,W)
-  const v0 = P3.normalize([1, 0, 0, 1]); // seed point
-  const v = P3.mat4_apply(flow, v0);
-  const vn = P3.normalize(v);
-  const card = P3.cards_handoff(vn);
-  
-  // Draw loop path
-  const loopPts=[];
-  for(let i=0;i<=100;i++){
-    const a=Math.PI*i/100;
-    const f=P3.rotation_in_plane(0,3,a);
-    const vv=P3.normalize(P3.mat4_apply(f,v0));
-    loopPts.push(stereo(vv).multiplyScalar(1.5));
+  // Draw the trajectory in the best card
+  const trail = [];
+  for (let i = 0; i < 100; i++) {
+    const tt = t - i * 0.02;
+    const tv = new HomVec4(Math.cos(tt*0.5), Math.sin(tt*0.5), Math.sin(tt*0.7), Math.cos(tt*0.3));
+    const tc = pickBestCard(tv);
+    const co = chartOffsets[tc.card];
+    if (Math.abs(tc.coords[0]) < 10 && Math.abs(tc.coords[1]) < 10) {
+      trail.push([co[0]+tc.coords[0]*0.8, co[1]-tc.coords[1]*0.8, tc.coords[2]*0.8]);
+    }
   }
-  makeLine(loopPts, loopT<=1?0x7777ff:0x77ffff, 2);
-  
-  // Current point
-  const pos = stereo(vn).multiplyScalar(1.5);
-  makePoint(pos, loopT<=1?0xffff00:0x00ffff, 0.07);
-  
-  // Holonomy
-  const hol = loopT<=1 ? -1 : 1;
-  const holStr = loopT<=1 ? 'Hol = −1 (нетривиально!)' : 'Hol = +1 (тривиально)';
-  addLabel(holStr, new THREE.Vector3(0,-0.6,0), hol===-1?'#f77':'#7f7');
-  
-  // Frame rotation (720° plate trick)
-  const frameAngle = Math.PI * loopT;
-  const fLen = 0.3;
-  makeLine([pos, pos.clone().add(new THREE.Vector3(fLen*Math.cos(frameAngle),0,fLen*Math.sin(frameAngle)))], 0xffaa00, 1);
-  makeLine([pos, pos.clone().add(new THREE.Vector3(-fLen*Math.sin(frameAngle),0,fLen*Math.cos(frameAngle)))], 0x00ffaa, 1);
-  
-  return `Z/2Z ДВИЖОК (PGL(4,R)):\ng = rot(π) в плоскости (X,W)\ng² = I? ${isIdentity?'✓ ДА':'✗ НЕТ — БАГ!'}\n\nОбход: ${loopT.toFixed(2)}/2\n${holStr}\nКарта: ${card.card}\nv = [${vn.map(x=>x.toFixed(3)).join(' : ')}]\n\nπ₁(P³) = ℤ/2ℤ:\n1 оборот → класс 1 (не стягивается)\n2 оборота → класс 0 (стягивается)`;
-};
-
-// --- 4. Ω/χ + d_FS (исправление бага #4: метрика из SO(3)) ---
-modes.omega_chi_fs = function(){
-  const theta=params.theta, R_km=params.R;
-  
-  // Ω: W=1 plane
-  const om=new THREE.MeshBasicMaterial({color:0x4477ff,transparent:true,opacity:0.1,side:THREE.DoubleSide});
-  const og=new THREE.PlaneGeometry(4,4);scene.add(new THREE.Mesh(og,om));
-  addLabel('Ω (W=1, Порядок)', new THREE.Vector3(0,1.5,0), '#47f');
-  
-  // χ: Z=0 plane, rotated by θ
-  const cm=new THREE.MeshBasicMaterial({color:0xff4444,transparent:true,opacity:0.1,side:THREE.DoubleSide});
-  const cg=new THREE.PlaneGeometry(4,4);const chi=new THREE.Mesh(cg,cm);chi.rotation.x=theta*DEG;scene.add(chi);
-  addLabel('χ (Z=0, Хаос)', new THREE.Vector3(0,-1.5*Math.cos(theta*DEG),1.5*Math.sin(theta*DEG)), '#f44');
-  
-  // Intersection line
-  makeLine([new THREE.Vector3(-2,0,0),new THREE.Vector3(2,0,0)], 0xffff00, 2);
-  addLabel('Ω∩χ', new THREE.Vector3(1.5,0.1,0), '#ff4');
-  
-  // Angle arc
-  const arcPts=[];const aR=0.8;
-  for(let i=0;i<=30;i++){const a=(theta*i/30)*DEG;arcPts.push(new THREE.Vector3(0,aR*Math.cos(a),aR*Math.sin(a)));}
-  makeLine(arcPts, 0xffff44, 1);
-  addLabel(`θ=${theta.toFixed(1)}°`, new THREE.Vector3(0,aR*0.8,aR*0.3), '#ff4');
-  
-  // d_FS between two test points
-  const v1 = P3.normalize([1, 0, 0, 1]);
-  const v2 = P3.normalize([Math.cos(theta*DEG), Math.sin(theta*DEG), 0, 1]);
-  const dFS = P3.fs_distance(v1, v2);
-  const sPhys = 2 * R_km * dFS;
-  
-  // ρ_∅
-  const rho = P3.rho_null(theta);
-  
-  return `Ω/χ + d_FS МЕТРИКА:\nθ(Ω,χ) = ${theta.toFixed(1)}°\nd_FS(v1,v2) = ${dFS.toFixed(6)} рад\ns_физ = 2R·d_FS = ${sPhys.toFixed(1)} км\nρ_∅(θ) = ${rho.toFixed(6)}\n\nБАГ #4 ИСПРАВЛЕН:\nK=9/7 из T=dI/dΣ, НЕ из деления широт!\nK = ${(9/7).toFixed(6)} (темпоральный лаг)\n18 зем. лет = 14 циклов Этерии\n\n${theta>85?'⚠ L_∅ АКТИВНА':theta>80?'⚠ Пороговая зона (Круг Костей)':'Ω-область'}`;
-};
-
-// --- 5. M1/M2 ЛИНЗИРОВАНИЕ (DYNAMIS Periscope) ---
-modes.m1m2_periscope = function(){
-  const t=params.time, R_km=params.R;
-  
-  // Draw the two planets as spheres
-  const earthR=0.5, eteriaR=0.5*5838.4/6378;
-  const earthPos=new THREE.Vector3(-2,0,0);
-  const eteriaPos=new THREE.Vector3(2,0,0);
-  
-  // Earth
-  const eg=new THREE.SphereGeometry(earthR,24,24);
-  const em=new THREE.MeshBasicMaterial({color:0x4488cc,wireframe:true,transparent:true,opacity:0.3});
-  const earth=new THREE.Mesh(eg,em);earth.position.copy(earthPos);scene.add(earth);
-  addLabel('Земля', earthPos.clone().add(new THREE.Vector3(0,earthR+0.2,0)), '#48c');
-  
-  // Этерия
-  const tg=new THREE.SphereGeometry(eteriaR,24,24);
-  const tm=new THREE.MeshBasicMaterial({color:0xcc4444,wireframe:true,transparent:true,opacity:0.3});
-  const eteria=new THREE.Mesh(tg,tm);eteria.position.copy(eteriaPos);scene.add(eteria);
-  addLabel('Этерия', eteriaPos.clone().add(new THREE.Vector3(0,eteriaR+0.2,0)), '#c44');
-  
-  // M1 and M2 lens positions
-  const m1Pos=new THREE.Vector3(0.5,0,0);
-  const m2Pos=new THREE.Vector3(-0.5,0,0);
-  makePoint(m1Pos, 0xffff00, 0.08);
-  makePoint(m2Pos, 0xff8800, 0.08);
-  addLabel('M2', m2Pos.clone().add(new THREE.Vector3(0,0.2,0)), '#f80');
-  addLabel('M1', m1Pos.clone().add(new THREE.Vector3(0,0.2,0)), '#ff0');
-  
-  // Light ray: Earth → M2 → M1 → Этерия (direct path)
-  const rayDirect = [earthPos, m2Pos, m1Pos, eteriaPos];
-  makeLine(rayDirect, 0x44ff44, 2);
-  
-  // Reverse ray: Этерия → ... needs Lens! (P³ consequence)
-  // Without lens: ray diverges (shown as dashed red)
-  const animAngle = t*0.3;
-  const revEnd = new THREE.Vector3(-2, 1.5*Math.sin(animAngle), 1.5*Math.cos(animAngle));
-  makeDashedLine([eteriaPos, revEnd], 0xff4444);
-  addLabel('Обратный свет → ∞ (без Линзы)', new THREE.Vector3(-1,1,0), '#f44');
-  
-  // Angular size of Earth from Этерия (БАГ #5 исправлен)
-  const angSize = P3.earth_angular_size();
-  
-  // Parallax = 0.0000″ (P³ consequence)
-  addLabel('Параллакс = 0.0000″', new THREE.Vector3(0,-0.8,0), '#7af');
-  addLabel('(Вырожденная триангуляция в P³)', new THREE.Vector3(0,-1.1,0), '#555');
-  
-  return `DYNAMIS M1/M2 ПЕРИСКОП:\n\nПрямой свет: Земля→M2→M1→Этерия ✓\nОбратный свет: Этерия→... расходится!\n→ Требует Линзу M1/M2\n\nБАГ #2 ИСПРАВЛЕН:\nРеальный PGL(4,R) ray-tracing каждый кадр\nНе CSS-анимация!\n\nБАГ #3 ИСПРАВЛЕН:\nP³ = язык ОС Дракона, ≠ место\nТранзит = смена карты U_W→U_Z\n\nБАГ #5 ИСПРАВЛЕН:\nУгл. размер Земли = ${angSize.toFixed(2)}″\nНе 8.48″!\nПараллакс = 0.0000″ (P³)`;
-};
-
-// --- 6. L_∅ СИМУЛЯЦИЯ ---
-modes.null_fluid_sim = function(){
-  const theta=params.theta, t=params.time, R=1.5;
-  
-  const sg=new THREE.SphereGeometry(R,32,32);
-  const sm=new THREE.MeshBasicMaterial({color:0x223344,wireframe:true,transparent:true,opacity:0.06});
-  scene.add(new THREE.Mesh(sg,sm));
-  
-  // L_∅ boundary (θ=85° cone)
-  const conePts=[];const cR=R*Math.sin(85*DEG),cH=R*Math.cos(85*DEG);
-  for(let i=0;i<=64;i++){const a=TWO_PI*i/64;conePts.push(new THREE.Vector3(cR*Math.cos(a),-cH,cR*Math.sin(a)));}
-  makeLine(conePts, 0xff8800, 1);
-  addLabel('θ=85° (порог L_∅)', new THREE.Vector3(0,-cH-0.2,cR), '#f80');
-  
-  // Null-fluid density field
-  for(let i=0;i<120;i++){
-    const a1=Math.random()*TWO_PI,a2=Math.random()*Math.PI,r=Math.random()*R;
-    const th=a2/DEG;const lr=P3.rho_null(th);if(lr<0.01)continue;
-    const c=new THREE.Color().setHSL(0,1,0.15+0.5*lr);
-    const g=new THREE.SphereGeometry(0.012,4,4);
-    const m=new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:0.2+0.6*lr});
-    const mesh=new THREE.Mesh(g,m);
-    mesh.position.set(r*Math.sin(a2)*Math.cos(a1),r*Math.cos(a2),r*Math.sin(a2)*Math.sin(a1));
-    scene.add(mesh);
+  if (trail.length > 1) {
+    ctx.globalAlpha = 0.5;
+    drawPolyline3D(trail, '#fff', 1);
+    ctx.globalAlpha = 1.0;
   }
-  
-  // Current θ point
-  const pt=new THREE.Vector3(R*0.8*Math.sin(theta*DEG)*Math.cos(t*0.5),R*0.8*Math.cos(theta*DEG),R*0.8*Math.sin(theta*DEG)*Math.sin(t*0.5));
-  makePoint(pt, theta>85?0xff4444:0x44ff44, 0.07);
-  
-  const rho = P3.rho_null(theta);
-  return `L_∅ СИМУЛЯЦИЯ:\nθ = ${theta.toFixed(1)}°\nρ_∅ = sin²(θ−85°)·H(θ−85°)\n    = ${rho.toFixed(6)}\nn_∅ = i·n_Ω·√(ε_χ/ε_Ω) (мнимый!)\nδ_opt = 25.4 мкм\n\n${theta>85?'⚠ НУЛЬ-ЖИДКОСТЬ АКТИВНА':'Ω-область (Порядок)'}\n\nZ/2Z: Hol_γ = ${theta>85?'−1':'1'} (${theta>85?'нетривиально':'тривиально'})`;
-};
 
-// --- 7. КОНЪЮГАЦИЯ SO(3) ---
-modes.conjugation_so3 = function(){
-  const R=1.5, t=params.time;
-  const sites=[
-    {name:'Giza',lat:29.9792,lon:31.1342},{name:'Stonehenge',lat:51.1789,lon:-1.8262},
-    {name:'Kyiv',lat:50.4489,lon:30.5133},{name:'Sector4',lat:47.12,lon:34.89},
-    {name:'Gobekli',lat:37.2233,lon:38.9223},{name:'Baalbek',lat:34.0067,lon:36.2033},
+  // Update readout
+  document.getElementById('rCard').textContent = CardNames[best.card];
+
+  // Info
+  ctx.fillStyle = '#888';
+  ctx.font = '11px Courier New';
+  ctx.fillText(`Точка: [${pt.v.map(x=>x.toFixed(3)).join(' : ')}]`, 16, H_canvas - 60);
+  ctx.fillText(`Активная карта: ${CardNames[best.card]} (|${['W','X','Y','Z'][best.card]}| = max)`, 16, H_canvas - 45);
+  ctx.fillText('Канал = переключение карты U_W→U_Z вращением на λ=π×10⁻¹⁰', 16, H_canvas - 30);
+}
+
+// ═══════════════════════════════════════════
+// MODE 2: Z/2Z ENGINE
+// ═══════════════════════════════════════════
+function renderZ2ZEngine(t) {
+  // Z/2Z generator: g ≠ I, g² = I
+  const g = z2zGenerator();
+  const g2 = Pgl4Matrix.compose(g, g);
+  const I = Pgl4Matrix.identity();
+
+  // Verify g² ≡ I
+  let maxDiff = 0;
+  for (let i = 0; i < 16; i++) maxDiff = Math.max(maxDiff, Math.abs(g2.m[i] - I.m[i]));
+  audit[0] = maxDiff < 1e-8;
+
+  // Draw the geodesic γ(t) = [cos(πt):0:0:sin(πt)]
+  const geodesicPts = [];
+  for (let i = 0; i <= 80; i++) {
+    const s = i / 80;
+    const v = new HomVec4(Math.cos(Math.PI*s), 0, 0, Math.sin(Math.PI*s));
+    const c = pickBestCard(v);
+    geodesicPts.push(c.coords);
+  }
+  drawPolyline3D(geodesicPts, '#fff', 2, true);
+
+  // Current point on geodesic
+  const tNorm = (t * 0.3) % 1;
+  const currentPt = new HomVec4(Math.cos(Math.PI*tNorm), 0, 0, Math.sin(Math.PI*tNorm));
+  const currentC = pickBestCard(currentPt);
+  drawPoint3D(currentC.coords[0], currentC.coords[1], currentC.coords[2], '#fa0', 6);
+
+  // Apply g to current point
+  const gPt = g.apply(currentPt);
+  const gC = pickBestCard(gPt);
+  drawPoint3D(gC.coords[0], gC.coords[1], gC.coords[2], '#f44', 6);
+
+  // Draw line connecting them
+  drawGlowLine3D(currentC.coords[0],currentC.coords[1],currentC.coords[2], gC.coords[0],gC.coords[1],gC.coords[2], '#f44', 1);
+
+  // Draw the action of g on a set of points
+  const orbitPts = [];
+  for (let i = 0; i < 20; i++) {
+    const angle = i / 20 * Math.PI * 2;
+    const v = new HomVec4(Math.cos(angle)*0.5, Math.sin(angle)*0.5, 0.3, 1);
+    const vc = pickBestCard(v);
+    orbitPts.push(vc.coords);
+    const gv = g.apply(v);
+    const gvc = pickBestCard(gv);
+    drawLine3D(vc.coords[0],vc.coords[1],vc.coords[2], gvc.coords[0],gvc.coords[1],gvc.coords[2], 'rgba(255,100,100,0.2)', 0.5);
+    drawPoint3D(gvc.coords[0], gvc.coords[1], gvc.coords[2], '#f77', 2);
+  }
+  drawPolyline3D(orbitPts, '#7af', 1);
+
+  // Time-varying PGL(4,R) transformation
+  const timeTransform = Pgl4Matrix.compose(
+    rotationZ(t * 0.2),
+    Pgl4Matrix.compose(rotationY(t * 0.15), rotationX(t * 0.1))
+  );
+  const combined = Pgl4Matrix.compose(timeTransform, g);
+
+  // Draw transformed orbit
+  const transOrbit = [];
+  for (let i = 0; i < 20; i++) {
+    const angle = i / 20 * Math.PI * 2;
+    const v = new HomVec4(Math.cos(angle)*0.5, Math.sin(angle)*0.5, 0.3, 1);
+    const tv = combined.apply(v);
+    const tc = pickBestCard(tv);
+    if (Math.abs(tc.coords[0]) < 10 && Math.abs(tc.coords[1]) < 10 && Math.abs(tc.coords[2]) < 10)
+      transOrbit.push(tc.coords);
+  }
+  if (transOrbit.length > 1) {
+    ctx.globalAlpha = 0.6;
+    drawPolyline3D(transOrbit, '#f7f', 1);
+    ctx.globalAlpha = 1.0;
+  }
+
+  // Labels
+  drawText3D(currentC.coords[0], currentC.coords[1]+0.3, currentC.coords[2], 'γ(t)', '#fa0');
+  drawText3D(gC.coords[0], gC.coords[1]+0.3, gC.coords[2], 'g·γ(t)', '#f44');
+
+  // Matrix display
+  ctx.fillStyle = '#888';
+  ctx.font = '10px Courier New';
+  ctx.fillText('g = diag(-1,-1,-1,+1)  g² = I  Z/2Z', 16, H_canvas - 60);
+  ctx.fillText(`max|g²-I| = ${maxDiff.toExponential(2)}`, 16, H_canvas - 45);
+  ctx.fillText(`γ(t) = [cos(πt):0:0:sin(πt)]  t=${tNorm.toFixed(3)}`, 16, H_canvas - 30);
+}
+
+// ═══════════════════════════════════════════
+// MODE 3: OMEGA/CHI + FUBINI-STUDY
+// ═══════════════════════════════════════════
+function renderOmegaChi(t) {
+  // Ω hyperplane: W = 0 (plane at infinity)
+  // χ hyperplane: X + Y + Z = 0 (through origin)
+  // Show Fubini-Study distance between points
+
+  const R_m = params.R * 1000;
+  const s_m = params.s * 1000;
+  const W_val = wFromDistance(s_m, R_m);
+  const W_expected = Math.cos(s_m / (2 * R_m));
+  audit[2] = Math.abs(W_val - W_expected) < 1e-10;
+
+  // Two test points
+  const p1 = new HomVec4(0.3, 0.2, 0.1, 1).normalize();
+  const p2 = new HomVec4(
+    0.3 * Math.cos(t * 0.2),
+    0.2 * Math.sin(t * 0.3),
+    0.1 * Math.cos(t * 0.15),
+    W_val
+  ).normalize();
+
+  const dFS = fsDistance(p1, p2);
+  audit[1] = dFS >= -1e-10 && dFS <= Math.PI/2 + 1e-10;
+
+  // Track history
+  dfsHistory.push(dFS);
+  if (dfsHistory.length > MAX_HIST) dfsHistory.shift();
+  wHistory.push(W_val);
+  if (wHistory.length > MAX_HIST) wHistory.shift();
+
+  // Draw Ω plane (W=0) as blue grid
+  drawPlaneGrid([0,0,0], [1,0,0], [0,1,0], 3, 'rgba(68,68,255,0.08)', 0.5);
+  // Ω label
+  drawText3D(2.5, 0, 0, 'Ω (W=0)', '#44f', 12);
+
+  // Draw χ plane (X+Y+Z=0) as red grid
+  // Normal: (1,1,1), basis: (1,-1,0)/√2 and (1,1,-2)/√6
+  const su = [1/Math.sqrt(2), -1/Math.sqrt(2), 0];
+  const sv = [1/Math.sqrt(6), 1/Math.sqrt(6), -2/Math.sqrt(6)];
+  drawPlaneGrid([0,0,0], su, sv, 3, 'rgba(255,68,68,0.08)', 0.5);
+  drawText3D(su[0]*2.5, su[1]*2.5, su[2]*2.5, 'χ (X+Y+Z=0)', '#f44', 12);
+
+  // Intersection line Ω∩χ: W=0, X+Y+Z=0 → line in W=0 plane
+  const intLine = [];
+  for (let i = -20; i <= 20; i++) {
+    const u = i / 10;
+    const x = su[0]*u, y = su[1]*u, z = su[2]*u;
+    intLine.push([x, y, z]);
+  }
+  drawPolyline3D(intLine, '#fa0', 2, true);
+
+  // Draw p1 and p2 in affine card
+  const c1 = pickBestCard(p1);
+  const c2 = pickBestCard(p2);
+  drawPoint3D(c1.coords[0], c1.coords[1], c1.coords[2], '#7af', 6);
+  drawPoint3D(c2.coords[0], c2.coords[1], c2.coords[2], '#7f7', 6);
+
+  // Geodesic between p1 and p2
+  const geodesic = [];
+  for (let i = 0; i <= 40; i++) {
+    const s = i / 40;
+    const interp = new HomVec4(
+      (1-s)*p1.v[0]+s*p2.v[0],
+      (1-s)*p1.v[1]+s*p2.v[1],
+      (1-s)*p1.v[2]+s*p2.v[2],
+      (1-s)*p1.v[3]+s*p2.v[3]
+    );
+    const ic = pickBestCard(interp);
+    if (Math.abs(ic.coords[0]) < 10 && Math.abs(ic.coords[1]) < 10 && Math.abs(ic.coords[2]) < 10)
+      geodesic.push(ic.coords);
+  }
+  drawPolyline3D(geodesic, '#fff', 2, true);
+
+  // Distance label
+  drawText3D(c1.coords[0], c1.coords[1]+0.3, c1.coords[2], 'p₁', '#7af');
+  drawText3D(c2.coords[0], c2.coords[1]+0.3, c2.coords[2], 'p₂', '#7f7');
+
+  // Cost circle: set of points at distance d_FS from p1
+  const costCircle = [];
+  for (let i = 0; i <= 60; i++) {
+    const angle = i / 60 * Math.PI * 2;
+    const cv = new HomVec4(
+      p1.v[0] + dFS * Math.cos(angle) * 0.5,
+      p1.v[1] + dFS * Math.sin(angle) * 0.5,
+      p1.v[2] + dFS * Math.cos(angle + Math.PI/3) * 0.3,
+      p1.v[3]
+    ).normalize();
+    const cc = pickBestCard(cv);
+    if (Math.abs(cc.coords[0]) < 10 && Math.abs(cc.coords[1]) < 10 && Math.abs(cc.coords[2]) < 10)
+      costCircle.push(cc.coords);
+  }
+  ctx.globalAlpha = 0.5;
+  drawPolyline3D(costCircle, '#fa0', 1);
+  ctx.globalAlpha = 1.0;
+
+  // Update readouts
+  document.getElementById('rW').textContent = W_val.toFixed(6);
+  document.getElementById('rDFS').textContent = dFS.toFixed(6);
+
+  // Info
+  ctx.fillStyle = '#888';
+  ctx.font = '10px Courier New';
+  ctx.fillText(`d_FS(p₁,p₂) = ${dFS.toFixed(6)}  ∈ [0, π/2] = [0, ${(Math.PI/2).toFixed(6)}]`, 16, H_canvas - 60);
+  ctx.fillText(`W = cos(s/2R) = ${W_val.toFixed(8)}  s=${params.s} км  R=${params.R} км`, 16, H_canvas - 45);
+  ctx.fillText('Синий: Ω(W=0)  Красный: χ(X+Y+Z=0)  Золотой: Ω∩χ', 16, H_canvas - 30);
+}
+
+// ═══════════════════════════════════════════
+// MODE 4: M1/M2 LENSING
+// ═══════════════════════════════════════════
+function renderM1M2Lensing(t) {
+  // Ray tracing through M1 (primary) and M2 (secondary) collimation
+  // M1: parabolic mirror at z=0
+  // M2: hyperbolic mirror at z=d
+
+  const d = 2.5; // M2 offset
+  const f1 = 1.5; // M1 focal length
+
+  // Draw M1 (parabolic reflector)
+  const m1Pts = [];
+  for (let i = -40; i <= 40; i++) {
+    const r = i / 20;
+    const z = r * r / (4 * f1);
+    m1Pts.push([r, 0, z]);
+  }
+  drawPolyline3D(m1Pts, '#0ff', 2);
+
+  // M1 in other plane
+  const m1Pts2 = [];
+  for (let i = -40; i <= 40; i++) {
+    const r = i / 20;
+    const z = r * r / (4 * f1);
+    m1Pts2.push([0, r, z]);
+  }
+  drawPolyline3D(m1Pts2, '#0ff', 1);
+  drawText3D(0, 0, 0, 'M₁', '#0ff', 12);
+
+  // Draw M2 (convex hyperbolic)
+  const m2Pts = [];
+  const f2 = 0.8;
+  for (let i = -30; i <= 30; i++) {
+    const r = i / 20;
+    const z = d - f2 + r * r / (4 * f2);
+    m2Pts.push([r, 0, z]);
+  }
+  drawPolyline3D(m2Pts, '#f0f', 2);
+
+  const m2Pts2 = [];
+  for (let i = -30; i <= 30; i++) {
+    const r = i / 20;
+    const z = d - f2 + r * r / (4 * f2);
+    m2Pts2.push([0, r, z]);
+  }
+  drawPolyline3D(m2Pts2, '#f0f', 1);
+  drawText3D(0, 0, d, 'M₂', '#f0f', 12);
+
+  // Ray tracing: incoming parallel rays → M1 → M2 → focal point
+  const nRays = 12;
+  const focalPt = [0, 0, d - f2 + 0.1]; // Cassegrain focus
+
+  for (let i = 0; i < nRays; i++) {
+    const angle = (i / nRays) * Math.PI * 2 + t * 0.1;
+    const r = 0.3 + 0.7 * (i / nRays);
+
+    // Incoming ray direction (parallel, from -Z)
+    const hitR = r * Math.cos(angle);
+    const hitS = r * Math.sin(angle);
+    const m1Z = (hitR*hitR + hitS*hitS) / (4 * f1);
+
+    // Point on M1
+    const pM1 = [hitR, hitS, m1Z];
+
+    // Reflect off M1 → toward M2
+    // Normal at M1: (-∂z/∂x, -∂z/∂y, 1) normalized
+    const nx = -hitR / (2*f1), ny = -hitS / (2*f1), nz = 1;
+    const nn = Math.sqrt(nx*nx+ny*ny+nz*nz);
+    // Incoming direction: (0, 0, 1)
+    // Reflect: d - 2(d·n)n
+    const dn = nz / nn;
+    const rx = -2*dn*nx/nn, ry = -2*dn*ny/nn, rz = 1 - 2*dn*nz/nn;
+
+    // Find intersection with M2
+    // Parametric: P + t*R, find t where z = d - f2 + (x²+y²)/(4*f2)
+    const m2Center = d - f2;
+    // Approximate: just find where ray hits M2 z-plane
+    const tM2 = (m2Center - m1Z) / rz;
+    const m2X = hitR + tM2 * rx;
+    const m2Y = hitS + tM2 * ry;
+    const m2Z_actual = m1Z + tM2 * rz;
+    const pM2 = [m2X, m2Y, m2Z_actual];
+
+    // From M2 to focal point
+    const rayColor = i % 2 === 0 ? '#0ff' : '#f0f';
+
+    // Draw incoming ray
+    drawLine3D(hitR, hitS, -2, pM1[0], pM1[1], pM1[2], 'rgba(255,255,255,0.15)', 0.5);
+    // M1 to M2
+    drawLine3D(pM1[0], pM1[1], pM1[2], pM2[0], pM2[1], pM2[2], rayColor, 1);
+    // M2 to focal point
+    drawLine3D(pM2[0], pM2[1], pM2[2], focalPt[0], focalPt[1], focalPt[2], rayColor, 1);
+
+    // Draw hit points
+    drawPoint3D(pM1[0], pM1[1], pM1[2], '#0ff', 2);
+    drawPoint3D(pM2[0], pM2[1], pM2[2], '#f0f', 2);
+  }
+
+  // Focal point
+  drawPoint3D(focalPt[0], focalPt[1], focalPt[2], '#fff', 5);
+  drawText3D(focalPt[0]+0.2, focalPt[1], focalPt[2], 'F (фокус)', '#fff');
+
+  // Dynamic projection: Etheria onto W→0
+  // Show a sphere (Etheria) being projected
+  const etheriaPts = [];
+  for (let i = 0; i <= 30; i++) {
+    const phi = i / 30 * Math.PI;
+    for (let j = 0; j <= 30; j++) {
+      const theta = j / 30 * Math.PI * 2;
+      const ex = 1.5 * Math.sin(phi) * Math.cos(theta);
+      const ey = 1.5 * Math.sin(phi) * Math.sin(theta);
+      const ez = 1.5 * Math.cos(phi);
+      // Project through P³
+      const wFactor = Math.cos(ez / 3 + t * 0.2);
+      const p3pt = new HomVec4(ex, ey, ez, wFactor);
+      const c = pickBestCard(p3pt);
+      if (Math.abs(c.coords[0]) < 10 && Math.abs(c.coords[1]) < 10 && Math.abs(c.coords[2]) < 10) {
+        drawPoint3D(c.coords[0], c.coords[1], c.coords[2], 'rgba(119,170,255,0.03)', 1);
+      }
+    }
+  }
+
+  ctx.fillStyle = '#888';
+  ctx.font = '10px Courier New';
+  ctx.fillText('M₁: параболоид (первичное)  M₂: гиперболоид (вторичное)', 16, H_canvas - 45);
+  ctx.fillText('Трассировка лучей через P³: параллельный → M₁ → M₂ → фокус', 16, H_canvas - 30);
+}
+
+// ═══════════════════════════════════════════
+// MODE 5: NULL FLUID
+// ═══════════════════════════════════════════
+function renderNullFluid(t) {
+  // L_∅ simulation
+  // ρ_∅ = sin²(θ-85°)·H(θ-85°)
+  // Null fluid depth: 25.4 μm
+
+  const thetaBase = params.theta;
+
+  // Draw polar density distribution
+  const nPts = 200;
+  const pts2D = [];
+
+  // Draw reference circle
+  const refPts = [];
+  for (let i = 0; i <= 100; i++) {
+    const a = i / 100 * Math.PI * 2;
+    refPts.push([Math.cos(a), Math.sin(a), 0]);
+  }
+  ctx.globalAlpha = 0.2;
+  drawPolyline3D(refPts, '#888', 0.5);
+  ctx.globalAlpha = 1.0;
+
+  // Draw density as radial plot
+  const densityPts = [];
+  const densityPtsAbove = [];
+  const densityPtsBelow = [];
+  for (let i = 0; i <= nPts; i++) {
+    const theta = (i / nPts) * 180;
+    const rho = nullFluidDensity(theta);
+    const angle = theta * Math.PI / 180 + t * 0.2;
+    const r = 0.3 + rho * 2.5;
+    const x = r * Math.cos(angle);
+    const y = r * Math.sin(angle);
+    const z = rho * Math.sin(t * 0.5 + theta * 0.1) * 0.5;
+    densityPts.push([x, y, z]);
+    if (theta >= 85) densityPtsAbove.push([x, y, z]);
+    else densityPtsBelow.push([x, y, z]);
+  }
+
+  // Below 85° — no null fluid
+  drawPolyline3D(densityPtsBelow, '#446', 1);
+  // Above 85° — null fluid active
+  drawPolyline3D(densityPtsAbove, '#a4f', 2, true);
+
+  // Draw the 85° threshold line
+  const threshAngle = 85 * Math.PI / 180 + t * 0.2;
+  drawGlowLine3D(0, 0, 0, 3*Math.cos(threshAngle), 3*Math.sin(threshAngle), 0, '#a4f', 1);
+  drawText3D(3.2*Math.cos(threshAngle), 3.2*Math.sin(threshAngle), 0, '85°', '#a4f');
+
+  // Animated fluid particles
+  for (let i = 0; i < 80; i++) {
+    const theta = 85 + Math.random() * 95;
+    const rho = nullFluidDensity(theta);
+    if (rho < 0.01) continue;
+    const angle = theta * Math.PI / 180 + t * 0.2;
+    const r = 0.3 + rho * 2.5 * (0.5 + 0.5 * Math.sin(i * 7.3 + t * 3));
+    const px = r * Math.cos(angle);
+    const py = r * Math.sin(angle);
+    const pz = rho * Math.sin(t * RESONANCE_FREQ * 0.01 + i) * 0.3;
+    ctx.globalAlpha = rho * 0.6;
+    drawPoint3D(px, py, pz, '#a4f', 2);
+    ctx.globalAlpha = 1.0;
+  }
+
+  // 3D volume: null fluid shell at θ > 85°
+  for (let phi = 0; phi < 6; phi++) {
+    const phiAngle = phi / 6 * Math.PI * 2;
+    const shellPts = [];
+    for (let i = 0; i <= nPts; i++) {
+      const theta = (i / nPts) * 180;
+      const rho = nullFluidDensity(theta);
+      if (rho < 0.01) continue;
+      const thetaAngle = theta * Math.PI / 180;
+      const r = 1.5 + rho * 0.5 * Math.sin(t + phi);
+      shellPts.push([
+        r * Math.sin(thetaAngle) * Math.cos(phiAngle),
+        r * Math.sin(thetaAngle) * Math.sin(phiAngle),
+        r * Math.cos(thetaAngle)
+      ]);
+    }
+    ctx.globalAlpha = 0.15;
+    drawPolyline3D(shellPts, '#a4f', 0.5);
+    ctx.globalAlpha = 1.0;
+  }
+
+  // Current density at slider θ
+  const currentRho = nullFluidDensity(thetaBase);
+  const currentAngle = thetaBase * Math.PI / 180 + t * 0.2;
+  const cr = 0.3 + currentRho * 2.5;
+  drawPoint3D(cr*Math.cos(currentAngle), cr*Math.sin(currentAngle), 0, '#fff', 5);
+
+  ctx.fillStyle = '#888';
+  ctx.font = '10px Courier New';
+  ctx.fillText(`ρ_∅(θ=${thetaBase.toFixed(1)}°) = sin²(${(thetaBase-85).toFixed(1)}°)·H = ${currentRho.toFixed(6)}`, 16, H_canvas - 60);
+  ctx.fillText(`Глубина нулевой жидкости: ${NULL_FLUID_DEPTH*1e6} мкм = 25.4 μm`, 16, H_canvas - 45);
+  ctx.fillText('H(θ-85°): Хевисайд → ρ=0 при θ<85°, активна при θ≥85°', 16, H_canvas - 30);
+}
+
+// ═══════════════════════════════════════════
+// MODE 6: SO(3) CONJUGATION
+// ═══════════════════════════════════════════
+function renderConjugation(t) {
+  // Conjugation Kiev ↔ Sector 4 via quaternions
+  // Show all 9 archaeological sites
+
+  const qKiev = latlonToQuaternion(SITES[0].lat, SITES[0].lon);
+  const qSector4 = latlonToQuaternion(SITES[2].lat, SITES[2].lon);
+
+  // Conjugation: g = q_S4 * q_Kiev⁻¹
+  const qKievInv = quatConjugate(qKiev); // unit quaternion → inv = conjugate
+  const g = quatMultiply(qSector4, qKievInv);
+  const gNorm = quatNormalize(g);
+
+  // Distance
+  const dist = quatDistance(qKiev, qSector4);
+
+  // Verify: g * qKiev * g⁻¹ ≈ qSector4
+  const gInv = quatConjugate(gNorm);
+  const test = quatMultiply(quatMultiply(gNorm, qKiev), gInv);
+  const testNorm = quatNormalize(test);
+  const conjError = Math.sqrt(
+    (testNorm[0]-qSector4[0]/quatNorm(qSector4))**2 +
+    (testNorm[1]-qSector4[1]/quatNorm(qSector4))**2 +
+    (testNorm[2]-qSector4[2]/quatNorm(qSector4))**2 +
+    (testNorm[3]-qSector4[3]/quatNorm(qSector4))**2
+  );
+
+  // Convert g to SO(3) rotation matrix
+  const Rg = quatToRotationMatrix(gNorm);
+
+  // Draw Earth sphere (wireframe)
+  const R_sphere = 2.0;
+  for (let lat = -80; lat <= 80; lat += 20) {
+    const latPts = [];
+    for (let lon = 0; lon <= 360; lon += 5) {
+      const lr = lat * Math.PI / 180, lo = lon * Math.PI / 180;
+      latPts.push([
+        R_sphere * Math.cos(lr) * Math.cos(lo),
+        R_sphere * Math.cos(lr) * Math.sin(lo),
+        R_sphere * Math.sin(lr)
+      ]);
+    }
+    ctx.globalAlpha = 0.08;
+    drawPolyline3D(latPts, '#7af', 0.5);
+    ctx.globalAlpha = 1.0;
+  }
+  for (let lon = 0; lon < 360; lon += 30) {
+    const lonPts = [];
+    for (let lat = -90; lat <= 90; lat += 5) {
+      const lr = lat * Math.PI / 180, lo = lon * Math.PI / 180;
+      lonPts.push([
+        R_sphere * Math.cos(lr) * Math.cos(lo),
+        R_sphere * Math.cos(lr) * Math.sin(lo),
+        R_sphere * Math.sin(lr)
+      ]);
+    }
+    ctx.globalAlpha = 0.08;
+    drawPolyline3D(lonPts, '#7af', 0.5);
+    ctx.globalAlpha = 1.0;
+  }
+
+  // Draw sites on sphere
+  const siteColors = ['#7af','#7f7','#fa7','#f7f','#ff0','#0ff','#f77','#7ff','#f0f'];
+  for (let i = 0; i < SITES.length; i++) {
+    const site = SITES[i];
+    const lr = site.lat * Math.PI / 180;
+    const lo = site.lon * Math.PI / 180;
+    let sx = R_sphere * Math.cos(lr) * Math.cos(lo);
+    let sy = R_sphere * Math.cos(lr) * Math.sin(lo);
+    let sz = R_sphere * Math.sin(lr);
+
+    // Original site
+    drawPoint3D(sx, sy, sz, siteColors[i], 4);
+
+    // Apply conjugation rotation (with time animation)
+    const animAngle = t * 0.3;
+    const animRot = Pgl4Matrix.compose(rotationY(animAngle), rotationZ(animAngle * 0.3));
+    const sitePt = new HomVec4(sx, sy, sz, 1);
+    const rotPt = Pgl4Matrix.compose(animRot, Rg).apply(sitePt);
+    const rc = pickBestCard(rotPt);
+    if (Math.abs(rc.coords[0]) < 10 && Math.abs(rc.coords[1]) < 10 && Math.abs(rc.coords[2]) < 10) {
+      drawPoint3D(rc.coords[0], rc.coords[1], rc.coords[2], siteColors[i], 3);
+      // Draw connecting line
+      ctx.globalAlpha = 0.2;
+      drawLine3D(sx, sy, sz, rc.coords[0], rc.coords[1], rc.coords[2], siteColors[i], 0.5);
+      ctx.globalAlpha = 1.0;
+    }
+
+    drawText3D(sx, sy, sz + 0.15, site.name, siteColors[i], 8);
+  }
+
+  // Highlight Kiev → Sector 4 conjugation
+  const kievLR = SITES[0].lat * Math.PI / 180;
+  const kievLO = SITES[0].lon * Math.PI / 180;
+  const kx = R_sphere * Math.cos(kievLR) * Math.cos(kievLO);
+  const ky = R_sphere * Math.cos(kievLR) * Math.sin(kievLO);
+  const kz = R_sphere * Math.sin(kievLR);
+
+  const s4LR = SITES[2].lat * Math.PI / 180;
+  const s4LO = SITES[2].lon * Math.PI / 180;
+  const sx4 = R_sphere * Math.cos(s4LR) * Math.cos(s4LO);
+  const sy4 = R_sphere * Math.cos(s4LR) * Math.sin(s4LO);
+  const sz4 = R_sphere * Math.sin(s4LR);
+
+  // Animated geodesic from Kiev to Sector 4
+  const geodesicPts = [];
+  for (let i = 0; i <= 40; i++) {
+    const s = i / 40;
+    // Slerp on sphere
+    const q1 = latlonToQuaternion(SITES[0].lat, SITES[0].lon);
+    const q2 = latlonToQuaternion(SITES[2].lat, SITES[2].lon);
+    const dot = q1[0]*q2[0]+q1[1]*q2[1]+q1[2]*q2[2]+q1[3]*q2[3];
+    const omega = Math.acos(Math.min(1, Math.abs(dot)));
+    let interp;
+    if (Math.abs(omega) < 1e-10) {
+      interp = q1;
+    } else {
+      const sinO = Math.sin(omega);
+      interp = [
+        (Math.sin((1-s)*omega)/sinO)*q1[0] + (Math.sin(s*omega)/sinO)*q2[0],
+        (Math.sin((1-s)*omega)/sinO)*q1[1] + (Math.sin(s*omega)/sinO)*q2[1],
+        (Math.sin((1-s)*omega)/sinO)*q1[2] + (Math.sin(s*omega)/sinO)*q2[2],
+        (Math.sin((1-s)*omega)/sinO)*q1[3] + (Math.sin(s*omega)/sinO)*q2[3]
+      ];
+    }
+    // Convert quaternion to point on sphere
+    // q = q_z(lon) * q_y(lat)
+    // Extract lat, lon from quaternion
+    const latFromQ = Math.asin(2*(interp[0]*interp[2]-interp[1]*interp[3])) * 180/Math.PI;
+    const lonFromQ = Math.atan2(2*(interp[0]*interp[3]+interp[1]*interp[2]), 1-2*(interp[2]*interp[2]+interp[3]*interp[3])) * 180/Math.PI;
+    const lr2 = latFromQ * Math.PI/180, lo2 = lonFromQ * Math.PI/180;
+    geodesicPts.push([
+      R_sphere * Math.cos(lr2) * Math.cos(lo2),
+      R_sphere * Math.cos(lr2) * Math.sin(lo2),
+      R_sphere * Math.sin(lr2)
+    ]);
+  }
+  drawPolyline3D(geodesicPts, '#fa0', 2, true);
+
+  // Highlight Kiev and Sector 4
+  drawPoint3D(kx, ky, kz, '#fff', 6);
+  drawPoint3D(sx4, sy4, sz4, '#fff', 6);
+
+  // Delta coordinates
+  const actualDLat = SITES[2].lat - SITES[0].lat;
+  const actualDLon = SITES[2].lon - SITES[0].lon;
+
+  ctx.fillStyle = '#888';
+  ctx.font = '10px Courier New';
+  ctx.fillText(`g: Киев→Сектор4  d_QUAT = ${dist.toFixed(6)} рад`, 16, H_canvas - 75);
+  ctx.fillText(`ΔLat = ${actualDLat.toFixed(4)}°  ΔLon = ${actualDLon.toFixed(4)}° (канон: +0.6533°, +4.1567°)`, 16, H_canvas - 60);
+  ctx.fillText(`Канон: K=9/7 — временная константа T=dI/dΣ (18 Земля=14 Этерия)`, 16, H_canvas - 45);
+  ctx.fillText(`Ошибка конъюгации: ${conjError.toExponential(2)}`, 16, H_canvas - 30);
+}
+
+// ═══════════════════════════════════════════
+// MODE 7: CAUSAL PROJECTOR + J TORSION
+// ═══════════════════════════════════════════
+function renderProjectorJTorsion(t) {
+  // Π_Λ = I − Jcᵀ(Jc·Jcᵀ + δI)⁻¹Jc
+  // J = A − Aᵀ (skew-symmetric resonance)
+
+  // Time-varying matrix A
+  const a = t * 0.3;
+  const A = new Pgl4Matrix([
+    1, Math.sin(a)*0.5, Math.cos(a*0.7)*0.3, 0.1,
+    Math.cos(a*0.5)*0.4, 1, Math.sin(a*1.1)*0.2, -0.1,
+    Math.sin(a*0.8)*0.3, Math.cos(a*1.3)*0.4, 1, 0.2,
+    -0.1, 0.1, -0.2, 1
+  ]);
+
+  // Compute J = A - A^T
+  const J = computeResonance(A);
+
+  // Causal projector
+  const Jc = J;
+  const projector = computeProjector(Jc, params.delta);
+
+  // Verify projector properties: Π² ≈ Π (idempotent)
+  const Pi2 = Pgl4Matrix.compose(projector, projector);
+  let piError = 0;
+  for (let i = 0; i < 16; i++) piError += (Pi2.m[i] - projector.m[i])**2;
+  piError = Math.sqrt(piError);
+
+  // Damping matrix D (diagonal, positive)
+  const D = scale3D(0.5, 0.3, 0.2); // extends to 4x4
+  D.m[15] = 1; // W component unchanged
+
+  // Gradient ∇F
+  const gradF = new HomVec4(
+    Math.sin(t * 0.4) * 0.1,
+    Math.cos(t * 0.3) * 0.1,
+    Math.sin(t * 0.5) * 0.05,
+    0
+  );
+
+  // POLER cycle: evolve a point
+  // Initial point
+  const p0 = new HomVec4(
+    Math.cos(t * 0.1) * 0.5,
+    Math.sin(t * 0.15) * 0.5,
+    Math.cos(t * 0.12) * 0.3,
+    1
+  ).normalize();
+
+  // Run several POLER steps
+  let p = p0.clone();
+  const polerTrail = [];
+  for (let step = 0; step < 50; step++) {
+    const pc = pickBestCard(p);
+    if (Math.abs(pc.coords[0]) < 10 && Math.abs(pc.coords[1]) < 10 && Math.abs(pc.coords[2]) < 10)
+      polerTrail.push(pc.coords);
+    p = polerCycleStep(p, D, J, gradF, projector, params.eta, params.gamma);
+  }
+
+  // Draw POLER trail
+  drawPolyline3D(polerTrail, '#7af', 1.5, true);
+
+  // Draw current position
+  if (polerTrail.length > 0) {
+    const last = polerTrail[polerTrail.length - 1];
+    drawPoint3D(last[0], last[1], last[2], '#fff', 5);
+  }
+
+  // Draw J eigenstructure (eigenvectors as arrows)
+  // Simplified: draw action of J on basis vectors
+  const basisColors = ['#f44', '#4f4', '#44f', '#ff4'];
+  const basisNames = ['e₁', 'e₂', 'e₃', 'e₄'];
+  for (let i = 0; i < 4; i++) {
+    const ev = new HomVec4(i===0?1:0, i===1?1:0, i===2?1:0, i===3?1:0);
+    const Je = J.apply(ev);
+    const ec = pickBestCard(ev);
+    const Jc2 = pickBestCard(Je);
+    if (Math.abs(ec.coords[0])<10 && Math.abs(ec.coords[1])<10 && Math.abs(ec.coords[2])<10 &&
+        Math.abs(Jc2.coords[0])<10 && Math.abs(Jc2.coords[1])<10 && Math.abs(Jc2.coords[2])<10) {
+      // Draw basis vector
+      drawLine3D(0,0,0, ec.coords[0],ec.coords[1],ec.coords[2], basisColors[i], 1);
+      // Draw J action
+      drawLine3D(0,0,0, Jc2.coords[0],Jc2.coords[1],Jc2.coords[2], basisColors[i], 1.5);
+      drawText3D(ec.coords[0], ec.coords[1], ec.coords[2]+0.15, basisNames[i], basisColors[i]);
+    }
+  }
+
+  // Draw projector action on POLER point
+  const projP = projector.apply(p0);
+  const projPC = pickBestCard(projP);
+  if (Math.abs(projPC.coords[0])<10 && Math.abs(projPC.coords[1])<10 && Math.abs(projPC.coords[2])<10) {
+    drawPoint3D(projPC.coords[0], projPC.coords[1], projPC.coords[2], '#fa0', 4);
+  }
+
+  // Deformed tensor product demo
+  const B = rotationY(t * 0.2);
+  const C = rotationZ(t * 0.15);
+  const deformed = deformedTensorProduct(B, C, params.epsilon);
+  const deformedPt = deformed.apply(p0);
+  const dc = pickBestCard(deformedPt);
+  if (Math.abs(dc.coords[0])<10 && Math.abs(dc.coords[1])<10 && Math.abs(dc.coords[2])<10) {
+    drawPoint3D(dc.coords[0], dc.coords[1], dc.coords[2], '#f7f', 4);
+  }
+
+  ctx.fillStyle = '#888';
+  ctx.font = '10px Courier New';
+  ctx.fillText(`J = A−Aᵀ (кососимметрическая)  ‖Π²−Π‖ = ${piError.toExponential(2)}`, 16, H_canvas - 75);
+  ctx.fillText(`POLER: η=${params.eta} γ=${params.gamma} δ=${params.delta.toExponential(1)} ε=${params.epsilon}`, 16, H_canvas - 60);
+  ctx.fillText(`CORDIC 1/√x: invSqrt(2)=${cordicInvSqrt(2).toFixed(8)} (ожидается ${(1/Math.sqrt(2)).toFixed(8)})`, 16, H_canvas - 45);
+  ctx.fillText('Золотой: Π_Λ(p₀)  Розовый: (B⊗_εC)·p₀', 16, H_canvas - 30);
+}
+
+// ═══════════════════════════════════════════
+// MINI CHART RENDERING
+// ═══════════════════════════════════════════
+function drawMiniChart(canvasId, data, color, yMin, yMax) {
+  const c = document.getElementById(canvasId);
+  if (!c) return;
+  const ctx2 = c.getContext('2d');
+  const w = c.width = c.clientWidth;
+  const h = c.height = c.clientHeight;
+  ctx2.fillStyle = '#08080c';
+  ctx2.fillRect(0, 0, w, h);
+  if (data.length < 2) return;
+  const range = yMax - yMin;
+  ctx2.strokeStyle = color;
+  ctx2.lineWidth = 1;
+  ctx2.beginPath();
+  for (let i = 0; i < data.length; i++) {
+    const x = (i / (MAX_HIST - 1)) * w;
+    const y = h - ((data[i] - yMin) / range) * h;
+    if (i === 0) ctx2.moveTo(x, y);
+    else ctx2.lineTo(x, y);
+  }
+  ctx2.stroke();
+  // Grid
+  ctx2.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx2.lineWidth = 0.5;
+  for (let i = 0; i < 4; i++) {
+    const y = (i / 3) * h;
+    ctx2.beginPath(); ctx2.moveTo(0, y); ctx2.lineTo(w, y); ctx2.stroke();
+  }
+}
+
+// ═══════════════════════════════════════════
+// AUDIT SYSTEM
+// ═══════════════════════════════════════════
+function updateAudit() {
+  // 0: g² ≡ I
+  const g = z2zGenerator();
+  const g2 = Pgl4Matrix.compose(g, g);
+  const I4 = Pgl4Matrix.identity();
+  let maxDiff = 0;
+  for (let i = 0; i < 16; i++) maxDiff = Math.max(maxDiff, Math.abs(g2.m[i] - I4.m[i]));
+  audit[0] = maxDiff < 1e-8;
+
+  // 1: d_FS ∈ [0, π/2]
+  const p1 = new HomVec4(1, 0, 0, 0).normalize();
+  const p2 = new HomVec4(0, 1, 0, 0).normalize();
+  const dfs = fsDistance(p1, p2);
+  audit[1] = dfs >= -1e-10 && dfs <= Math.PI/2 + 1e-10;
+
+  // 2: W = cos(s/2R)
+  const R_m = params.R * 1000;
+  const s_m = params.s * 1000;
+  const W = wFromDistance(s_m, R_m);
+  const W_exp = Math.cos(s_m / (2 * R_m));
+  audit[2] = Math.abs(W - W_exp) < 1e-10;
+
+  // 3: Skew lines have no intersection (set by mode 0, default true if not checked)
+  // Already set by mode 0 render
+
+  // 4: K = 9/7
+  audit[4] = Math.abs(K_ANISO - 9/7) < 1e-10;
+
+  // 5: Angular size = 13.51″
+  const calcAngSize = angularSizeArcsec(2 * R_EARTH_KM, D_ETERIA_AU);
+  audit[5] = Math.abs(calcAngSize - ANGULAR_SIZE_EARTH) < 0.1;
+
+  // Update DOM
+  const labels = [
+    `g²≡I (${maxDiff.toExponential(1)})`,
+    `d_FS∈[0,π/2] (${dfs.toFixed(4)})`,
+    `W=cos(s/2R) (${Math.abs(W-W_exp).toExponential(1)})`,
+    `Skew ∩=∅`,
+    `K=9/7 (${K_ANISO.toFixed(6)})`,
+    `∠Earth=${calcAngSize.toFixed(2)}″`
   ];
-  
-  const sg=new THREE.SphereGeometry(R,32,32);
-  const sm=new THREE.MeshBasicMaterial({color:0x182838,wireframe:true,transparent:true,opacity:0.06});
-  scene.add(new THREE.Mesh(sg,sm));
-  
-  const sitePos=sites.map(s=>{
-    const la=s.lat*DEG,lo=s.lon*DEG;
-    return new THREE.Vector3(R*Math.cos(la)*Math.cos(lo),R*Math.sin(la),R*Math.cos(la)*Math.sin(lo));
-  });
-  
-  sites.forEach((s,i)=>{makePoint(sitePos[i],0x77ff77,0.03);addLabel(s.name,sitePos[i].clone().normalize().multiplyScalar(R+0.15),'#7f7');});
-  
-  // Kyiv↔Sector4 conjugation via SO(3) quaternions
-  makeLine([sitePos[2],sitePos[3]],0xffff00,2);
-  
-  const qK=P3.latlon_to_quaternion(sites[2].lat,sites[2].lon);
-  const qS=P3.latlon_to_quaternion(sites[3].lat,sites[3].lon);
-  const dQ=P3.quat_distance(qK,qS);
-  const dSO3=2*dQ;
-  const dFSdeg=dSO3/DEG;
-  const sEarth=2*6378*dQ;
-  const sEteria=2*5838.4*dQ;
-  
-  addLabel('Kyiv ≡ Sector4 в P³', new THREE.Vector3(0,-0.4,0), '#ff4');
-  
-  return `КОНЪЮГАЦИЯ SO(3) (БАГ #4 ИСПРАВЛЕН):\n\nd_SO3 = 2·arccos(|<q₁,q₂>|)\n      = ${dSO3.toFixed(6)} рад = ${dFSdeg.toFixed(4)}°\n\ns_физ(Earth)  = ${sEarth.toFixed(1)} км\ns_физ(Eteria) = ${sEteria.toFixed(1)} км\n\nK=9/7 из T=dI/dΣ: ${(9/7).toFixed(6)}\nНЕ из деления ${sites[2].lat}/${sites[3].lat}=${(sites[2].lat/sites[3].lat).toFixed(4)}\n\nКиев ≡ Сектор4 через P³-окно`;
-};
-
-// --- 8. Π_Λ + J КРУЧЕНИЕ ---
-modes.pi_lambda = function(){
-  const t=params.time;
-  
-  // Draw the projector Π_Λ acting on a test vector
-  // Jc = constraint Jacobian (example: [1, 1, 0, 0])
-  const Jc = [1, 1, 0, 0];
-  const delta = 0.01;
-  const PiL = P3.pi_lambda_projector(Jc, delta);
-  
-  // Test vector
-  const v0 = [0.5, 0.5, 0.5, 0.5];
-  const vProj = P3.mat4_apply(PiL, v0);
-  
-  // Draw original and projected vectors
-  const origin = new THREE.Vector3(0,0,0);
-  const v0Pos = new THREE.Vector3(v0[0],v0[1],v0[2]).multiplyScalar(2);
-  const vPPos = new THREE.Vector3(vProj[0],vProj[1],vProj[2]).multiplyScalar(2);
-  
-  makeLine([origin, v0Pos], 0x4488ff, 2);
-  makeLine([origin, vPPos], 0xff8844, 2);
-  makePoint(v0Pos, 0x4488ff, 0.05);
-  makePoint(vPPos, 0xff8844, 0.05);
-  addLabel('v (original)', v0Pos.clone().add(new THREE.Vector3(0,0.15,0)), '#48f');
-  addLabel('Π_Λ·v (projected)', vPPos.clone().add(new THREE.Vector3(0,0.15,0)), '#f84');
-  
-  // Torsion matrix J = A - A^T
-  const A = P3.rotation_in_plane(0,1,t*0.3);
-  const J = P3.torsion_matrix(A);
-  
-  // Apply J to test vector (generates 18.7 Hz resonance)
-  const vTorsion = P3.mat4_apply(J, v0);
-  const vTPos = new THREE.Vector3(vTorsion[0],vTorsion[1],vTorsion[2]).multiplyScalar(0.5);
-  makeLine([origin, vTPos], 0x44ff44, 1);
-  addLabel('J·v (torsion, 18.7 Hz)', vTPos.clone().add(new THREE.Vector3(0,0.15,0)), '#4f4');
-  
-  // Axes
-  makeLine([origin, new THREE.Vector3(2,0,0)], 0x333333, 1);
-  makeLine([origin, new THREE.Vector3(0,2,0)], 0x333333, 1);
-  makeLine([origin, new THREE.Vector3(0,0,2)], 0x333333, 1);
-  
-  return `Π_Λ + J КРУЧЕНИЕ:\n\nΠ_Λ = I − Jc^T(Jc·Jc^T + δI)⁻¹Jc\nJc = [${Jc.join(', ')}], δ = ${delta}\nv    = [${v0.map(x=>x.toFixed(3)).join(', ')}]\nΠ_Λ·v = [${vProj.map(x=>x.toFixed(3)).join(', ')}]\n\nJ = A − A^T (кососимметричная)\nJ·v  = [${vTorsion.map(x=>x.toFixed(3)).join(', ')}]\nГенерирует резонанс 18.7 Гц\n\niJ — эрмитов оператор (предотвращает overflow)`;
-};
-
-// ============================================================
-// CHARTS
-// ============================================================
-function drawChartW(){
-  const c=document.getElementById('chart-w'),ctx=c.getContext('2d');
-  c.width=c.offsetWidth*2;c.height=c.offsetHeight*2;
-  const w=c.width,h=c.height,R_km=params.R,maxS=Math.PI*R_km;
-  ctx.fillStyle='#08080c';ctx.fillRect(0,0,w,h);
-  ctx.strokeStyle='#333';ctx.beginPath();ctx.moveTo(30,h-20);ctx.lineTo(w-10,h-20);ctx.moveTo(30,10);ctx.lineTo(30,h-20);ctx.stroke();
-  ctx.fillStyle='#777';ctx.font='9px monospace';ctx.fillText('W',5,15);ctx.fillText('0',15,h-25);ctx.fillText('1',15,25);
-  ctx.strokeStyle='#7f7';ctx.lineWidth=2;ctx.beginPath();
-  for(let i=0;i<=w-40;i++){const s=(i/(w-40))*maxS;const W=P3.W_of_s(s,R_km);const x=30+i,y=(h-20)-W*(h-40);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
-  ctx.stroke();
-  const sC=params.s,WC=P3.W_of_s(sC,R_km),xC=30+(sC/maxS)*(w-40),yC=(h-20)-WC*(h-40);
-  ctx.fillStyle='#ff4';ctx.beginPath();ctx.arc(xC,yC,3,0,TWO_PI);ctx.fill();
-  ctx.strokeStyle='#f44';ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(30,h-20);ctx.lineTo(w-10,h-20);ctx.stroke();ctx.setLineDash([]);
+  for (let i = 0; i < 6; i++) {
+    const dot = document.getElementById('a'+i+'d');
+    const txt = document.getElementById('a'+i);
+    dot.className = 'audit-dot ' + (audit[i] ? 'ok' : 'fail');
+    txt.textContent = labels[i] + (audit[i] ? ' ✓' : ' ✗');
+    txt.className = audit[i] ? 'audit-ok' : 'audit-fail';
+  }
 }
 
-function drawChartRho(){
-  const c=document.getElementById('chart-rho'),ctx=c.getContext('2d');
-  c.width=c.offsetWidth*2;c.height=c.offsetHeight*2;
-  const w=c.width,h=c.height;
-  ctx.fillStyle='#08080c';ctx.fillRect(0,0,w,h);
-  ctx.strokeStyle='#333';ctx.beginPath();ctx.moveTo(30,h-20);ctx.lineTo(w-10,h-20);ctx.moveTo(30,10);ctx.lineTo(30,h-20);ctx.stroke();
-  ctx.strokeStyle='#f77';ctx.lineWidth=2;ctx.beginPath();
-  for(let i=0;i<=w-40;i++){const th=(i/(w-40))*90;const r=P3.rho_null(th);const x=30+i,y=(h-20)-r*(h-40);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
-  ctx.stroke();
-  const x85=30+(85/90)*(w-40);ctx.strokeStyle='#f80';ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(x85,10);ctx.lineTo(x85,h-20);ctx.stroke();ctx.setLineDash([]);
-  const tC=params.theta,rC=P3.rho_null(tC),xC=30+(tC/90)*(w-40),yC=(h-20)-rC*(h-40);
-  ctx.fillStyle='#ff4';ctx.beginPath();ctx.arc(xC,yC,3,0,TWO_PI);ctx.fill();
-}
+// ═══════════════════════════════════════════
+// UI CONTROLLER
+// ═══════════════════════════════════════════
+const modeNames = [
+  'Скрещивающиеся прямые',
+  'Переключение карт',
+  'Z/2Z Движок (PGL4)',
+  'Ω/χ + d_FS Метрика',
+  'M1/M2 Линзирование',
+  'L_∅ Симуляция',
+  'Конъюгация SO(3)',
+  'Π_Λ + J кручение'
+];
 
-function drawChartZ2Z(){
-  const c=document.getElementById('chart-z2z'),ctx=c.getContext('2d');
-  c.width=c.offsetWidth*2;c.height=c.offsetHeight*2;
-  const w=c.width,h=c.height,t=params.time;
-  ctx.fillStyle='#08080c';ctx.fillRect(0,0,w,h);
-  const cx=w/2,cy=h/2,r=Math.min(w,h)*0.35;
-  ctx.strokeStyle='#223';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,r,0,TWO_PI);ctx.stroke();
-  const lT=(t*0.3)%2,a=Math.PI*lT;
-  ctx.strokeStyle=lT<=1?'#ff4':'#4ff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,r,0,-a,true);ctx.stroke();
-  const px=cx+r*Math.cos(a),py=cy-r*Math.sin(a);
-  ctx.fillStyle=lT<=1?'#ff4':'#4ff';ctx.beginPath();ctx.arc(px,py,4,0,TWO_PI);ctx.fill();
-  ctx.fillStyle='#7f7';ctx.font='10px monospace';ctx.fillText(lT<=1?'Hol=−1 (1 оборот)':'Hol=+1 (2 оборота)',10,h-8);
-  ctx.fillText(`Обход: ${lT.toFixed(2)}/2`,10,12);
-}
-
-// ============================================================
-// UI
-// ============================================================
-document.querySelectorAll('#mode-buttons .btn').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('#mode-buttons .btn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');params.mode=b.dataset.mode;
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentMode = parseInt(btn.dataset.mode);
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('mode-label').textContent = modeNames[currentMode];
+    // Reset history
+    wHistory = [];
+    dfsHistory = [];
   });
 });
-function bindS(id,key){
-  const sl=document.getElementById(id),sv=document.getElementById(id.replace('sl-','sv-'));
-  sl.addEventListener('input',()=>{params[key]=parseFloat(sl.value);sv.textContent=key==='theta'?params[key].toFixed(1):key==='speed'?params[key].toFixed(1):params[key].toFixed(0);});
+
+// Sliders
+function bindSlider(id, paramKey, displayId, formatter) {
+  const slider = document.getElementById(id);
+  slider.addEventListener('input', () => {
+    params[paramKey] = parseFloat(slider.value);
+    document.getElementById(displayId).textContent = formatter ? formatter(params[paramKey]) : params[paramKey];
+  });
 }
-bindS('sl-R','R');bindS('sl-s','s');bindS('sl-theta','theta');bindS('sl-speed','speed');
+bindSlider('sR', 'R', 'pR', v => v.toFixed(1));
+bindSlider('sS', 's', 'pS', v => v.toFixed(1));
+bindSlider('sT', 'theta', 'pT', v => v.toFixed(1));
+bindSlider('sEta', 'eta', 'pEta', v => v.toFixed(3));
+bindSlider('sGamma', 'gamma', 'pGamma', v => v.toFixed(2));
+bindSlider('sDelta', 'delta', 'pDelta', v => v.toExponential(1));
+bindSlider('sEps', 'epsilon', 'pEps', v => v.toFixed(3));
 
-function onResize(){const r=container.getBoundingClientRect();camera.aspect=r.width/r.height;camera.updateProjectionMatrix();renderer.setSize(r.width,r.height);}
-window.addEventListener('resize',onResize);onResize();
-
-// ============================================================
+// ═══════════════════════════════════════════
 // MAIN LOOP
-// ============================================================
-const audits = runAudits();
+// ═══════════════════════════════════════════
+const modeRenderers = [
+  renderSkewLines,
+  renderCardSwitching,
+  renderZ2ZEngine,
+  renderOmegaChi,
+  renderM1M2Lensing,
+  renderNullFluid,
+  renderConjugation,
+  renderProjectorJTorsion
+];
 
-function animate(){
-  requestAnimationFrame(animate);
-  params.time += 0.016*params.speed;
-  clearScene();updateCamera();
-  
-  const modeFn = modes[params.mode];
-  const readout = modeFn ? modeFn() : '';
-  document.getElementById('readout').innerHTML = readout ? readout.split('\n').map(l=>`<div>${l}</div>`).join('') : '';
-  
-  // Audit panel
-  const auditHtml = audits.map(a=>`<div class="${a.pass?'audit-pass':'audit-fail'}">[#${a.id}] ${a.name}: ${a.pass?'PASS':'FAIL'} — ${a.detail}</div>`).join('');
-  document.getElementById('audit').innerHTML = auditHtml;
-  
-  drawChartW();drawChartRho();drawChartZ2Z();
-  renderer.render(scene,camera);
+function mainLoop(timestamp) {
+  // FPS counter
+  fpsCount++;
+  if (timestamp - fpsTimer > 1000) {
+    fps = fpsCount;
+    fpsCount = 0;
+    fpsTimer = timestamp;
+  }
+
+  // Time update (real math, not CSS)
+  time += 1 / 60; // 60 FPS assumption, real time step
+  frameCount++;
+
+  // Clear canvas
+  ctx.fillStyle = '#08080c';
+  ctx.fillRect(0, 0, W_canvas, H_canvas);
+
+  // Draw axes
+  drawAxes(3);
+
+  // Draw plane at infinity (faint)
+  drawPlaneAtInfinity();
+
+  // Render current mode
+  modeRenderers[currentMode](time);
+
+  // Update readouts (common)
+  document.getElementById('rFPS').textContent = fps;
+  document.getElementById('rK').textContent = K_ANISO.toFixed(4);
+  document.getElementById('rAng').textContent = ANGULAR_SIZE_EARTH.toFixed(2) + '″';
+  document.getElementById('rPar').textContent = PARALLAX_ETERIA.toFixed(4) + '″';
+  document.getElementById('rDLat').textContent = (DELTA_LAT >= 0 ? '+' : '') + DELTA_LAT.toFixed(4) + '°';
+  document.getElementById('rDLon').textContent = (DELTA_LON >= 0 ? '+' : '') + DELTA_LON.toFixed(4) + '°';
+  document.getElementById('rLambda').textContent = GOLDEN_ANGLE.toExponential(2) + ' рад';
+  document.getElementById('fps-label').textContent = fps + ' FPS';
+
+  // Common W and d_FS readouts (if not set by mode)
+  if (currentMode !== 3) {
+    const R_m = params.R * 1000;
+    const s_m = params.s * 1000;
+    const W = wFromDistance(s_m, R_m);
+    document.getElementById('rW').textContent = W.toFixed(6);
+    if (dfsHistory.length > 0) {
+      document.getElementById('rDFS').textContent = dfsHistory[dfsHistory.length-1].toFixed(6);
+    }
+  }
+
+  // Card readout
+  if (currentMode !== 1) {
+    const testPt = new HomVec4(Math.cos(time*0.3), Math.sin(time*0.4), Math.cos(time*0.2), Math.sin(time*0.5));
+    const best = pickBestCard(testPt);
+    document.getElementById('rCard').textContent = CardNames[best.card];
+  }
+
+  // Mini charts
+  drawMiniChart('chartW', wHistory, '#7af', -1, 1);
+  drawMiniChart('chartDFS', dfsHistory, '#7f7', 0, Math.PI/2);
+
+  // Audit (every 30 frames)
+  if (frameCount % 30 === 0) updateAudit();
+
+  requestAnimationFrame(mainLoop);
 }
-animate();
+
+// Initial audit
+updateAudit();
+
+// Start
+requestAnimationFrame(mainLoop);
 </script>
 </body>
 </html>
