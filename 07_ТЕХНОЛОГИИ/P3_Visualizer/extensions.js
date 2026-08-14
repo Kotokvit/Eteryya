@@ -1,5 +1,5 @@
 /**
- * DYNAMIS v2.1 EXTENSIONS — Pyodide + SymPy + Spacetime + DEM
+ * DYNAMIS v3.0 EXTENSIONS — Pyodide + SymPy + Spacetime + DEM
  * ============================================================
  *
  * Подключается после основного index.html скрипта.
@@ -362,7 +362,7 @@ const DYNAMISExport = {
   exportState() {
     // Собираем текущее состояние визуализатора
     const state = {
-      version: '2.1',
+      version: '3.0',
       timestamp: new Date().toISOString(),
       mode: typeof currentMode !== 'undefined' ? currentMode : 0,
       parameters: {
@@ -496,6 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Обновляем заголовок
 document.getElementById('title-bar')?.querySelector('h1') &&
-  (document.querySelector('#title-bar h1').textContent = 'DYNAMIS v2.1 — P³ Абсолютный Канон');
+  (document.querySelector('#title-bar h1').textContent = 'DYNAMIS v3.0 — P³ Лаборатория');
 document.querySelector('#title-bar .ver') &&
-  (document.querySelector('#title-bar .ver').textContent = 'PGL(4,R) · Fubini-Study · POLER · P³×R · SymPy');
+  (document.querySelector('#title-bar .ver').textContent = 'PGL(4,R) · Fubini-Study · POLER · P³×R · DEM · SymPy');

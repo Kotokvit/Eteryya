@@ -1,13 +1,13 @@
 # ═══════════════════════════════════════════════════════════════
-# DYNAMIS v2.1 — P³ Projective Geography Platform
+# DYNAMIS v3.0 — P³ Лаборатория
 # Docker image: docker run -p 8080:80 dynamis
 # ═══════════════════════════════════════════════════════════════
 
 FROM python:3.11-slim AS base
 
 LABEL maintainer="Eteryya Project"
-LABEL description="DYNAMIS — P³ Projective Geography & World Design Platform"
-LABEL version="2.1"
+LABEL description="DYNAMIS — P³ Лаборатория"
+LABEL version="3.0"
 
 # System deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -86,7 +86,7 @@ from p3_kernel import HomVec4, fs_distance, w_from_distance, K_ANISO
 class DynamisAPI(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/api/health':
-            self._json(200, {'status': 'ok', 'version': '2.1'})
+            self._json(200, {'status': 'ok', 'version': '3.0'})
         elif self.path == '/api/constants':
             self._json(200, {
                 'R_eteria_km': 5838.4,
@@ -126,7 +126,7 @@ RUN cat > /dynamis/entrypoint.sh << 'SHEOF'
 set -e
 
 echo "╔══════════════════════════════════════════════════╗"
-echo "║  DYNAMIS v2.1 — P³ Projective Geography Platform  ║"
+echo "║  DYNAMIS v3.0 — P³ Лаборатория                     ║"
 echo "║  http://localhost:8080                            ║"
 echo "╚══════════════════════════════════════════════════╝"
 

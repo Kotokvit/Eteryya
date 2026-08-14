@@ -1,4 +1,4 @@
-# DYNAMIS v2.1 — docker-compose
+# DYNAMIS v3.0 — docker-compose
 # Usage: docker-compose up -d
 # Then open http://localhost:8080
 
@@ -14,7 +14,7 @@ services:
       - "8080:80"
     restart: unless-stopped
     environment:
-      - DYNAMIS_VERSION=2.1
+      - DYNAMIS_VERSION=3.0
       - P3_RADIUS_KM=5838.4
       - K_ANISO=1.28571428571
     volumes:

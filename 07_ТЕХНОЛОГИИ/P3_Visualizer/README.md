@@ -1,4 +1,4 @@
-# DYNAMIS v2.1 — P³ Projective Geography Platform
+# DYNAMIS v3.0 — P³ Лаборатория
 
 > **Революция в проективной географии:**
 > проектирование целых миров на проективном многообразии P³ = RP³ = S³/{±1}
@@ -50,7 +50,7 @@ points = converter.convert(dem, downsample=4)
 
 ```
 P3_Visualizer/
-├── index.html              # DYNAMIS v2.1 — браузерный визуализатор
+├── index.html              # DYNAMIS v3.0 — браузерный визуализатор
 ├── extensions.js           # Pyodide + SymPy + Spacetime + DEM (JS)
 ├── Dockerfile              # Docker-пакет
 ├── docker-compose.yml      # docker-compose up -d

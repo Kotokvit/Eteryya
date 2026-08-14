@@ -1,5 +1,5 @@
 """
-DYNAMIS Extensions v2.1
+DYNAMIS Extensions v3.0
 =======================
 Расширения ядра P³:
 
