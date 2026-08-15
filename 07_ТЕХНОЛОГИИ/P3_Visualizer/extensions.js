@@ -422,17 +422,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Добавляем 2 новых режима в sidebar
   const modeGrid = document.querySelector('.mode-grid');
   if (modeGrid) {
+    function setupModeBtn(btn, modeStr, labelStr) {
+      btn.className = 'mode-btn';
+      btn.dataset.mode = modeStr;
+      btn.textContent = labelStr;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (typeof currentMode !== 'undefined') currentMode = parseInt(modeStr);
+        const ml = document.getElementById('mode-label');
+        if (ml) ml.textContent = labelStr;
+        if (typeof wHistory !== 'undefined') wHistory = [];
+        if (typeof dfsHistory !== 'undefined') dfsHistory = [];
+      });
+      modeGrid.appendChild(btn);
+    }
+
     const btn9 = document.createElement('button');
-    btn9.className = 'mode-btn';
-    btn9.dataset.mode = '9';
-    btn9.textContent = 'P³×R Время';
-    modeGrid.appendChild(btn9);
+    setupModeBtn(btn9, '9', 'P³×R Время');
 
     const btn10 = document.createElement('button');
-    btn10.className = 'mode-btn';
-    btn10.dataset.mode = '10';
-    btn10.textContent = 'DEM → P³';
-    modeGrid.appendChild(btn10);
+    setupModeBtn(btn10, '10', 'DEM → P³');
   }
 
   // Панель SymPy-верификации
