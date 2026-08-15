@@ -13,6 +13,8 @@ pub fn build(b: *std.Build) void {
     // Фаза 2: GPU (WGSL) + raylib мост + Инварианты
     //         + Алгебра (Грассман/Клиффорд/Плюккер)
     // Фаза 3: ECS (из O3DE) + Scene Graph + Physics
+    // Фаза 4: Serial (@typeInfo) + IO (VFS) + Jobs (parallel batch)
+    //         + Differential Geometry (Christoffel, Riemann, Ricci)
     // ========================================================
 
     const modules = .{
@@ -29,6 +31,9 @@ pub fn build(b: *std.Build) void {
         .{ "ecs",         "src/p3_ecs.zig" },
         .{ "scene",       "src/p3_scene.zig" },
         .{ "physics",     "src/p3_physics.zig" },
+        .{ "serial",      "src/p3_serial.zig" },
+        .{ "io",          "src/p3_io.zig" },
+        .{ "jobs",        "src/p3_jobs.zig" },
     };
 
     // --- Generate test steps for all modules ---

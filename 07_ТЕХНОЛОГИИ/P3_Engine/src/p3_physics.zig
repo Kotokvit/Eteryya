@@ -454,3 +454,249 @@ test "Physics: Static body ignores force" {
     body.applyForce(HomVec4.init(100, 0, 0, 0));
     try std.testing.expectApproxEqAbs(body.force_accum.x, 0.0, 1e-10);
 }
+
+// =============================================================================
+// 6. ДИФФЕРЕНЦИАЛЬНАЯ ГЕОМЕТРИЯ FS-МЕТРИКИ
+// =============================================================================
+//
+// Фубини-Штуди метрика на CP¹ = S²:
+//   ds² = 4/(1+|z|²)² (dx² + dy²)
+//
+// На S³ ⊂ R⁴ (standard embedding):
+//   g_ij = δ_ij − x_i·x_j / |x|²
+//
+// Символы Кристоффеля для S³ (в координатах карты):
+//   Γ^i_{jk} = −x^i·g_{jk} / |x|²  (для сферы в R⁴)
+//
+// Тензор кривизны Римана для S³ (постоянная секционная кривизна K=1):
+//   R^i_{jkl} = δ^i_k·g_{jl} − δ^i_l·g_{jk}
+//
+// Это означает: S³ имеет КОНСТАНТНУЮ кривизну = 1.
+// В отличие от O3DE/PhysX: кривизна = 0 (плоское пространство).
+//
+// ГЕОМЕТРИЧЕСКИЙ СМЫСЛ:
+//   - Свободные тела движутся по геодезическим = большим кругам на S³
+//   - Параллельный перенос зависит от пути (голономия = вращение)
+//   - Два параллельных луча СХОДЯТСЯ (положительная кривизна)
+//   - Это и есть «гравитация» — не сила, а КРИВИЗНА пространства
+
+/// Символы Кристоффеля Γ^i_{jk} для FS-метрики на S³
+///
+/// На S³ с индуцированной метрикой из R⁴:
+///   Γ^i_{jk} = −x^i · δ_{jk} / |x|²
+/// (для точки на единичной сфере |x|² = 1)
+///
+/// Возвращает 4×4×4 массив: gamma[i][j][k] = Γ^i_{jk}
+pub fn christoffelSymbols(point: HomVec4) [4][4][4]f64 {
+    const n_sq = point.x * point.x + point.y * point.y +
+        point.z * point.z + point.w * point.w;
+
+    var gamma: [4][4][4]f64 = .{.{.{0} ** 4} ** 4} ** 4;
+
+    if (n_sq < 1e-15) return gamma; // Zero point → zero Christoffel
+
+    const coords = [4]f64{ point.x, point.y, point.z, point.w };
+
+    // Γ^i_{jk} = −x^i · δ_{jk} / |x|²
+    for (0..4) |i| {
+        for (0..4) |j| {
+            for (0..4) |k| {
+                if (j == k) {
+                    gamma[i][j][k] = -coords[i] / n_sq;
+                }
+            }
+        }
+    }
+
+    return gamma;
+}
+
+/// Геодезическое ускорение от кривизны:
+///   a^i = −Γ^i_{jk} · v^j · v^k
+///
+/// Это «гравитационное» ускорение от кривизны FS-метрики.
+/// Для S³: a = −|v|² · x (центростремительное)
+pub fn geodesicAcceleration(
+    point: HomVec4,
+    velocity: HomVec4,
+) HomVec4 {
+    const gamma = christoffelSymbols(point);
+    const v = [4]f64{ velocity.x, velocity.y, velocity.z, velocity.w };
+
+    var accel = [4]f64{ 0, 0, 0, 0 };
+    for (0..4) |i| {
+        for (0..4) |j| {
+            for (0..4) |k| {
+                accel[i] -= gamma[i][j][k] * v[j] * v[k];
+            }
+        }
+    }
+
+    return HomVec4.init(accel[0], accel[1], accel[2], accel[3]);
+}
+
+/// Тензор кривизны Римана R^i_{jkl} для S³
+///
+/// Для сферы с секционной кривизной K=1:
+///   R^i_{jkl} = K·(δ^i_k·g_{jl} − δ^i_l·g_{jk})
+///
+/// На S³: K = 1 (постоянная!)
+/// g_{ij} = δ_{ij} − x_i·x_j / |x|²
+pub fn riemannTensor(
+    point: HomVec4,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+) f64 {
+    const n_sq = point.x * point.x + point.y * point.y +
+        point.z * point.z + point.w * point.w;
+    if (n_sq < 1e-15) return 0;
+
+    const coords = [4]f64{ point.x, point.y, point.z, point.w };
+
+    // Метрика g_{ab} = δ_{ab} − x_a·x_b / |x|²
+    const kronecker_jl: f64 = if (j == l) 1.0 else 0.0;
+    const g_jl: f64 = kronecker_jl - coords[j] * coords[l] / n_sq;
+    const kronecker_jk: f64 = if (j == k) 1.0 else 0.0;
+    const g_jk: f64 = kronecker_jk - coords[j] * coords[k] / n_sq;
+
+    const delta_ik: f64 = if (i == k) 1.0 else 0.0;
+    const delta_il: f64 = if (i == l) 1.0 else 0.0;
+
+    // R^i_{jkl} = δ^i_k·g_{jl} − δ^i_l·g_{jk}  (K=1)
+    return delta_ik * g_jl - delta_il * g_jk;
+}
+
+/// Секционная кривизна K(plane) для S³
+///
+/// Для сферы: K = 1/|x|² для всех плоскостей
+/// На единичной сфере: K = 1 (константа!)
+///
+/// В O3DE/PhysX: K = 0 (плоское пространство — «нет гравитации»)
+/// В P³: K = 1 (искривлённое — «гравитация = кривизна»)
+pub fn sectionalCurvature(point: HomVec4) f64 {
+    const n_sq = point.x * point.x + point.y * point.y +
+        point.z * point.z + point.w * point.w;
+    if (n_sq < 1e-15) return 0;
+    return 1.0 / n_sq; // K = 1/|x|²
+}
+
+/// Скалярная кривизна (R) для S³
+///
+/// R = K · n·(n−1) где n = dim, K = секционная кривизна
+/// Для S³(1): R = 1 · 3·2 = 6
+pub fn scalarCurvature(point: HomVec4) f64 {
+    const K = sectionalCurvature(point);
+    return K * 3.0 * 2.0; // n=3, n(n-1) = 6
+}
+
+/// Тензор Риччи Ric_{ij} для S³
+///
+/// Ric_{ij} = (n−1)·K·g_{ij} = 2·K·g_{ij}  (для n=3)
+pub fn ricciTensor(
+    point: HomVec4,
+    j: usize,
+    k: usize,
+) f64 {
+    const K = sectionalCurvature(point);
+    const n_sq = point.x * point.x + point.y * point.y +
+        point.z * point.z + point.w * point.w;
+    if (n_sq < 1e-15) return 0;
+
+    const coords = [4]f64{ point.x, point.y, point.z, point.w };
+
+    // g_{jk} = δ_{jk} − x_j·x_k / |x|²
+    const kronecker: f64 = if (j == k) 1.0 else 0.0;
+    const g_jk: f64 = kronecker - coords[j] * coords[k] / n_sq;
+
+    return 2.0 * K * g_jk; // (n-1) = 2 для n=3
+}
+
+// =============================================================================
+// 7. ТЕСТЫ ДИФФЕРЕНЦИАЛЬНОЙ ГЕОМЕТРИИ
+// =============================================================================
+
+test "Physics: Christoffel symbols at north pole" {
+    const north_pole = HomVec4.init(0, 0, 0, 1);
+    const gamma = christoffelSymbols(north_pole);
+    // At north pole (0,0,0,1): Γ^i_{jk} = −x^i·δ_{jk}/|x|²
+    // x^0=x^1=x^2=0, x^3=1, |x|²=1
+    // Γ^0_{00} = −x^0·δ_{00}/1 = −0·1 = 0
+    try std.testing.expectApproxEqAbs(gamma[0][0][0], 0.0, 1e-10);
+    // Γ^3_{00} = −x^3·δ_{00}/1 = −1·1 = −1
+    try std.testing.expectApproxEqAbs(gamma[3][0][0], -1.0, 1e-10);
+    // Γ^3_{11} = −x^3·δ_{11}/1 = −1
+    try std.testing.expectApproxEqAbs(gamma[3][1][1], -1.0, 1e-10);
+    // Γ^0_{01} = 0 (j≠k, δ_{01}=0)
+    try std.testing.expectApproxEqAbs(gamma[0][0][1], 0.0, 1e-10);
+}
+
+test "Physics: Christoffel symbols at origin are zero" {
+    const origin = HomVec4.init(0, 0, 0, 0);
+    const gamma = christoffelSymbols(origin);
+    // At origin: |x|²=0 → return zero
+    try std.testing.expectApproxEqAbs(gamma[0][0][0], 0.0, 1e-10);
+}
+
+test "Physics: Geodesic acceleration for pure radial" {
+    const point = HomVec4.init(0, 0, 0, 1); // north pole
+    const velocity = HomVec4.init(1, 0, 0, 0); // tangent to S³
+    const accel = geodesicAcceleration(point, velocity);
+    // a^i = −Γ^i_{jk}·v^j·v^k
+    // For j=k=0, v^0=1: a^i = −Γ^i_{00}
+    // a^0 = −Γ^0_{00} = 0
+    // a^3 = −Γ^3_{00} = 1
+    try std.testing.expectApproxEqAbs(accel.x, 0.0, 1e-10);
+    try std.testing.expectApproxEqAbs(accel.w, 1.0, 1e-10);
+}
+
+test "Physics: Sectional curvature on unit sphere" {
+    const point = HomVec4.init(1, 0, 0, 0);
+    const K = sectionalCurvature(point);
+    // On unit sphere: K = 1/|x|² = 1
+    try std.testing.expectApproxEqAbs(K, 1.0, 1e-10);
+}
+
+test "Physics: Sectional curvature on scaled sphere" {
+    const point = HomVec4.init(2, 0, 0, 0); // |x|=2
+    const K = sectionalCurvature(point);
+    // K = 1/4
+    try std.testing.expectApproxEqAbs(K, 0.25, 1e-10);
+}
+
+test "Physics: Scalar curvature on S³" {
+    const point = HomVec4.init(1, 0, 0, 0);
+    const R = scalarCurvature(point);
+    // R = 6 for S³(1)
+    try std.testing.expectApproxEqAbs(R, 6.0, 1e-10);
+}
+
+test "Physics: Ricci tensor diagonal on S³" {
+    const point = HomVec4.init(1, 0, 0, 0);
+    const ric_00 = ricciTensor(point, 0, 0);
+    // Ric_{00} = 2·K·g_{00} = 2·1·(1−x₀²/|x|²) = 2·1·0 = 0
+    // (since x₀=1, |x|²=1, so g_{00}=0)
+    try std.testing.expectApproxEqAbs(ric_00, 0.0, 1e-10);
+
+    const ric_11 = ricciTensor(point, 1, 1);
+    // Ric_{11} = 2·K·g_{11} = 2·1·(1−0) = 2
+    try std.testing.expectApproxEqAbs(ric_11, 2.0, 1e-10);
+}
+
+test "Physics: Riemann tensor antisymmetry in last two indices" {
+    const point = HomVec4.init(0.5, 0.5, 0.5, 0.5);
+    // R^i_{jkl} = −R^i_{jlk} (antisymmetry)
+    const R0123 = riemannTensor(point, 0, 1, 2, 3);
+    const R0132 = riemannTensor(point, 0, 1, 3, 2);
+    try std.testing.expectApproxEqAbs(R0123, -R0132, 1e-10);
+}
+
+test "Physics: Riemann tensor symmetry R_{ijkl} = R_{klij}" {
+    const point = HomVec4.init(0, 0, 0, 1);
+    // First Bianchi: R^i_{jkl} + R^i_{klj} + R^i_{ljk} = 0
+    const R0_123 = riemannTensor(point, 0, 1, 2, 3);
+    const R0_231 = riemannTensor(point, 0, 2, 3, 1);
+    const R0_312 = riemannTensor(point, 0, 3, 1, 2);
+    try std.testing.expectApproxEqAbs(R0_123 + R0_231 + R0_312, 0.0, 1e-10);
+}
