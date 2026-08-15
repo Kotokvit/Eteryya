@@ -34,6 +34,7 @@ pub fn build(b: *std.Build) void {
         .{ "serial",      "src/p3_serial.zig" },
         .{ "io",          "src/p3_io.zig" },
         .{ "jobs",        "src/p3_jobs.zig" },
+        .{ "rhi",         "src/p3_rhi.zig" },
     };
 
     // --- Generate test steps for all modules ---

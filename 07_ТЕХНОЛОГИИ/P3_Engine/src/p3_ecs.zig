@@ -505,3 +505,298 @@ test "ECS: Entity world transform PGL4" {
     entity.setWorldTransform(p3_kernel.pglTranslate(1, 2, 3));
     try std.testing.expectApproxEqAbs(entity.world_transform.get(0, 3), 1.0, 1e-10);
 }
+
+// =============================================================================
+// 8. ARCHETYPE STORAGE (ИЗ O3DE, ПЕРЕПИСАНО НА SPARSE SET)
+// =============================================================================
+//
+// O3DE: ComponentArrayType = vector<Component*> — хаотичные указатели
+// P³:   Archetype — плотный массив компонентов, cache-friendly
+//
+// Archetype = набор компонентов хранящихся SOA (Structure of Arrays)
+// Все компоненты одного архетипа — в непрерывной памяти
+// Запросы (Queries) фильтруют по архетипам — O(1) lookup
+
+/// Archetype ID — уникальный идентификатор архетипа
+pub const ArchetypeId = struct {
+    id: u32,
+
+    pub fn init(id: u32) ArchetypeId {
+        return .{ .id = id };
+    }
+
+    pub fn invalid() ArchetypeId {
+        return .{ .id = 0 };
+    }
+
+    pub fn isValid(self: ArchetypeId) bool {
+        return self.id != 0;
+    }
+};
+
+/// Archetype — набор типов компонентов в плотном хранилище
+pub const Archetype = struct {
+    id: ArchetypeId,
+    /// Хэш от отсортированных type_id — уникальный ключ архетипа
+    component_hash: u64,
+    /// Типы компонентов в этом архетипе
+    component_types: std.ArrayList(ComponentTypeId),
+    /// Количество сущностей с этим архетипом
+    entity_count: u32,
+    /// Ёмкость (pre-allocated)
+    capacity: u32,
+
+    pub fn init(allocator: std.mem.Allocator, id: ArchetypeId) Archetype {
+        return .{
+            .id = id,
+            .component_hash = 0,
+            .component_types = std.ArrayList(ComponentTypeId).init(allocator),
+            .entity_count = 0,
+            .capacity = 0,
+        };
+    }
+
+    pub fn deinit(self: *Archetype) void {
+        self.component_types.deinit();
+    }
+
+    /// Добавить тип компонента
+    pub fn addComponentType(self: *Archetype, type_id: ComponentTypeId) !void {
+        try self.component_types.append(type_id);
+        // Обновить хэш (FNV-1a)
+        self.component_hash = self.component_hash *% 1099511628211 ^ type_id.id;
+    }
+
+    /// Проверить наличие компонента
+    pub fn hasComponent(self: Archetype, type_id: ComponentTypeId) bool {
+        for (self.component_types.items) |ct| {
+            if (ct.id == type_id.id) return true;
+        }
+        return false;
+    }
+
+    /// Увеличить счётчик сущностей
+    pub fn addEntity(self: *Archetype) void {
+        self.entity_count += 1;
+    }
+
+    /// Уменьшить счётчик сущностей
+    pub fn removeEntity(self: *Archetype) void {
+        if (self.entity_count > 0) self.entity_count -= 1;
+    }
+};
+
+// =============================================================================
+// 9. QUERY SYSTEM (ИЗ O3DE, COMPTIME INSTEAD OF RUNTIME)
+// =============================================================================
+//
+// O3DE: ComponentApplication::FindComponents — runtime RTTI search
+// P³:   Query — comptime-known component set, iterated directly
+
+/// Query filter — какие архетипы подходят
+pub const QueryFilter = struct {
+    /// Обязательные компоненты (AND)
+    required: []const ComponentTypeId,
+    /// Запрещённые компоненты (NOT)
+    excluded: []const ComponentTypeId,
+    /// Опциональные компоненты (OPTIONAL)
+    optional: []const ComponentTypeId,
+
+    pub fn init(required: []const ComponentTypeId) QueryFilter {
+        return .{
+            .required = required,
+            .excluded = &.{},
+            .optional = &.{},
+        };
+    }
+
+    pub fn initWithExclusions(required: []const ComponentTypeId, excluded: []const ComponentTypeId) QueryFilter {
+        return .{
+            .required = required,
+            .excluded = excluded,
+            .optional = &.{},
+        };
+    }
+
+    /// Проверить архетип на соответствие фильтру
+    pub fn matches(self: QueryFilter, archetype: Archetype) bool {
+        // Все required должны присутствовать
+        for (self.required) |req| {
+            if (!archetype.hasComponent(req)) return false;
+        }
+        // Ни один excluded не должен присутствовать
+        for (self.excluded) |exc| {
+            if (archetype.hasComponent(exc)) return false;
+        }
+        return true;
+    }
+};
+
+/// Результат запроса — список подходящих архетипов
+pub const QueryResult = struct {
+    matching_archetypes: std.ArrayList(ArchetypeId),
+    total_entities: u32,
+
+    pub fn init(allocator: std.mem.Allocator) QueryResult {
+        return .{
+            .matching_archetypes = std.ArrayList(ArchetypeId).init(allocator),
+            .total_entities = 0,
+        };
+    }
+
+    pub fn deinit(self: *QueryResult) void {
+        self.matching_archetypes.deinit();
+    }
+};
+
+// =============================================================================
+// 10. ARCHETYPE REGISTRY
+// =============================================================================
+
+/// Registry — хранилище всех архетипов
+pub const ArchetypeRegistry = struct {
+    archetypes: std.ArrayList(Archetype),
+    next_id: u32,
+
+    pub fn init(allocator: std.mem.Allocator) ArchetypeRegistry {
+        return .{
+            .archetypes = std.ArrayList(Archetype).init(allocator),
+            .next_id = 1,
+        };
+    }
+
+    pub fn deinit(self: *ArchetypeRegistry) void {
+        for (self.archetypes.items) |*a| {
+            a.deinit();
+        }
+        self.archetypes.deinit();
+    }
+
+    /// Создать новый архетип
+    pub fn createArchetype(self: *ArchetypeRegistry, component_types: []const ComponentTypeId) !ArchetypeId {
+        const id = ArchetypeId.init(self.next_id);
+        self.next_id += 1;
+        var archetype = Archetype.init(self.archetypes.allocator, id);
+        for (component_types) |ct| {
+            try archetype.addComponentType(ct);
+        }
+        try self.archetypes.append(archetype);
+        return id;
+    }
+
+    /// Найти архетип по ID
+    pub fn getArchetype(self: ArchetypeRegistry, id: ArchetypeId) ?*Archetype {
+        for (self.archetypes.items) |*a| {
+            if (a.id.id == id.id) return a;
+        }
+        return null;
+    }
+
+    /// Выполнить запрос
+    pub fn query(self: ArchetypeRegistry, allocator: std.mem.Allocator, filter: QueryFilter) !QueryResult {
+        var result = QueryResult.init(allocator);
+        for (self.archetypes.items) |archetype| {
+            if (filter.matches(archetype)) {
+                try result.matching_archetypes.append(archetype.id);
+                result.total_entities += archetype.entity_count;
+            }
+        }
+        return result;
+    }
+
+    /// Количество архетипов
+    pub fn count(self: ArchetypeRegistry) u32 {
+        return @intCast(self.archetypes.items.len);
+    }
+};
+
+// =============================================================================
+// 11. ТЕСТЫ ECS EXTENDED
+// =============================================================================
+
+test "ECS: Archetype creation" {
+    var registry = ArchetypeRegistry.init(std.testing.allocator);
+    defer registry.deinit();
+
+    const transform_type = ComponentTypeId.fromId(1);
+    const physics_type = ComponentTypeId.fromId(2);
+
+    const id = try registry.createArchetype(&.{ transform_type, physics_type });
+    try std.testing.expect(id.isValid());
+    try std.testing.expect(registry.count() == 1);
+}
+
+test "ECS: Archetype has component" {
+    var registry = ArchetypeRegistry.init(std.testing.allocator);
+    defer registry.deinit();
+
+    const t = ComponentTypeId.fromId(1);
+    const p = ComponentTypeId.fromId(2);
+
+    const id = try registry.createArchetype(&.{ t, p });
+    const arch = registry.getArchetype(id);
+    try std.testing.expect(arch != null);
+    try std.testing.expect(arch.?.hasComponent(t));
+    try std.testing.expect(arch.?.hasComponent(p));
+    try std.testing.expect(!arch.?.hasComponent(ComponentTypeId.fromId(99)));
+}
+
+test "ECS: Archetype entity count" {
+    var registry = ArchetypeRegistry.init(std.testing.allocator);
+    defer registry.deinit();
+
+    const id = try registry.createArchetype(&.{ComponentTypeId.fromId(1)});
+    const arch = registry.getArchetype(id).?;
+    arch.addEntity();
+    arch.addEntity();
+    arch.addEntity();
+    try std.testing.expect(arch.entity_count == 3);
+    arch.removeEntity();
+    try std.testing.expect(arch.entity_count == 2);
+}
+
+test "ECS: Query filter matches" {
+    var registry = ArchetypeRegistry.init(std.testing.allocator);
+    defer registry.deinit();
+
+    const transform = ComponentTypeId.fromId(1);
+    const physics = ComponentTypeId.fromId(2);
+    const render = ComponentTypeId.fromId(3);
+
+    _ = try registry.createArchetype(&.{ transform, physics });
+    _ = try registry.createArchetype(&.{ transform, render });
+    _ = try registry.createArchetype(&.{ physics, render });
+
+    // Query: entities with transform
+    const filter = QueryFilter.init(&.{transform});
+    var result = try registry.query(std.testing.allocator, filter);
+    defer result.deinit();
+    try std.testing.expect(result.matching_archetypes.items.len == 2);
+}
+
+test "ECS: Query filter with exclusions" {
+    var registry = ArchetypeRegistry.init(std.testing.allocator);
+    defer registry.deinit();
+
+    const transform = ComponentTypeId.fromId(1);
+    const physics = ComponentTypeId.fromId(2);
+    const render = ComponentTypeId.fromId(3);
+
+    _ = try registry.createArchetype(&.{ transform, physics });
+    _ = try registry.createArchetype(&.{ transform, render });
+    _ = try registry.createArchetype(&.{ transform, physics, render });
+
+    // Query: entities with transform, WITHOUT render
+    const filter = QueryFilter.initWithExclusions(&.{transform}, &.{render});
+    var result = try registry.query(std.testing.allocator, filter);
+    defer result.deinit();
+    // Only [transform, physics] matches (no render)
+    try std.testing.expect(result.matching_archetypes.items.len == 1);
+}
+
+test "ECS: ArchetypeId validity" {
+    const valid = ArchetypeId.init(5);
+    const invalid = ArchetypeId.invalid();
+    try std.testing.expect(valid.isValid());
+    try std.testing.expect(!invalid.isValid());
+}
