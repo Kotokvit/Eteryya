@@ -482,8 +482,12 @@ test "Physics: Static body ignores force" {
 
 /// Символы Кристоффеля Γ^i_{jk} для FS-метрики на S³
 ///
-/// На S³ с индуцированной метрикой из R⁴:
-///   Γ^i_{jk} = −x^i · δ_{jk} / |x|²
+/// На S³ с индуцированной метрикой из R⁴ (ambient coordinates):
+///   Γ^i_{jk} = +x^i · δ_{jk} / |x|²
+///
+/// Доказательство: геодезическое уравнение ẍ = −|v|²·x
+///   ẍ^i = −Γ^i_{jk}·v^j·v^k = −|v|²·x^i
+///   ⟹ Γ^i_{jk} = x^i·δ_{jk}/|x|² (центростремительное!)
 /// (для точки на единичной сфере |x|² = 1)
 ///
 /// Возвращает 4×4×4 массив: gamma[i][j][k] = Γ^i_{jk}
@@ -497,12 +501,13 @@ pub fn christoffelSymbols(point: HomVec4) [4][4][4]f64 {
 
     const coords = [4]f64{ point.x, point.y, point.z, point.w };
 
-    // Γ^i_{jk} = −x^i · δ_{jk} / |x|²
+    // Γ^i_{jk} = +x^i · δ_{jk} / |x|²
+    // (знак +: центростремительное ускорение, тела остаются на S³)
     for (0..4) |i| {
         for (0..4) |j| {
             for (0..4) |k| {
                 if (j == k) {
-                    gamma[i][j][k] = -coords[i] / n_sq;
+                    gamma[i][j][k] = coords[i] / n_sq;
                 }
             }
         }
@@ -620,14 +625,14 @@ pub fn ricciTensor(
 test "Physics: Christoffel symbols at north pole" {
     const north_pole = HomVec4.init(0, 0, 0, 1);
     const gamma = christoffelSymbols(north_pole);
-    // At north pole (0,0,0,1): Γ^i_{jk} = −x^i·δ_{jk}/|x|²
+    // At north pole (0,0,0,1): Γ^i_{jk} = +x^i·δ_{jk}/|x|²
     // x^0=x^1=x^2=0, x^3=1, |x|²=1
-    // Γ^0_{00} = −x^0·δ_{00}/1 = −0·1 = 0
+    // Γ^0_{00} = +x^0·δ_{00}/1 = +0·1 = 0
     try std.testing.expectApproxEqAbs(gamma[0][0][0], 0.0, 1e-10);
-    // Γ^3_{00} = −x^3·δ_{00}/1 = −1·1 = −1
-    try std.testing.expectApproxEqAbs(gamma[3][0][0], -1.0, 1e-10);
-    // Γ^3_{11} = −x^3·δ_{11}/1 = −1
-    try std.testing.expectApproxEqAbs(gamma[3][1][1], -1.0, 1e-10);
+    // Γ^3_{00} = +x^3·δ_{00}/1 = +1·1 = +1
+    try std.testing.expectApproxEqAbs(gamma[3][0][0], 1.0, 1e-10);
+    // Γ^3_{11} = +x^3·δ_{11}/1 = +1
+    try std.testing.expectApproxEqAbs(gamma[3][1][1], 1.0, 1e-10);
     // Γ^0_{01} = 0 (j≠k, δ_{01}=0)
     try std.testing.expectApproxEqAbs(gamma[0][0][1], 0.0, 1e-10);
 }
@@ -645,10 +650,10 @@ test "Physics: Geodesic acceleration for pure radial" {
     const accel = geodesicAcceleration(point, velocity);
     // a^i = −Γ^i_{jk}·v^j·v^k
     // For j=k=0, v^0=1: a^i = −Γ^i_{00}
-    // a^0 = −Γ^0_{00} = 0
-    // a^3 = −Γ^3_{00} = 1
+    // a^0 = −Γ^0_{00} = −0 = 0
+    // a^3 = −Γ^3_{00} = −1 (центростремительное — внутрь сферы!)
     try std.testing.expectApproxEqAbs(accel.x, 0.0, 1e-10);
-    try std.testing.expectApproxEqAbs(accel.w, 1.0, 1e-10);
+    try std.testing.expectApproxEqAbs(accel.w, -1.0, 1e-10);
 }
 
 test "Physics: Sectional curvature on unit sphere" {
