@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @page { size: 794px 1123px; margin: 0; }
+  :root {
+    --c-bg: #f4f5f5;
+    --c-accent: #1f6c92;
+    --c-text: #131515;
+    --c-muted: #747b7e;
+    --c-mid: #32454e;
+    --c-surface: #e8eaeb;
+    --c-border: #acbdc5;
+  }
+  html, body {
+    margin: 0; padding: 0;
+    width: 794px; height: 1123px;
+    background: var(--c-bg);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: var(--c-text);
+  }
+  @media screen {
+    html { height: auto; display: flex; justify-content: center; min-height: 100vh; background: var(--c-bg); }
+    body { transform-origin: top center; scale: min(1, calc(100vw / 794), calc(100vh / 1123)); margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.15); }
+  }
+  .cover { position: relative; width: 794px; height: 1123px; border: none; outline: none; box-shadow: none; }
+
+  /* Layer 1: background grid (2% opacity) */
+  .layer-bg {
+    position: absolute; inset: 0; overflow: hidden; z-index: 1;
+    background-image:
+      linear-gradient(to right, rgba(31,108,146,0.05) 0.5px, transparent 0.5px),
+      linear-gradient(to bottom, rgba(31,108,146,0.05) 0.5px, transparent 0.5px);
+    background-size: 50px 50px;
+  }
+  /* Layer 2: structure */
+  .layer-struct { position: absolute; inset: 0; z-index: 2; }
+  .anchor-line {
+    position: absolute;
+    left: 95px;              /* 0.12 * W */
+    top: 112px;              /* 0.10 * H */
+    bottom: 112px;           /* 0.90 * H */
+    width: 6px;
+    background: var(--c-accent);
+  }
+  /* Layer 3: content — left edge = 95 + 30 = 125px */
+  .layer-content { position: absolute; inset: 0; z-index: 3; }
+
+  .kicker {
+    position: absolute; left: 145px; top: 168px;   /* 0.15 * H */
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px; font-weight: 500;
+    letter-spacing: 4px;
+    color: var(--c-mid);
+    opacity: 0.75;
+    text-transform: uppercase;
+    max-width: 560px;
+  }
+  .hero {
+    position: absolute; left: 145px; top: 320px;   /* ~0.285 * H */
+    font-size: 62px; font-weight: 900;
+    line-height: 1.12;
+    color: var(--c-text);
+    max-width: 600px;
+    letter-spacing: 0.5px;
+  }
+  .hero .accent { color: var(--c-accent); }
+  .summary {
+    position: absolute; left: 145px; top: 580px;   /* ~0.517 * H */
+    font-size: 17px; font-weight: 400;
+    line-height: 1.65;
+    color: var(--c-text);
+    opacity: 0.85;
+    max-width: 476px;                               /* ≤ 0.6 W */
+  }
+  .spec-row {
+    position: absolute; left: 145px; top: 800px;    /* ~0.712 * H */
+    display: flex; gap: 40px;
+  }
+  .spec-block { max-width: 180px; }
+  .spec-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 2px;
+    color: var(--c-muted); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .spec-value { font-size: 16px; font-weight: 600; color: var(--c-mid); }
+  .meta {
+    position: absolute; left: 145px; top: 940px;    /* ~0.837 * H */
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; line-height: 1.7;
+    color: var(--c-muted);
+  }
+  .meta b { color: var(--c-mid); font-weight: 600; }
+  .footer {
+    position: absolute; left: 145px; bottom: 68px;
+    right: 95px;
+    display: flex; justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: 2px;
+    color: var(--c-muted); opacity: 0.65;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="cover">
+    <div class="layer-bg"></div>
+    <div class="layer-struct">
+      <div class="anchor-line"></div>
+    </div>
+    <div class="layer-content">
+      <div class="kicker">Система Уроборос · Том 3 · Биологическое железо</div>
+      <div class="hero">БИОЛОГИЧЕСКОЕ<br>ЖЕЛЕЗО<br>ЭТЕРИИ</div>
+      <div class="summary">
+        Двенадцать биологических классов как аппаратные узлы: верификация
+        законов Клейбера и φ-насыщения, тепловые бюджеты, лестница
+        Сфер по проводимости, регрессии жизни и регенерации от
+        φ-доли. Кривые тепловой деградации и карта «железа» рас.
+      </div>
+      <div class="spec-row">
+        <div class="spec-block">
+          <div class="spec-label">Координаты</div>
+          <div class="spec-value">[X : Y : Z : W]</div>
+        </div>
+        <div class="spec-block">
+          <div class="spec-label">Тактовая шина</div>
+          <div class="spec-value">18.7 Гц</div>
+        </div>
+        <div class="spec-block">
+          <div class="spec-label">Четность</div>
+          <div class="spec-value">π₁(RP³)=Z/2Z</div>
+        </div>
+      </div>
+      <div class="meta">
+        <b>Модуль:</b> 06_races_biology.py · CoolProp / pint / scipy<br>
+        <b>Верификация:</b> 12 классов, 4 канонических закона, оверлеи — точное совпадение<br>
+        <b>Дата:</b> 24.08.2026
+      </div>
+      <div class="footer">
+        <span>OUROBOROS / RACES-BIOLOGY / VOL.3</span>
+        <span>REV 1.0.0</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

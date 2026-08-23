@@ -1,0 +1,50 @@
+{
+  "inputs": {
+    "F0_Hz": 1400000000000.0,
+    "F_clock_Hz": 18.7,
+    "suppression_target": 1e-11
+  },
+  "skin_depth_nm": {
+    "Pb (свинец)": 193.9472274157792,
+    "Bi (висмут)": 484.7421124213234,
+    "C (алмаз)": 1345104772785.7815
+  },
+  "screen_thickness": {
+    "requirement_Np": 25.328436022934504,
+    "config_A_um": 4.912379941426092,
+    "config_B_um": 7.858531797689901,
+    "config_B_Pb_um": 2.947427964855655,
+    "config_B_Bi_um": 4.911103832834246
+  },
+  "areal_mass_g_m2": 81.50353964491039,
+  "thermal": {
+    "field_flux_W_m2": 210.024378,
+    "gateway_area_m2": 100.0,
+    "absorbed_power_W": 21002.437799789976,
+    "wall_R_th_m2K_W": 0.0007778761656469524,
+    "wall_dT_K": 0.16337295785102615
+  },
+  "siphon": {
+    "k_basalt": 1.7,
+    "depth_m": 500.0,
+    "radius_m": 0.15,
+    "capacity_W": 127168.63236974525,
+    "count_for_gateway": 1
+  },
+  "clock_bus": {
+    "E_quantum_J": 1.23907511805e-32,
+    "eta": 0.005,
+    "power_W": 105.01218899894988,
+    "quanta_per_s": 8.475046223526245e+33,
+    "quanta_per_cycle": 4.532110279960559e+32,
+    "quantum_energy_ratio": 74866310160.42781
+  },
+  "litho_doping": {
+    "layer_depth_m": 100.0,
+    "area_fraction": 0.01,
+    "volume_m3": 428513989850656.2,
+    "layer_mass_t": 1114136373611706.1,
+    "doping_fraction": 1e-08,
+    "flux_mass_Gt": 11.14136373611706
+  }
+}
