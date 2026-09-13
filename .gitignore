@@ -1,0 +1,9 @@
+# Temporary
+*.tmp
+*.swp
+.DS_Store
+__pycache__/
+*.pyc
+
+# Local tooling (не пушим)
+.local/

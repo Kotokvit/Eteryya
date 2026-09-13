@@ -1,0 +1,402 @@
+[
+  {
+    "chapter": 1,
+    "title": "ОДЕССА. ВЕСНА. ТЕТРАДЬ В КЛЕТКУ",
+    "metrika": null,
+    "file": "chapter_01.md",
+    "size": 20751,
+    "tokens_approx": 5187
+  },
+  {
+    "chapter": 2,
+    "title": "ДОГОВОР НА ВРЕМЯ",
+    "metrika": null,
+    "file": "chapter_02.md",
+    "size": 22424,
+    "tokens_approx": 5606
+  },
+  {
+    "chapter": 3,
+    "title": "СДВИГ",
+    "metrika": null,
+    "file": "chapter_03.md",
+    "size": 76086,
+    "tokens_approx": 19021
+  },
+  {
+    "chapter": 4,
+    "title": "ГОЛОС ПУСТОТЫ",
+    "metrika": null,
+    "file": "chapter_04.md",
+    "size": 9353,
+    "tokens_approx": 2338
+  },
+  {
+    "chapter": 5,
+    "title": "ЭФФЕКТ НАБЛЮДАТЕЛЯ",
+    "metrika": null,
+    "file": "chapter_05.md",
+    "size": 19151,
+    "tokens_approx": 4787
+  },
+  {
+    "chapter": 6,
+    "title": "КАТЕГОРИЯ D",
+    "metrika": null,
+    "file": "chapter_06.md",
+    "size": 12797,
+    "tokens_approx": 3199
+  },
+  {
+    "chapter": 7,
+    "title": "ПЕРВЫЙ ТРЕЙД НА ПОВЕРХНОСТИ",
+    "metrika": null,
+    "file": "chapter_07.md",
+    "size": 10379,
+    "tokens_approx": 2594
+  },
+  {
+    "chapter": 8,
+    "title": "ЛИКВИДНОСТЬ КРОВИ",
+    "metrika": null,
+    "file": "chapter_08.md",
+    "size": 10450,
+    "tokens_approx": 2612
+  },
+  {
+    "chapter": 9,
+    "title": "ОТКРЫТЫЙ РЫНОК: ПРОБЛЕМНЫЙ АКТИВ",
+    "metrika": null,
+    "file": "chapter_09.md",
+    "size": 16646,
+    "tokens_approx": 4161
+  },
+  {
+    "chapter": 10,
+    "title": "ВАЛЮТИЗАЦИЯ БОЛИ",
+    "metrika": null,
+    "file": "chapter_10.md",
+    "size": 29914,
+    "tokens_approx": 7478
+  },
+  {
+    "chapter": 11,
+    "title": "АРБИТРАЖ ТЕНЕЙ",
+    "metrika": null,
+    "file": "chapter_11.md",
+    "size": 15810,
+    "tokens_approx": 3952
+  },
+  {
+    "chapter": 12,
+    "title": "ДЕРИВАТИВЫ И ДЕЗИНФЕКЦИЯ",
+    "metrika": null,
+    "file": "chapter_12.md",
+    "size": 9989,
+    "tokens_approx": 2497
+  },
+  {
+    "chapter": 13,
+    "title": "АМПУТАЦИЯ ЛИКВИДНОСТИ",
+    "metrika": null,
+    "file": "chapter_13.md",
+    "size": 11774,
+    "tokens_approx": 2943
+  },
+  {
+    "chapter": 14,
+    "title": "НУЛЕВОЙ ГОРИЗОНТ",
+    "metrika": null,
+    "file": "chapter_14.md",
+    "size": 20815,
+    "tokens_approx": 5203
+  },
+  {
+    "chapter": 15,
+    "title": "ЯМА И АКТИВЫ",
+    "metrika": null,
+    "file": "chapter_15.md",
+    "size": 31326,
+    "tokens_approx": 7831
+  },
+  {
+    "chapter": 16,
+    "title": "ЗЕРКАЛЬНЫЙ АРХИВ",
+    "metrika": null,
+    "file": "chapter_16.md",
+    "size": 20190,
+    "tokens_approx": 5047
+  },
+  {
+    "chapter": 17,
+    "title": "НЕНАБЛЮДАЕМАЯ ВЕЛИЧИНА",
+    "metrika": null,
+    "file": "chapter_17.md",
+    "size": 23687,
+    "tokens_approx": 5921
+  },
+  {
+    "chapter": 18,
+    "title": "ИНВЕРСИЯ И ЛОГИСТИКА",
+    "metrika": null,
+    "file": "chapter_18.md",
+    "size": 19010,
+    "tokens_approx": 4752
+  },
+  {
+    "chapter": 19,
+    "title": "ПЕЧАТЬ ИНВЕРСИИ",
+    "metrika": null,
+    "file": "chapter_19.md",
+    "size": 37281,
+    "tokens_approx": 9320
+  },
+  {
+    "chapter": 20,
+    "title": "ТЕНИ АБРЕССА",
+    "metrika": null,
+    "file": "chapter_20.md",
+    "size": 14175,
+    "tokens_approx": 3543
+  },
+  {
+    "chapter": 21,
+    "title": "ИНТЕРФЕРЕНЦИЯ ПАМЯТИ",
+    "metrika": null,
+    "file": "chapter_21.md",
+    "size": 22145,
+    "tokens_approx": 5536
+  },
+  {
+    "chapter": 22,
+    "title": "СИНДРОМ ОТРИЦАТЕЛЬНОЙ ЭНТРОПИИ",
+    "metrika": null,
+    "file": "chapter_22.md",
+    "size": 14915,
+    "tokens_approx": 3728
+  },
+  {
+    "chapter": 23,
+    "title": "ПОДЪЁМ",
+    "metrika": null,
+    "file": "chapter_23.md",
+    "size": 20934,
+    "tokens_approx": 5233
+  },
+  {
+    "chapter": 24,
+    "title": "НУЛЕВОЙ ГРАДИЕНТ",
+    "metrika": null,
+    "file": "chapter_24.md",
+    "size": 9322,
+    "tokens_approx": 2330
+  },
+  {
+    "chapter": 25,
+    "title": "ОТКЛЮЧЕНИЕ ТЕЛЕМЕТРИИ",
+    "metrika": null,
+    "file": "chapter_25.md",
+    "size": 16892,
+    "tokens_approx": 4223
+  },
+  {
+    "chapter": 26,
+    "title": "ТЕНЗОРНЫЙ ОТКАЗ",
+    "metrika": null,
+    "file": "chapter_26.md",
+    "size": 34871,
+    "tokens_approx": 8717
+  },
+  {
+    "chapter": 27,
+    "title": "Декомпрессия",
+    "metrika": null,
+    "file": "chapter_27.md",
+    "size": 32727,
+    "tokens_approx": 8181
+  },
+  {
+    "chapter": 28,
+    "title": "СЕКВЕСТР",
+    "metrika": "T-24",
+    "file": "chapter_28.md",
+    "size": 67406,
+    "tokens_approx": 16851
+  },
+  {
+    "chapter": 29,
+    "title": "Интерлюдия Т-24: Аннигиляция Буфера",
+    "metrika": "T-24",
+    "file": "chapter_29.md",
+    "size": 48316,
+    "tokens_approx": 12079
+  },
+  {
+    "chapter": 30,
+    "title": "РЕЙД СЕЙФ-БИО",
+    "metrika": "T-22",
+    "file": "chapter_30.md",
+    "size": 58808,
+    "tokens_approx": 14702
+  },
+  {
+    "chapter": 31,
+    "title": "АННИГИЛЯЦИЯ БУФЕРА — ТАКТ II: Геополитический Разрыв",
+    "metrika": "T-21",
+    "file": "chapter_31.md",
+    "size": 80750,
+    "tokens_approx": 20187
+  },
+  {
+    "chapter": 32,
+    "title": "МУСОРЩИК",
+    "metrika": "T-20",
+    "file": "chapter_32.md",
+    "size": 79567,
+    "tokens_approx": 19891
+  },
+  {
+    "chapter": 33,
+    "title": "ВРАЖДЕБНОЕ ПОГЛОЩЕНИЕ",
+    "metrika": null,
+    "file": "chapter_33.md",
+    "size": 57856,
+    "tokens_approx": 14464
+  },
+  {
+    "chapter": 34,
+    "title": "КАПИТАЛИЗАЦИЯ СТРАХА",
+    "metrika": null,
+    "file": "chapter_34.md",
+    "size": 73005,
+    "tokens_approx": 18251
+  },
+  {
+    "chapter": 35,
+    "title": "ХОЛОДНЫЙ КОШЕЛЁК",
+    "metrika": null,
+    "file": "chapter_35.md",
+    "size": 64071,
+    "tokens_approx": 16017
+  },
+  {
+    "chapter": 36,
+    "title": "ТЕРМОДИНАМИЧЕСКАЯ АГОНИЯ ИМПЕРИИ",
+    "metrika": null,
+    "file": "chapter_36.md",
+    "size": 62744,
+    "tokens_approx": 15686
+  },
+  {
+    "chapter": 37,
+    "title": "ВЕКСЕЛЬ (интерлюдия)",
+    "metrika": null,
+    "file": "chapter_37.md",
+    "size": 66897,
+    "tokens_approx": 16724
+  },
+  {
+    "chapter": 38,
+    "title": "Асбест-3 (Метрика T-22)",
+    "metrika": "T-24",
+    "file": "chapter_38.md",
+    "size": 69665,
+    "tokens_approx": 17416
+  },
+  {
+    "chapter": 39,
+    "title": "Железная Леди и Алгоритм Дефолта",
+    "metrika": "T-24",
+    "file": "chapter_39.md",
+    "size": 29067,
+    "tokens_approx": 7266
+  },
+  {
+    "chapter": 40,
+    "title": "АЛГОРИТМ ТЕРМОДИНАМИЧЕСКОГО ПОДЛОГА",
+    "metrika": "T-24",
+    "file": "chapter_40.md",
+    "size": 39985,
+    "tokens_approx": 9996
+  },
+  {
+    "chapter": 41,
+    "title": "ЦЕНА ПРОВОДИМОСТИ",
+    "metrika": "T-24",
+    "file": "chapter_41.md",
+    "size": 106141,
+    "tokens_approx": 26535
+  },
+  {
+    "chapter": 42,
+    "title": "Кровь и Реестр",
+    "metrika": "T-24",
+    "file": "chapter_42.md",
+    "size": 72634,
+    "tokens_approx": 18158
+  },
+  {
+    "chapter": 43,
+    "title": "Транзит Ликвидности",
+    "metrika": "T-22",
+    "file": "chapter_43.md",
+    "size": 84560,
+    "tokens_approx": 21140
+  },
+  {
+    "chapter": 44,
+    "title": "Радикализация Юга",
+    "metrika": "T-22",
+    "file": "chapter_44.md",
+    "size": 48192,
+    "tokens_approx": 12048
+  },
+  {
+    "chapter": 45,
+    "title": "Слепой Пастырь (интерлюдия)",
+    "metrika": "T-24 → T-21",
+    "file": "chapter_45.md",
+    "size": 93185,
+    "tokens_approx": 23296
+  },
+  {
+    "chapter": 46,
+    "title": "Озеро Отражений",
+    "metrika": "T-22",
+    "file": "chapter_46.md",
+    "size": 61146,
+    "tokens_approx": 15286
+  },
+  {
+    "chapter": 47,
+    "title": "Теорема распада",
+    "metrika": "T-22",
+    "file": "chapter_47.md",
+    "size": 76451,
+    "tokens_approx": 19112
+  },
+  {
+    "chapter": 48,
+    "title": "Курьер",
+    "metrika": "T-22",
+    "file": "chapter_48.md",
+    "size": 53349,
+    "tokens_approx": 13337
+  },
+  {
+    "chapter": 49,
+    "title": "Архитекторы",
+    "metrika": "T-21",
+    "file": "chapter_49.md",
+    "size": 66184,
+    "tokens_approx": 16546
+  },
+  {
+    "chapter": 50,
+    "title": "Инертный",
+    "metrika": "T-20",
+    "file": "chapter_50.md",
+    "size": 53048,
+    "tokens_approx": 13262
+  }
+]
