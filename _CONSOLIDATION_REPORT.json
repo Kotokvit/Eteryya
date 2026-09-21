@@ -1,0 +1,146 @@
+{
+  "phase": "consolidation",
+  "consolidated_groups": [
+    {
+      "category": "00_КАНОН",
+      "stem": "Canon_Fundamentals__archive",
+      "kind": "part",
+      "total_parts": 2,
+      "found_parts": 2,
+      "output_file": "Canon_Fundamentals__archive_part_consolidated.md",
+      "output_size_bytes": 244326,
+      "unique_media_files": 1
+    },
+    {
+      "category": "00_КАНОН",
+      "stem": "canon",
+      "kind": "part",
+      "total_parts": 6,
+      "found_parts": 6,
+      "output_file": "КАНОН_Полная_версия.md",
+      "output_size_bytes": 181859,
+      "unique_media_files": 1
+    },
+    {
+      "category": "01_ГЕОГРАФИЯ",
+      "stem": "Etheria_Worldbuilding__archive",
+      "kind": "part",
+      "total_parts": 10,
+      "found_parts": 10,
+      "output_file": "Etheria_Worldbuilding__archive_part_consolidated.md",
+      "output_size_bytes": 2462284,
+      "unique_media_files": 1
+    },
+    {
+      "category": "01_ГЕОГРАФИЯ",
+      "stem": "worldbuilding",
+      "kind": "part",
+      "total_parts": 18,
+      "found_parts": 18,
+      "output_file": "Этерия_Лор_Полная_версия.md",
+      "output_size_bytes": 3648080,
+      "unique_media_files": 1
+    },
+    {
+      "category": "02_ФИЗИКА",
+      "stem": "physics",
+      "kind": "part",
+      "total_parts": 3,
+      "found_parts": 3,
+      "output_file": "Физика_Полная_версия.md",
+      "output_size_bytes": 104537,
+      "unique_media_files": 1
+    },
+    {
+      "category": "06_НАРРАТИВ",
+      "stem": "Chapters_Sfera_Predela__archive",
+      "kind": "part",
+      "total_parts": 3,
+      "found_parts": 3,
+      "output_file": "Chapters_Sfera_Predela__archive_part_consolidated.md",
+      "output_size_bytes": 1219951,
+      "unique_media_files": 1
+    },
+    {
+      "category": "06_НАРРАТИВ",
+      "stem": "chapter",
+      "kind": "part",
+      "total_parts": 25,
+      "found_parts": 26,
+      "output_file": "Сфера_Предела_Все_главы.md",
+      "output_size_bytes": 14299450,
+      "unique_media_files": 1
+    },
+    {
+      "category": "07_ТЕХНОЛОГИИ",
+      "stem": "poler",
+      "kind": "part",
+      "total_parts": 3,
+      "found_parts": 3,
+      "output_file": "POLER_Технологии_Полная_версия.md",
+      "output_size_bytes": 1826160,
+      "unique_media_files": 1
+    },
+    {
+      "category": "07_ТЕХНОЛОГИИ",
+      "stem": "poler",
+      "kind": "part",
+      "total_parts": 15,
+      "found_parts": 15,
+      "output_file": "POLER_Технологии_Полная_версия.md",
+      "output_size_bytes": 1836011,
+      "unique_media_files": 1
+    },
+    {
+      "category": "09_ЗАМЕТКИ",
+      "stem": "Data_Scripts__archive",
+      "kind": "part",
+      "total_parts": 2,
+      "found_parts": 2,
+      "output_file": "Data_Scripts__archive_part_consolidated.md",
+      "output_size_bytes": 363214,
+      "unique_media_files": 1
+    },
+    {
+      "category": "09_ЗАМЕТКИ",
+      "stem": "other",
+      "kind": "part",
+      "total_parts": 14,
+      "found_parts": 14,
+      "output_file": "Прочее_Заметки_Полная_версия.md",
+      "output_size_bytes": 1397692,
+      "unique_media_files": 1
+    },
+    {
+      "category": "10_ИССЛЕДОВАНИЯ",
+      "stem": "External_Research__archive",
+      "kind": "part",
+      "total_parts": 3,
+      "found_parts": 3,
+      "output_file": "External_Research__archive_part_consolidated.md",
+      "output_size_bytes": 528261,
+      "unique_media_files": 1
+    },
+    {
+      "category": "10_ИССЛЕДОВАНИЯ",
+      "stem": "external",
+      "kind": "part",
+      "total_parts": 2,
+      "found_parts": 2,
+      "output_file": "Внешние_Исследования_Полная_версия.md",
+      "output_size_bytes": 795248,
+      "unique_media_files": 1
+    },
+    {
+      "category": "10_ИССЛЕДОВАНИЯ",
+      "stem": "external",
+      "kind": "part",
+      "total_parts": 9,
+      "found_parts": 9,
+      "output_file": "Внешние_Исследования_Полная_версия.md",
+      "output_size_bytes": 800248,
+      "unique_media_files": 1
+    }
+  ],
+  "archive_root": "99_АРХИВ_ИСХОДНИКИ"
+}
