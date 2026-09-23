@@ -349,14 +349,14 @@ s_физ(Eteria) = 897.27 км
 | Сайт | Широта | Долгота |
 |------|--------|---------|
 | Giza | 29.9792°N | 31.1342°E |
-| Ollantaytambo | -13.2588°S | -72.2631°W |
-| Puma Punku | -17.1960°S | -68.6760°W |
+| Ollantaytambo | -13.2548°S | -72.2629°W |
+| Puma Punku | -16.5569°S | -68.6733°W |
 | Göbekli Tepe | 37.2233°N | 38.9224°E |
-| Baalbek | 34.1847°N | 36.2039°E |
+| Baalbek | 34.0067°N | 36.2033°E |
 | Stonehenge | 51.1789°N | -1.8262°W |
 | Teotihuacan | 19.6923°N | -98.8438°W |
-| Kyiv Golden Gate | 50.4543°N | 30.5164°E |
-| Sector 4 | 50.7876°N | 26.1366°E |
+| Kyiv Golden Gate | 50.4489°N | 30.5133°E |
+| Sector 4 | 47.1200°N | 34.8900°E |
 
 ---
 

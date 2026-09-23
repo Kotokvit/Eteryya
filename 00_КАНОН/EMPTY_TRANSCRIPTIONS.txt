@@ -1,0 +1,86 @@
+# Пустые транскрипции PNG→MD (83 заглушки) — реестр для заполнения
+# Сгенерировано CALCULUS_ETERIA, 2026-09-24
+
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_ATLAS_Beautiful.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Atlas_NorthRoute.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Atlas_NorthRoute_v2.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Atlas_v3.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Globe_View1_EarthSide.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Globe_View2_NorthPole.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Globe_View3_South.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Map.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Map_QGIS.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Map_v2.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Terrain_Agent4_Preview.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_World_Map.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/3_Etheria_Atlas_v3.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_ATLAS_Beautiful.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_ATLAS_Final.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Atlas_NorthRoute.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Atlas_NorthRoute_v2.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Atlas_v3.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_GEOGRAPHIC_NorthRoute_FINAL.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Globe_View1_EarthSide.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Globe_View2_NorthPole.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Globe_View3_South.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Map.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Map_QGIS.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Map_v2.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Terrain_Agent4_Preview.png.md
+01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_World_Map.png.md
+01_ГЕОГРАФИЯ/МАРШРУТЫ/2_Etheria_NorthRoute_Elevation_Profile.png.md
+01_ГЕОГРАФИЯ/МАРШРУТЫ/2_Etheria_NorthRoute_T21_T0_v2.png.md
+01_ГЕОГРАФИЯ/МАРШРУТЫ/Etheria_NorthRoute_Elevation_Profile.png.md
+01_ГЕОГРАФИЯ/МАРШРУТЫ/Etheria_NorthRoute_T21_T0_FINAL.png.md
+01_ГЕОГРАФИЯ/МАРШРУТЫ/Etheria_NorthRoute_T21_T0_v2.png.md
+01_ГЕОГРАФИЯ/МАРШРУТЫ/Etheria_Transit_Points_v2.png.md
+02_ФИЗИКА/M1_M2/M1_M2_einstein_ring.png.md
+02_ФИЗИКА/M1_M2/M1_M2_parallax_sensitivity.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/2_p3_endogenous_combined.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/P3_schema_1_comparison.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/P3_schema_2_homogeneous.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/P3_schema_3_cards.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/P3_schema_4_lines.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/P3_schema_5_factorization.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/P3_schema_6_Z2Z.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_demo_combined.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_endogenous_combined.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_panel_A_z2z_twist.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_panel_B_pgl4_transform.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_panel_C_w_propagation.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_panel_D_full_cycle.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_planet_3d_slice.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_stage1_unfold.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_stage2_network.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_stage3_z2z_loop.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_stage4_endogenous.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_vs_r3_distance.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_w_evolution.png.md
+02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_w_field_surface.png.md
+03_БИОФИЗИКА/БЕСТИАРИЙ/скелет 2.png.md
+03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/2_etheria_cooling_mechanisms.png.md
+03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/2_etheria_sweat_vs_exudate.png.md
+03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/2_etheria_temperature_dynamics.png.md
+03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/2_etheria_thermoregulation_diagram.png.md
+03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/etheria_cooling_mechanisms.png.md
+03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/etheria_sweat_vs_exudate.png.md
+03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/etheria_temperature_dynamics.png.md
+03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/etheria_thermoregulation_diagram.png.md
+03_БИОФИЗИКА/ФИЗИОЛОГИЯ/2_etheria_pressure_valves.png.md
+03_БИОФИЗИКА/ФИЗИОЛОГИЯ/2_etheria_respiratory_gas_exchange.png.md
+03_БИОФИЗИКА/ФИЗИОЛОГИЯ/etheria_pressure_valves.png.md
+03_БИОФИЗИКА/ФИЗИОЛОГИЯ/etheria_respiratory_gas_exchange.png.md
+07_ТЕХНОЛОГИИ/ПРОМПТЫ/POLER_energy_analysis.png.md
+07_ТЕХНОЛОГИИ/ПРОМПТЫ/POLER_iterations_analysis.png.md
+07_ТЕХНОЛОГИИ/ПРОМПТЫ/POLER_scaling_curve.png.md
+07_ТЕХНОЛОГИИ/ПРОМПТЫ/POLER_v034_scaling_curve.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/2_ChatGPT Image 22 черв. 2026 р., 23_29_53.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/2_ChatGPT Image 23 черв. 2026 р., 23_40_09.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/2_Etheria_Timeline_T64_T0.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/2_unnamed.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/ChatGPT Image 22 черв. 2026 р., 23_23_18.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/ChatGPT Image 22 черв. 2026 р., 23_29_53.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/ChatGPT Image 23 черв. 2026 р., 23_40_09.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/Etheria_Timeline_T64_T0.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/cc999e63-30e7-4d56-a833-794b06a0f27b_image.png.md
+08_МЕДИА/ИЗОБРАЖЕНИЯ/unnamed.png.md
