@@ -1,0 +1,631 @@
+{
+  "A1_resonance_selection": {
+    "rejected": {
+      "thin_shell_flexural_Hz": 2.5317763981787428e-06,
+      "circumferential_required_c_ms": 686118367.1798753,
+      "helmholtz_required_area_m2": 2.3662898789628636e+16,
+      "helmholtz_realistic_Hz": 0.0003844214685473187
+    },
+    "base_freq_Hz": 8.170775237576871,
+    "ideal_modes_Hz": {
+      "1": 11.55522115608346,
+      "2": 20.01423013503133,
+      "3": 28.304395697417608
+    },
+    "earth_loss_factor_n2": 0.7795198573130595,
+    "undoped_n2_Hz": 15.601489819090357,
+    "doped_velocity_factor": 0.9343352141868797,
+    "locked_n2_Hz": 18.7,
+    "bio_band_check": {
+      "n1_range_Hz": [
+        9.007524346811026,
+        11.55522115608346
+      ],
+      "note": "мода n=1 (9-11.6 Гц) попадает в нейрональную альфа-полосу 8-13 Гц — запрещена",
+      "n2_eyeball_resonance": "18.7 Гц примыкает к резонансу глазных яблок 18-19 Гц — источник фонового беспокойства, канонический «Гул Бездны»"
+    }
+  },
+  "A2_clock_energetics": {
+    "mode_field_T": 1e-10,
+    "cavity_volume_m3": 4.285139898506562e+19,
+    "stored_energy_kJ": 170.5002990790893,
+    "Q": 10.0,
+    "ringing_power_MW": 2.0033029014612684,
+    "reactor_fraction": 2.2258921127347428e-11,
+    "mechanical_drive_GW_per_nm": 0.8577800811240383
+  },
+  "A3_mode_geography": {
+    "nodal_latitudes_deg": [
+      54.735610317245346,
+      125.26438968275465
+    ],
+    "antinodes": [
+      "полюса (максимум)",
+      "экваториальный пояс (0.5 от максимума)"
+    ]
+  },
+  "A4_flux_injection": {
+    "lbe_density": 10150.0,
+    "lbe_viscosity_mPas": 4.0,
+    "crack_aperture_m": 0.0005,
+    "drive_pressure_MPa": 10.0,
+    "velocity_m_s": 0.5208333333333334,
+    "Reynolds": 660.8072916666667,
+    "regime": "ламинарный",
+    "fill_time_100m_s": 192.0,
+    "network_flux_mass_Gt": 5.075
+  },
+  "A5_meridian_depth": {
+    "skin_depth_table": [
+      {
+        "sigma_eff_S_m": 3.0,
+        "delta_m": 67.19526962278147
+      },
+      {
+        "sigma_eff_S_m": 10.0,
+        "delta_m": 36.804364930039064
+      },
+      {
+        "sigma_eff_S_m": 30.0,
+        "delta_m": 21.249009999711276
+      },
+      {
+        "sigma_eff_S_m": 100.0,
+        "delta_m": 11.638562101494708
+      }
+    ],
+    "canon_band_m": [
+      20,
+      80
+    ],
+    "implied_sigma_range": [
+      3.0,
+      30.0
+    ],
+    "mechanism": "скин-слой такта + МГД-самоусиление проводящих трещин"
+  },
+  "B_sphere_table": {
+    "beta_W_per_sigma": 0.75,
+    "eps0_phiV": 0.8660254037844386,
+    "groups": [
+      {
+        "range": [
+          0,
+          5
+        ],
+        "name": "base_io",
+        "syscalls": [
+          "io_bind()",
+          "freq_tune()"
+        ]
+      },
+      {
+        "range": [
+          6,
+          6
+        ],
+        "name": "memory",
+        "syscalls": [
+          "v_alloc(ShapeDescriptor)"
+        ]
+      },
+      {
+        "range": [
+          7,
+          7
+        ],
+        "name": "barrier",
+        "syscalls": [
+          "m_lock(SpatialBoundary)"
+        ]
+      },
+      {
+        "range": [
+          8,
+          14
+        ],
+        "name": "topology",
+        "syscalls": [
+          "w_transform(s)",
+          "phase_rot()"
+        ]
+      },
+      {
+        "range": [
+          15,
+          21
+        ],
+        "name": "kernel",
+        "syscalls": [
+          "core_interrupt()",
+          "flux_pump()"
+        ]
+      },
+      {
+        "range": [
+          22,
+          22
+        ],
+        "name": "root",
+        "syscalls": [
+          "kernel_exec(ROOT_PRIVILEGE)"
+        ]
+      }
+    ],
+    "table": [
+      {
+        "level": 0,
+        "group": "base_io",
+        "syscall": "io_bind()",
+        "sigma_req": 1.5,
+        "P_carrier_W": 1.125,
+        "I_phi": 1.299,
+        "dI_bits": 1000000000000.0,
+        "Q_J": 2.9681136706905535e-09,
+        "tau_call_s": 0.0535,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 1,
+        "group": "base_io",
+        "syscall": "io_bind()",
+        "sigma_req": 2.571,
+        "P_carrier_W": 1.929,
+        "I_phi": 2.227,
+        "dI_bits": 4442192458786.555,
+        "Q_J": 1.3184932164762857e-08,
+        "tau_call_s": 0.0535,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 2,
+        "group": "base_io",
+        "syscall": "io_bind()",
+        "sigma_req": 3.643,
+        "P_carrier_W": 2.732,
+        "I_phi": 3.155,
+        "dI_bits": 19733073840900.14,
+        "Q_J": 5.857000623192186e-08,
+        "tau_call_s": 0.107,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 3,
+        "group": "base_io",
+        "syscall": "io_bind()",
+        "sigma_req": 4.714,
+        "P_carrier_W": 3.536,
+        "I_phi": 4.083,
+        "dI_bits": 87658111804724.83,
+        "Q_J": 2.6017923999452477e-07,
+        "tau_call_s": 0.1604,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 4,
+        "group": "base_io",
+        "syscall": "io_bind()",
+        "sigma_req": 5.786,
+        "P_carrier_W": 4.339,
+        "I_phi": 5.011,
+        "dI_bits": 389394203210417.4,
+        "Q_J": 1.1557662578364953e-06,
+        "tau_call_s": 0.2139,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 5,
+        "group": "base_io",
+        "syscall": "freq_tune()",
+        "sigma_req": 6.857,
+        "P_carrier_W": 5.143,
+        "I_phi": 5.938,
+        "dI_bits": 1729763992996515.0,
+        "Q_J": 5.134136154681236e-06,
+        "tau_call_s": 0.2674,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 6,
+        "group": "memory",
+        "syscall": "v_alloc(ShapeDescriptor)",
+        "sigma_req": 7.929,
+        "P_carrier_W": 5.946,
+        "I_phi": 6.866,
+        "dI_bits": 7683944565169639.0,
+        "Q_J": 2.280682090870839e-05,
+        "tau_call_s": 0.3209,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 7,
+        "group": "barrier",
+        "syscall": "m_lock(SpatialBoundary)",
+        "sigma_req": 9.0,
+        "P_carrier_W": 6.75,
+        "I_phi": 7.794,
+        "dI_bits": 3.4133560601130508e+16,
+        "Q_J": 0.00010131228784955994,
+        "tau_call_s": 0.3743,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 8,
+        "group": "topology",
+        "syscall": "w_transform(s)",
+        "sigma_req": 9.067,
+        "P_carrier_W": 6.8,
+        "I_phi": 7.852,
+        "dI_bits": 1.516278454938758e+17,
+        "Q_J": 0.00045004868106772786,
+        "tau_call_s": 0.4278,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 9,
+        "group": "topology",
+        "syscall": "w_transform(s)",
+        "sigma_req": 9.133,
+        "P_carrier_W": 6.85,
+        "I_phi": 7.91,
+        "dI_bits": 6.73560071794948e+17,
+        "Q_J": 0.0019992028571258957,
+        "tau_call_s": 0.4813,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 10,
+        "group": "topology",
+        "syscall": "w_transform(s)",
+        "sigma_req": 9.2,
+        "P_carrier_W": 6.9,
+        "I_phi": 7.967,
+        "dI_bits": 2.992083471467248e+18,
+        "Q_J": 0.008880843855509189,
+        "tau_call_s": 0.5348,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 11,
+        "group": "topology",
+        "syscall": "w_transform(s)",
+        "sigma_req": 9.267,
+        "P_carrier_W": 6.95,
+        "I_phi": 8.025,
+        "dI_bits": 1.3291410633011706e+19,
+        "Q_J": 0.03945041760260383,
+        "tau_call_s": 0.5882,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 12,
+        "group": "topology",
+        "syscall": "w_transform(s)",
+        "sigma_req": 9.333,
+        "P_carrier_W": 7.0,
+        "I_phi": 8.083,
+        "dI_bits": 5.904300408060003e+19,
+        "Q_J": 0.1752463475702671,
+        "tau_call_s": 0.6417,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 13,
+        "group": "topology",
+        "syscall": "w_transform(s)",
+        "sigma_req": 9.4,
+        "P_carrier_W": 7.05,
+        "I_phi": 8.141,
+        "dI_bits": 2.6228038747094526e+20,
+        "Q_J": 0.7784780036065281,
+        "tau_call_s": 0.6952,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 14,
+        "group": "topology",
+        "syscall": "phase_rot()",
+        "sigma_req": 9.467,
+        "P_carrier_W": 7.1,
+        "I_phi": 8.198,
+        "dI_bits": 1.1650999593110485e+21,
+        "Q_J": 3.458149116952131,
+        "tau_call_s": 0.7487,
+        "P_tap_W": 0.0
+      },
+      {
+        "level": 15,
+        "group": "kernel",
+        "syscall": "core_interrupt()",
+        "sigma_req": 9.533,
+        "P_carrier_W": 7.15,
+        "I_phi": 8.256,
+        "dI_bits": 5.175598252984062e+21,
+        "Q_J": 15.361763928684141,
+        "tau_call_s": 0.8021,
+        "P_tap_W": 1000.0
+      },
+      {
+        "level": 16,
+        "group": "kernel",
+        "syscall": "core_interrupt()",
+        "sigma_req": 9.6,
+        "P_carrier_W": 7.2,
+        "I_phi": 8.314,
+        "dI_bits": 2.2991003529114668e+22,
+        "Q_J": 68.23991187766,
+        "tau_call_s": 0.8556,
+        "P_tap_W": 4442.0
+      },
+      {
+        "level": 17,
+        "group": "kernel",
+        "syscall": "core_interrupt()",
+        "sigma_req": 9.667,
+        "P_carrier_W": 7.25,
+        "I_phi": 8.372,
+        "dI_bits": 1.0213046249696825e+23,
+        "Q_J": 303.13482193120035,
+        "tau_call_s": 0.9091,
+        "P_tap_W": 19731.364
+      },
+      {
+        "level": 18,
+        "group": "kernel",
+        "syscall": "core_interrupt()",
+        "sigma_req": 9.733,
+        "P_carrier_W": 7.3,
+        "I_phi": 8.429,
+        "dI_bits": 4.536831703164154e+23,
+        "Q_J": 1346.5832199783833,
+        "tau_call_s": 0.9626,
+        "P_tap_W": 87646.718888
+      },
+      {
+        "level": 19,
+        "group": "kernel",
+        "syscall": "core_interrupt()",
+        "sigma_req": 9.8,
+        "P_carrier_W": 7.35,
+        "I_phi": 8.487,
+        "dI_bits": 2.0153479578579568e+24,
+        "Q_J": 5981.781824916491,
+        "tau_call_s": 1.016,
+        "P_tap_W": 389326.72530049604
+      },
+      {
+        "level": 20,
+        "group": "kernel",
+        "syscall": "core_interrupt()",
+        "sigma_req": 9.867,
+        "P_carrier_W": 7.4,
+        "I_phi": 8.545,
+        "dI_bits": 8.952563500227499e+24,
+        "Q_J": 26572.22611275051,
+        "tau_call_s": 1.0695,
+        "P_tap_W": 1729389.3137848035
+      },
+      {
+        "level": 21,
+        "group": "kernel",
+        "syscall": "flux_pump()",
+        "sigma_req": 9.933,
+        "P_carrier_W": 7.45,
+        "I_phi": 8.603,
+        "dI_bits": 3.9769010067518356e+25,
+        "Q_J": 118038.94245123149,
+        "tau_call_s": 1.123,
+        "P_tap_W": 7681947.331832098
+      },
+      {
+        "level": 22,
+        "group": "root",
+        "syscall": "kernel_exec(ROOT_PRIVILEGE)",
+        "sigma_req": 10.0,
+        "P_carrier_W": 7.5,
+        "I_phi": 8.66,
+        "dI_bits": 1.7666159661533663e+26,
+        "Q_J": 524351.7000000007,
+        "tau_call_s": 1.1765,
+        "P_tap_W": 34123210.04799818
+      }
+    ]
+  },
+  "B_cascade": {
+    "phases": [
+      {
+        "level": 1,
+        "name": "Тепло",
+        "sigma_req": 2.571,
+        "P_carrier_W": 1.929,
+        "containment_radius_m": 0.17052315331274498,
+        "loss_channel": "теплопроводность среды",
+        "failure_mode": "локальный ожог ладоней (обратимо)",
+        "note": "инертная фаза: пятно разогрева, контура нет"
+      },
+      {
+        "level": 2,
+        "name": "Давление",
+        "sigma_req": 3.643,
+        "P_carrier_W": 2.732,
+        "containment_radius_m": 0.03,
+        "loss_channel": "работа расширения (адиабата)",
+        "failure_mode": "холодная диссипация ядра (безопасно)",
+        "note": "стягивание атомов среды в координату, сытое ядро"
+      },
+      {
+        "level": 3,
+        "name": "Поток",
+        "sigma_req": 4.714,
+        "P_carrier_W": 3.536,
+        "containment_radius_m": 0.04,
+        "loss_channel": "омическая (I²·Σ_R)",
+        "failure_mode": "РАЗРЫВ ТКАНЕЙ — труп или калека",
+        "note": "критическая масса между рук: потеря ΔI → взлет Σ_R → сброс в тело"
+      },
+      {
+        "level": 4,
+        "name": "Вектор",
+        "sigma_req": 5.786,
+        "P_carrier_W": 4.339,
+        "containment_radius_m": 3.0,
+        "loss_channel": "диссипация канала проекции",
+        "failure_mode": "неуправляемый баллистический импульс",
+        "note": "вынос стабилизированной массы за пределы тела"
+      },
+      {
+        "level": 5,
+        "name": "Связи",
+        "sigma_req": 6.857,
+        "P_carrier_W": 5.143,
+        "containment_radius_m": 1.0,
+        "loss_channel": "расстройка резонанса (полоса Q)",
+        "failure_mode": "отраженный резонанс от цели",
+        "note": "сопряжение с внешней материей, локальная аномалия"
+      },
+      {
+        "level": 6,
+        "name": "Форма",
+        "sigma_req": 7.929,
+        "P_carrier_W": 5.946,
+        "containment_radius_m": 0.25,
+        "loss_channel": "аренда дескриптора (налог формы)",
+        "failure_mode": "испарение формы (расторжение контракта)",
+        "note": "замороженное равновесие всех фаз — вторая оболочка"
+      }
+    ],
+    "s1_spot_radius_m": 0.17052315331274498,
+    "s2_compression": 183.64804136980385,
+    "s3_stored_J": 3.5357142857142856,
+    "s3_dose_J_cm3": 0.2357142857142857,
+    "s3_combat_stored_J": 106.07142857142858,
+    "s3_combat_dose_J_cm3": 7.071428571428572,
+    "necrosis_threshold_J_cm3": 4.7,
+    "boil_threshold_J_cm3": 16.600479999999997,
+    "info_amplification_S1_S6": 1729.3893137848036,
+    "contract": "dE_j/dt = η_j·E_{j-1}/τ_{j-1} − E_j/τ_j = 0, j = 1..6"
+  },
+  "B4_energy_architecture": {
+    "tap_ladder": {
+      "15": 1000.0,
+      "16": 4442.0,
+      "17": 19731.364,
+      "18": 87646.718888,
+      "19": 389326.72530049604,
+      "20": 1729389.3137848035,
+      "21": 7681947.331832098
+    },
+    "kill_mechanism": "аннулирование каскадного контракта цели → самосброс цели"
+  },
+  "C_degradation": {
+    "operator_classes": [
+      {
+        "class": "фоновый класс",
+        "sigma": 1.5,
+        "max_level": 0,
+        "cases": {
+          "S7": {
+            "P_dump_W": 28.125,
+            "t_boil_s": 20715.12888888889
+          },
+          "S22": {
+            "P_dump_W": 36.12500000000001,
+            "t_boil_s": 16127.6955017301
+          }
+        }
+      },
+      {
+        "class": "видовая норма",
+        "sigma": 6.5,
+        "max_level": 4,
+        "cases": {
+          "S7": {
+            "P_dump_W": 0.7211538461538466,
+            "t_boil_s": 807890.0266666661
+          },
+          "S22": {
+            "P_dump_W": 1.4134615384615397,
+            "t_boil_s": 412188.7891156459
+          }
+        }
+      },
+      {
+        "class": "шахтер/акме",
+        "sigma": 7.8,
+        "max_level": 5,
+        "cases": {
+          "S7": {
+            "P_dump_W": 0.1384615384615386,
+            "t_boil_s": 4207760.555555551
+          },
+          "S22": {
+            "P_dump_W": 0.46538461538461595,
+            "t_boil_s": 1251895.7024793373
+          }
+        }
+      },
+      {
+        "class": "оператор S7",
+        "sigma": 9.0,
+        "max_level": 7,
+        "cases": {
+          "S7": {
+            "P_dump_W": 8.765121169122353e-32,
+            "t_boil_s": 6.646947472356925e+36
+          },
+          "S22": {
+            "P_dump_W": 0.08333333333333362,
+            "t_boil_s": 6991355.999999976
+          }
+        }
+      },
+      {
+        "class": "потолок",
+        "sigma": 10.0,
+        "max_level": 22,
+        "cases": {
+          "S7": {
+            "P_dump_W": 0.0,
+            "t_boil_s": Infinity
+          },
+          "S22": {
+            "P_dump_W": 3.1554436208840474e-31,
+            "t_boil_s": 1.8463742978769235e+36
+          }
+        }
+      }
+    ],
+    "continuous_death_clock_h": 33.19732193732194,
+    "failure_taxonomy": [
+      {
+        "mode": "шинный",
+        "cause": "σ_e < σ_req",
+        "timescale": "дни",
+        "injury": "CNED-износ, ожог меридианов"
+      },
+      {
+        "mode": "бюджетный",
+        "cause": "Q > Q_max",
+        "timescale": "секунды-часы",
+        "injury": "острый тепловой всплеск (S22: 90% бюджета за вызов)"
+      },
+      {
+        "mode": "указательный",
+        "cause": "адрес вне P³ (Нокс)",
+        "timescale": "миллисекунды",
+        "injury": "Kernel Panic: сброс 18.95 МДж, 1300 °C"
+      }
+    ]
+  },
+  "C_nox_timeline": {
+    "register_file_bits": 8388608,
+    "descriptor_bits": 128,
+    "overflow_time_s": 0.0014,
+    "alloc_rate_MHz": 46.81142857142857,
+    "dump_MJ": 18.945,
+    "dump_power_MW": 23.68125,
+    "dump_duration_s": 0.8,
+    "temperature_C": 1300.0,
+    "bridge_radius_cm": 50.0
+  }
+}
