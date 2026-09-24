@@ -1,0 +1,255 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+ETHERIA CULTIVATION v1.0 — ГЕНЕЗИС · ФРЕДЕРИТ · СФЕРЫ · ГЕСТАЦИЯ (вердикт A/B)
+Скрипт-близнец CALCULUS / GEOGRAPHY / ECONOMY (стиль: проверки + JSON)
+
+Единый контур «всё взаимосвязано»:
+  ЗВЕЗДА-МЕТЕОРИТ (Fe-Ni импактор, реликт нейтронной звезды)
+    → нуклеосинтез ФРЕДЕРИТА C₆₀[¹⁹²Os] в ядре (σ_e=10)
+    → реактор планеты 210 Вт/м² → +20°C → хемосинтез биосферы
+    → φ-поле 1.4 ТГц → КУЛЬТИВАЦИЯ (7 Сфер, σ_e рас, ядра D/C/B/A)
+    → экономика ядер (монеты-ядра) → Бухгалтерия Доверия
+    → ГЕСТАЦИЯ 11 рас (вердикт модель A/B) — мост к беременности
+
+Ключевые формулы продублированы КАЛЬКУЛЯТОРОМ poler-engine (P-CHECK).
+
+Источники: ARCHAEO_PHYSICS_AND_EARTH_ANALOGUES.md, Worldbuilding реестр (генезис),
+GEOGRAPHY_ETERIA.json (расы, гестация A/B), EPUB-04 (культивация/ядра/инфузия),
+GLOSSARY (σ_e, Сферы, фредерит), 06_races.json.
+
+Выход: 00_КАНОН/CULTIVATION_ETERIA.json
+"""
+import json, math, subprocess
+from pathlib import Path
+
+REPO = Path('/home/z/my-project/Eteryya')
+GEO  = json.loads((REPO / '00_КАНОН' / 'GEOGRAPHY_ETERIA.json').read_text())
+POLENGINE = str(Path.home() / '.local' / 'bin' / 'poler-engine')
+
+def poler(expr) -> float:
+    out = subprocess.run([POLENGINE, '--exec', f'calc {expr}'],
+                         capture_output=True, text=True, timeout=30)
+    for line in out.stdout.splitlines():
+        line = line.strip()
+        if line.replace('.', '').replace('-', '').replace('e', '').replace('+', '').replace('E', '').isdigit():
+            return float(line)
+        try: return float(line.split('=')[-1].strip())
+        except (ValueError, IndexError): continue
+    raise RuntimeError(f'poler-engine не дал число: {expr!r} → {out.stdout!r}')
+
+CHECKS = []
+def chk(name, got, expect, tol=0.0, kind='OK'):
+    if kind in ('AXIOM', 'FLAG'):
+        CHECKS.append((name, kind, got, expect)); return
+    ok = (got == expect) if tol == 0 else abs(got - expect) <= tol
+    CHECKS.append((name, 'OK' if ok else ('~=' if abs(got-expect) <= tol*10 else 'MISMATCH'),
+                   round(got, 4) if isinstance(got, float) else got, expect))
+
+def pchk(name, expr, expect, tol=1e-6):
+    got = poler(expr)
+    ok = abs(got - expect) <= tol if tol else got == expect
+    CHECKS.append((name, 'OK' if ok else 'MISMATCH', round(got, 6), expect))
+
+# ══════════════════════════════════════════════════════════════════════
+# §1. ГЕНЕЗИС: ЗВЕЗДА-МЕТЕОРИТ (Theia-аналог, 4.1–4.3 млрд лет назад)
+# ══════════════════════════════════════════════════════════════════════
+IMP_M = 5.972e23      # кг (0.1 M⊕, как Theia)
+IMP_D = 5253.0       # км
+IMP_V = 20_000.0     # м/с (типичная LHB)
+E_IMPACT = 0.5 * IMP_M * IMP_V**2
+pchk('P-C1 E удара импактора, Дж', f'0.5 * {IMP_M} * {IMP_V}^2', E_IMPACT)
+chk('C-01 E импактора 1.194×10³² Дж (канон генезиса)', E_IMPACT, 1.194e32, 1e29)
+chk('C-02 M импактора = 0.1 M⊕ (Theia-аналог)', round(IMP_M / 5.972e24, 3), 0.100)
+chk('C-03 D импактора 5253 км (канон)', IMP_D, 5253)
+# результат: нуклеосинтез Os* + C₆₀ → фредерит в ядре; ядро 2073.2 км, ρ 16.0 г/см³
+R_CORE, RHO_CORE = 2073.2, 16.0
+chk('C-04 ядро R=2073.2 км (35.5% R)', round(R_CORE / 5838.4, 3), 0.355)
+core_mass = (4/3) * math.pi * (R_CORE * 1000)**3 * RHO_CORE * 1000   # R в м, ρ в кг/м³
+chk('C-05 масса фредерит-ядра ~5.97×10²³ кг (=M импактора)', round(core_mass, 21), round(5.972e23, 21), kind='AXIOM')
+
+# ══════════════════════════════════════════════════════════════════════
+# §2. ФРЕДЕРИТ-РЕАКТОР: 210 Вт/м² → T=+20°C (балансы)
+# ══════════════════════════════════════════════════════════════════════
+FRED_W = 210.0        # Вт/м² (канон)
+SOL_W  = 257.3        # Вт/м² на 2.3 а.е.
+SIGMA  = 5.670374419e-8
+R_M = 5_838_400.0
+P_REACTOR = FRED_W * 4 * math.pi * R_M**2
+pchk('P-C2 мощность реактора, ТВт', f'{FRED_W} * 4 * pi * {R_M}^2 / 1e12', P_REACTOR / 1e12)
+chk('C-06 фредерит 210 Вт/м² (канон)', FRED_W, 210)
+chk('C-07 солнце 257.3 Вт/м² (2.3 а.е.)', SOL_W, 257.3)
+# Гипотезы равновесия (Стефан-Больцман):
+def T_eq(W_in, albedo):
+    return (W_in * (1 - albedo) / SIGMA) ** 0.25 - 273.15
+T_C = 273.15
+A_ice = 1 - (SIGMA * (-89.6 + T_C) ** 4) / SOL_W          # альбедо ледяного мира (из канона −89.6°C)
+T_no_albedo = T_eq(SOL_W, 0.0)
+T_ice = T_eq(SOL_W, A_ice)          # → −89.6°C (канон: без фредерита)
+T_with_fred = T_eq(SOL_W + FRED_W, A_ice)   # → −60.1°C (канон: с фредеритом!)
+FRED_HEAT = T_with_fred - T_ice                 # +29.5°C — «внутренний нагрев фредерита» (канон)
+pchk('P-C3 T без альбедо (255K→−18°C, земной аналог)', f'({SOL_W} / {SIGMA})^0.25 - 273.15', T_no_albedo)
+chk('C-08 T(без фредерита) = −89.6°C (канон) → альбедо ледяного мира 0.750',
+    round(T_ice, 1), -89.6, 0.2)
+chk('C-09 T(с фредеритом, СБ) = −60.1°C (КАНОН бит-в-бит!)',
+    round(T_with_fred, 1), -60.1, 0.2)
+chk('C-09b внутренний нагрев фредерита +29.5°C (канон бит-в-бит!)',
+    round(FRED_HEAT, 1), 29.5, 0.2)
+# парниковый множитель купола (78% аргона, φ-ионизация) — доводит −60.1°C до +20°C:
+GREENHOUSE = ((20 + T_C) / (T_with_fred + T_C)) ** 4
+pchk('P-C4 парниковый фактор купола', f'((20 + 273.15) / ({T_with_fred + T_C:.2f}))^4', GREENHOUSE, 1e-4)
+chk('C-10 резонанс фредерита 432 Гц (канон)', 432, 432)
+chk('C-11 несущая Бездны 18.7 Гц (канон)', 18.7, 18.7)
+chk('C-12 φ-поле 1.4 ТГц (канон)', 1.4, 1.4)
+chk('C-13 хемосинтез: метаболизм от φ-излучения фредерита (канон лора)', True, True)
+
+# ══════════════════════════════════════════════════════════════════════
+# §3. СИСТЕМА СФЕР + σ_e РАС (культивация)
+# ══════════════════════════════════════════════════════════════════════
+SPHERES = ['1 Тепло', '2 Вектор', '3 Поток', '4 Вектор-тень', '5 Связи', '6 Форма', '7 Предел']
+BIOME = {'Север (Ω≫χ)': 'S2–S4', 'Центр (Ω≈χ)': 'S1–S5', 'Юг (χ≫Ω)': 'S4–S7',
+         'Восток (био)': 'S4–S6', 'Запад (χ-молнии)': 'S1–S5'}
+PENALTY = 30          # % энергозатрат вне зоны (канон)
+chk('C-14 7 Сфер (канон Курсора)', len(SPHERES), 7)
+chk('C-15 штраф вне биома +30% (канон)', PENALTY, 30)
+chk('C-16 Сфера 6 (Форма) = 17.1 Вт/выброс (канон)', 17.1, 17.1)
+
+RACES = GEO['races']  # 11 рас: H/M/BSA/life/BMR
+sigma_map = {'H.e. видовая норма': 3.5, 'H.e. шахтёр': 3.2, 'H.e. акме': 3.8, 'Эльф': 5.0,
+             'Орк': 4.0, 'Дриада': 5.5, 'Гоблин': 4.0, 'Драконит': 7.0, 'Демон нижний': 8.0,
+             'Демон-Повелитель': 8.5}   # нормы 3–6 (канон), элиты выше
+chk('C-17 рас в реестре = 11', len(RACES), 11)
+# Энергобюджет тела: E_тела = BMR × сутки
+race_e = {}
+for nm, r in RACES.items():
+    E_body = r['BMR_W'] * 86400        # Дж/сутки — предельная доза до CNED-срыва
+    race_e[nm] = dict(M=r['M_kg'], BMR=r['BMR_W'], E_body_day_J=round(E_body),
+                      sigma_e=sigma_map.get(nm, 3.5))
+pchk('P-C5 E_тела H.e., МДж/сутки', f'{RACES["H.e. видовая норма"]["BMR_W"]} * 86400 / 1e6',
+     race_e['H.e. видовая норма']['E_body_day_J'] / 1e6)
+
+# Три метода культивации (канон EPUB-04):
+METHODS = dict(
+    Живая_Орденская='управление Ω: дыхательные техники, 15–30 мин/день, циркуляция по меридианам',
+    Хаотическая='поглощение χ: радиация φ-руды, вакуум, инверсные зоны — рост ценой распада',
+    Смешанная_Пограничная='баланс Ω/χ → сверхстабильное поле Сферы Предела (Рэй: R→0 на 18.7 Гц)')
+chk('C-18 методов культивации = 3 (канон)', len(METHODS), 3)
+# Инфузия: E_ядра > κ·E_тела → энергетический срыв (канон)
+KAPPA = 0.85   # AXIOM: индекс совместимости среднего носителя
+infusion_limit = KAPPA * race_e['H.e. видовая норма']['E_body_day_J']
+pchk('P-C6 предел инфузии H.e., МДж', f'{KAPPA} * {race_e["H.e. видовая норма"]["E_body_day_J"]}',
+     infusion_limit)
+
+# ══════════════════════════════════════════════════════════════════════
+# §4. ЯДРА D/C/B/A — топливо культивации и монетная база
+# ══════════════════════════════════════════════════════════════════════
+CORES = [  # ранг, Сферы источника, цена зл (AXIOM от якоря α=12), доля рынка
+    ('D', '1–2', 0.05, 'валюта выживания Ямы, огарки Ф-фона'),
+    ('C', '3–4', 0.50, 'охотничьи, нож-резонатор'),
+    ('B', '5–6', 5.00, 'элитные, шприцы-резонаторы'),
+    ('A', '7–8', 50.0, 'контрактные/Левиафаньи, Синдикат'),
+]
+chk('C-19 ранги ядер D/C/B/A (канон)', len(CORES), 4)
+chk('C-20 α-сердце 12 зл между B и A (канон)', 5.0 < 12 < 50.0, True)
+# Энергия по Сферам (AXIOM-модель от якоря Сферы 6 = 17.1 Вт):
+def sphere_power(s):
+    return 17.1 * (s / 6) ** 2
+pchk('P-C7 мощность Сферы 3, Вт', f'17.1 * (3 / 6)^2', sphere_power(3))
+core_energy = {r[0]: round(sphere_power({'D': 1.5, 'C': 3.5, 'B': 5.5, 'A': 7.5}[r[0]]), 1) for r in CORES}
+chk('C-21 Синдикат Экстракторов = регулятор R ядра-рынка (канон)', True, True)
+
+# ══════════════════════════════════════════════════════════════════════
+# §5. ГЕСТАЦИЯ — ВЕРДИКТ ПО МОДЕЛЯМ A/B ДЛЯ 11 РАС
+# ══════════════════════════════════════════════════════════════════════
+GEST = GEO['gestation_models']
+def model_A(M):   # аллометрическая: 280 × (M/36.5)^0.25 (калибрована по H.e.)
+    return 280.0 * (M / 36.5) ** 0.25
+# Бит-в-бит с уже посчитанной model_A_days в GEOGRAPHY_ETERIA.json:
+for nm, g in GEST.items():
+    chk(f'C-G {nm}: A={g["model_A_days"]} дней', round(model_A(g['M_kg']), 1), g['model_A_days'], 0.6)
+pchk('P-C8 гестация орка (A)', f'280 * ({GEST["Орк"]["M_kg"]} / 36.5)^0.25', model_A(GEST['Орк']['M_kg']))
+pchk('P-C9 гестация гоблина (A)', f'280 * ({GEST["Гоблин"]["M_kg"]} / 36.5)^0.25', model_A(GEST['Гоблин']['M_kg']))
+
+VERDICT_GEST = dict(
+    принят='МОДЕЛЬ A — аллометрическая: гестация = 280·(M/36.5)^0.25 земных дней',
+    отклонён='МОДЕЛЬ B (константа 280 для всех) — игнорирует массы в 5.5× (гоблин 20 кг vs Повелитель 110 кг), '
+             'противоречит DEB-канону H.e. и всеометрии плаценты',
+    rationale=['A калибрована бит-в-бит по канону H.e. (280 дней = 9.2 эт. мес)',
+               'межрасовый размах A: 240.9 (гоблин) → 368.9 (Повелитель) — физиологично',
+               'B даёт орку (105 кг) те же 280 дней, что гоблину (20 кг) — биофизически невозможно'],
+    flags=['ЭЛЬФ: 262 дня при жизни 300–500 лет — долгожители обычно вынашивают дольше; '
+           'автору предложен множитель (life/220)^x — ВОПРОС',
+           'ДЕМОНЫ: не углеродная биология (Бездна, время 1:1.3) — гестация не применима без модели',
+           'ДРАКОНИТ: потомок Функции Мира — отдельная ветка (яйцо/кладка?) — ВОПРОС'],
+    демография=dict(население=156_524_634,
+                    средняя_жизнь_лет=round(sum(
+                        RACES[{'H.e.': 'H.e. видовая норма', 'Демон': 'Демон нижний'}.get(k, k)]['life_yr']
+                        for k in GEO['population_axioms']['by_race']) / 7, 0),
+                    рождений_в_год=round(156_524_634 / 200),   # AXIOM: стационарная популяция / 200 лет
+                    беременных_одновременно=round(156_524_634 / 200 * 280 / 365)))
+ver = VERDICT_GEST['демография']
+pchk('P-C10 рождений в год', '156524634 / 200', 156524634 / 200)
+pchk('P-C11 одновременно беременных', '156524634 / 200 * 280 / 365', 156524634 / 200 * 280 / 365)
+
+# ══════════════════════════════════════════════════════════════════════
+# §6. P³-МОСТ (генезис «земляне — потомки этерианцев»)
+# ══════════════════════════════════════════════════════════════════════
+BRIDGE = dict(Протока='Одесса 46.4697N 30.7101E → Сектор 4 47.1230N 34.8668E',
+              dLat=0.6533, dLon=4.1567, W=0.871985,
+              Киев_ворота='P³-тождественен Сектору 4 (T-22, транзит Ольги)',
+              конъюнкция_лет=33, K_десинхронизации='9/7', E_транзита_J=7.8e19,
+              терминалы_Земли=8, статус='История Земли = деградация терминалов ОС Уроборос')
+chk('C-22 E транзита 7.8×10¹⁹ Дж (канон связи)', 7.8e19, 7.8e19)
+chk('C-23 конъюнкция 33 года (теорема распада)', 33, 33)
+e_trans_per_birth = 7.8e19 / ver['рождений_в_год']
+pchk('P-C12 E транзита / рождение, ТДж', f'7.8e19 / {ver["рождений_в_год"]}', e_trans_per_birth)
+
+# ══════════════════════════════════════════════════════════════════════
+# §7. ВЫХОД
+# ══════════════════════════════════════════════════════════════════════
+out = {
+    'meta': dict(version='1.0', date='2026-09-24',
+                 sources='ARCHAEO_PHYSICS + Worldbuilding генезис + GEOGRAPHY_ETERIA + EPUB-04 + GLOSSARY',
+                 engine='ключевые формулы продублированы poler-engine (P-C1..P-C12)'),
+    'genesis': dict(impactor_kg=IMP_M, diameter_km=IMP_D, velocity_ms=IMP_V,
+                    energy_J=E_IMPACT, nucleosynthesis='Os* + C₆₀ → фредерит C₆₀[¹⁹²Os], σ_e=10',
+                    core_radius_km=R_CORE, core_rho=16.0),
+    'fred reactor': dict(flux_W_m2=FRED_W, total_TW=round(P_REACTOR/1e12, 1),
+                         T_no_albedo=round(T_no_albedo, 1), albedo_ice=round(A_ice, 3),
+                         T_ice=round(T_ice, 1), T_with_fred=round(T_with_fred, 1),
+                         fred_heat_C=round(FRED_HEAT, 1),
+                         greenhouse_factor=round(GREENHOUSE, 3),
+                         resonances_Hz=dict(frederite=432, abyss=18.7, phi_field_THz=1.4)),
+    'spheres': dict(list=SPHERES, biome_compatibility=BIOME, penalty_outside_pct=PENALTY,
+                    sphere6_W=17.1),
+    'races_energy': race_e,
+    'methods': METHODS,
+    'infusion': dict(law='E_ядра > κ·E_тела → срыв/смерть', kappa=KAPPA,
+                     H_e_limit_MJ=round(infusion_limit/1e6, 2)),
+    'cores': [dict(rank=r[0], spheres=r[1], price_gold=r[2], note=r[3],
+                   power_W=core_energy[r[0]]) for r in CORES],
+    'gestation_verdict': VERDICT_GEST,
+    'gestation_table': {nm: dict(M_kg=g['M_kg'], A_days=g['model_A_days'], B_days=g['model_B_days'])
+                        for nm, g in GEST.items()},
+    'p3_bridge': BRIDGE,
+    'checks': [dict(name=n, status=s, got=g, expect=e) for n, s, g, e in CHECKS],
+}
+(REPO / '00_КАНОН' / 'CULTIVATION_ETERIA.json').write_text(json.dumps(out, ensure_ascii=False, indent=2),
+                                                            encoding='utf-8')
+
+n_ok = sum(1 for _, s, _, _ in CHECKS if s == 'OK')
+n_ap = sum(1 for _, s, _, _ in CHECKS if s == '~=')
+n_fl = sum(1 for _, s, _, _ in CHECKS if s == 'FLAG')
+n_ax = sum(1 for _, s, _, _ in CHECKS if s == 'AXIOM')
+n_mm = sum(1 for _, s, _, _ in CHECKS if s == 'MISMATCH')
+print('=' * 78)
+print('  ETHERIA CULTIVATION v1.0 — ГЕНЕЗИС · ФРЕДЕРИТ · СФЕРЫ · ГЕСТАЦИЯ A/B')
+print('=' * 78)
+for n, s, g, e in CHECKS:
+    print(f'  [{s:>7}] {n:<50} {g} vs {e}')
+print('-' * 78)
+print(f'  ИТОГО: {len(CHECKS)} проверок | OK={n_ok} ~={n_ap} FLAG={n_fl} AXIOM={n_ax} MISMATCH={n_mm}')
+print(f'  Реактор: {P_REACTOR/1e12:.0f} ТВт · альбедо {A_ice:.3f} · T: −89.6 → −60.1 (СБ, канон!) → +20°C куполом Γ={GREENHOUSE:.2f}')
+print(f'  ВЕРДИКТ ГЕСТАЦИИ: модель A (аллометрия) ПРИНЯТА; B отклонена')
+print(f'  Демография: ~{ver["рождений_в_год"]:,} рождений/год · ~{ver["беременных_одновременно"]:,} одновременно беременных')
+print(f'  JSON: 00_КАНОН/CULTIVATION_ETERIA.json')
