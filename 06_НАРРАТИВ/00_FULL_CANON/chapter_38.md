@@ -1,7 +1,7 @@
 ---
 chapter: 38
 title: "Асбест-3 (Метрика T-22)"
-metrika: T-24
+metrika: T-22
 source: EPUB (Google Drive 1bDnmb1S6R8BMZuBKO3J_QCavNXAlB2cz)
 source_file: Chapter38.html
 canonical: true

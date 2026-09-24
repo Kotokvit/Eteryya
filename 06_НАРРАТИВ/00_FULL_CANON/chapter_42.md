@@ -1,7 +1,7 @@
 ---
 chapter: 42
 title: "Кровь и Реестр"
-metrika: T-24
+metrika: T-20
 source: EPUB (Google Drive 1bDnmb1S6R8BMZuBKO3J_QCavNXAlB2cz)
 source_file: Chapter42.html
 canonical: true

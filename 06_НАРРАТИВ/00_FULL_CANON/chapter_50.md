@@ -1,7 +1,7 @@
 ---
 chapter: 50
 title: "Инертный"
-metrika: T-20
+metrika: T-23
 source: EPUB (Google Drive 1bDnmb1S6R8BMZuBKO3J_QCavNXAlB2cz)
 source_file: Chapter50.html
 canonical: true

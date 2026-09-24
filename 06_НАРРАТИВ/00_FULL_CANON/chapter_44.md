@@ -1,7 +1,7 @@
 ---
 chapter: 44
 title: "Радикализация Юга"
-metrika: T-22
+metrika: T-20
 source: EPUB (Google Drive 1bDnmb1S6R8BMZuBKO3J_QCavNXAlB2cz)
 source_file: Chapter44.html
 canonical: true

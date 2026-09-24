@@ -1,7 +1,7 @@
 ---
 chapter: 46
 title: "Озеро Отражений"
-metrika: T-22
+metrika: T-19
 source: EPUB (Google Drive 1bDnmb1S6R8BMZuBKO3J_QCavNXAlB2cz)
 source_file: Chapter46.html
 canonical: true

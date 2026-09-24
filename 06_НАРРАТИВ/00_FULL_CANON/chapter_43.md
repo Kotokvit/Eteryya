@@ -1,7 +1,7 @@
 ---
 chapter: 43
 title: "Транзит Ликвидности"
-metrika: T-22
+metrika: T-20
 source: EPUB (Google Drive 1bDnmb1S6R8BMZuBKO3J_QCavNXAlB2cz)
 source_file: Chapter43.html
 canonical: true

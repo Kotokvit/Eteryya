@@ -1,7 +1,7 @@
 ---
 chapter: 47
 title: "Теорема распада"
-metrika: T-22
+metrika: T-19
 source: EPUB (Google Drive 1bDnmb1S6R8BMZuBKO3J_QCavNXAlB2cz)
 source_file: Chapter47.html
 canonical: true

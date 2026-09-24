@@ -1,7 +1,7 @@
 ---
 chapter: 41
 title: "ЦЕНА ПРОВОДИМОСТИ"
-metrika: T-24
+metrika: T-21
 source: EPUB (Google Drive 1bDnmb1S6R8BMZuBKO3J_QCavNXAlB2cz)
 source_file: Chapter41.html
 canonical: true
