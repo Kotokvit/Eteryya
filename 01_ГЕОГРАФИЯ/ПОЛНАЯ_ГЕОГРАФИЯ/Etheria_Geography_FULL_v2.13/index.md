@@ -14258,7 +14258,7 @@ bars = ax2.bar(x_pos, energies, color=colors_bar, alpha=0.8,
 ax2.set_xticks(x_pos)
 ax2.set_xticklabels(transit_names, fontsize=8, color='#FFFFFF')
 ax2.set_ylabel('Энергия P³-транзита (Мт тротила)', color='#88CCFF', fontsize=11)
-ax2.set_title('Энергии транзитов\n(8.0124×10¹⁶ Дж = 19.15 Гт)',
+ax2.set_title('Энергии транзитов\n(8.0124×10¹⁶ Дж = 19.15 Мт)',
               color='#88CCFF', fontsize=12, fontweight='bold')
 ax2.tick_params(colors='#88CCFF')
 ax2.grid(True, alpha=0.3, color='#4488AA', axis='y')
