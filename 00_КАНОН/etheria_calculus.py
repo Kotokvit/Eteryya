@@ -13,7 +13,7 @@
   A3  rho_avg      = 3580 кг/м³       — средняя плотность (канон 3.58 г/см³)
   A4  R_canon      = 5838.4 км        — канонический радиус (Theia-аналог, CRS/QGIS)
   A5  K            = 9/7              — темпоральная анизотропия (1 цикл = K зем. лет)
-  A6  T_rot        = 30.86 зем.ч      — период вращения (= 24 эф.ч)
+  A6  T_rot        = 18.667 зем.ч     — период вращения (= 24 эф.ч = 7/9 зем. сут) [§8.4: восстановлено]
   A7  L_sun        = 3.828e26 Вт      — светимость Солнца
   A8  sigma_SB     = 5.6704e-8        — Стефан-Больцман
   A9  фредерит Q   = 210 Вт/м²        — тепловой поток реактора
@@ -81,7 +81,7 @@ rho_Et = mpf('3580')
 R_canon= mpf('5838.4e3')
 K      = Fraction(9, 7);  Kf = mpf(9)/7
 kappa  = mpf(7)/9
-T_rot_h= mpf('30.86')                # зем.ч (округлённый канон)
+T_rot_h= mpf('18.6666666666667')     # зем.ч (24×7/9 — Механика P3:21, §8.4)
 Q_frederite = mpf('210')             # Вт/м²
 f_bez  = mpf('18.7')
 E_tr_canon = mpf('8.0124e16')
@@ -255,15 +255,16 @@ for name, T_b, P_b in [('Ar', mpf('87.302'), mpf('1.013')), ('O2', mpf('90.188')
 # =====================================================================
 print("\nЧАСТЬ 4. КАЛЕНДАРЬ K = 9/7")
 line()
-eth_hour_h = mpf(24)/mpf('18.6666666666667')     # из канона «24 зем.ч = 18.67 эф.ч»
-reg('eth_hour_in_earth_hours', Kf, unit='ч (эф.час = K зем.ч)')
-T_rot_exact = mpf(24)*Kf
-reg('T_rotation_exact_earth_h', T_rot_exact, '30.857', tol=mpf('3e-4'), unit='ч')
-print(f"    30.86 ч (канон, округлён) vs точное 24×9/7 = {mp.nstr(T_rot_exact, 10)} ч = "
-      f"{int(T_rot_exact)} ч {mp.nstr((T_rot_exact-30)*60, 6)} мин")
+eth_hour_h = kappa                   # эф. час = 7/9 зем. ч (истинная строка «24 ЭФ.ч = 18.67 ЗЕМ.ч»,
+                                      #  свап эры-2 давал «24 зем.ч = 18.67 эф.ч» → 30.86 ч — §1.5/§8.4)
+reg('eth_hour_in_earth_hours', eth_hour_h, '0.777778', tol=mpf('5e-7'), unit='ч (эф.час = κ зем.ч, 46 мин 40 с)')
+T_rot_exact = mpf(24)*kappa
+reg('T_rotation_exact_earth_h', T_rot_exact, '18.667', tol=mpf('3e-4'), unit='ч')
+print(f"    18.67 ч (канон P3:21) vs точное 24×7/9 = {mp.nstr(T_rot_exact, 10)} ч = "
+      f"{int(T_rot_exact)} ч {mp.nstr((T_rot_exact-18)*60, 6)} мин")
 reg('cycle_in_earth_days', Kf*YEAR_D, '469.61', tol=mpf('5e-5'), unit='сут')
 eth_day_earth_days = T_rot_exact/24
-reg('cycle_in_eth_days', Kf*YEAR_D/eth_day_earth_days, '365.4', tol=mpf('5e-4'), unit='эф.сут')
+reg('cycle_in_eth_days', Kf*YEAR_D/eth_day_earth_days, '603.78', tol=mpf('5e-4'), unit='эф.сут (≈ 20 мес×30 + 3.78 вис.)')
 # 8 циклов ↔ земля
 y8 = 8*Kf
 m8 = (y8 - 10)*12
@@ -284,11 +285,11 @@ for N in [64, 50, 40, 33, 31, 24, 23, 22, 21, 20, 19, 16, 14, 13, 12, 10, 0]:
 # Маятник Фуко на 47.12°N
 lat4 = mpf('47.12')
 T_fou_h = T_rot_h/sin(rad(lat4))
-reg('Foucault_period_47N_h', T_fou_h, '42.1', tol=mpf('5e-3'), unit='зем.ч')
+reg('Foucault_period_47N_h', T_fou_h, '25.47', tol=mpf('5e-3'), unit='зем.ч (= 32.75 эф.ч)')
 rate_deg_min = 360*sin(rad(lat4))/(T_rot_h*60)
-print(f"    Скорость прецессии: {mp.nstr(rate_deg_min, 5)} °/ЗЕМ.мин  |  канон «0.24°/мин» — ПРОВЕРКА")
+print(f"    Скорость прецессии: {mp.nstr(rate_deg_min, 5)} °/ЗЕМ.мин  |  канон «0.24°/мин» ✓ (эра-2 давала 0.14 — свап §1.5)")
 rate_eth = 360*sin(rad(lat4))/(24*60)
-print(f"    В эфирианских минутах: {mp.nstr(rate_eth, 5)} °/эф.мин (эф.мин длиннее в K)")
+print(f"    В эфирианских минутах: {mp.nstr(rate_eth, 5)} °/эф.мин (канон «0.18°/эф.мин» ✓ — рамочно-инвариантно)")
 
 # =====================================================================
 # ЧАСТЬ 5. M1/M2 — АФОКАЛЬНЫЙ ГРАВИТАЦИОННЫЙ КАСКАД
