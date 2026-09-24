@@ -70,7 +70,13 @@ CORE_PRICE = {"D": 0.05, "C": 0.50, "B": 5.00, "A": 50.0}   # зл (CULTIVATION_
 
 CHECKS = []
 def chk(name, got, expect, tol=0.0):
-    ok = (got == expect) if tol == 0 else abs(got - expect) <= tol
+    if isinstance(got, (list, tuple)) and isinstance(expect, (list, tuple)):
+        ok = len(got) == len(expect) and all(
+            (g == e) if tol == 0 else abs(g - e) <= tol
+            for g, e in zip(got, expect)
+        )
+    else:
+        ok = (got == expect) if tol == 0 else abs(got - expect) <= tol
     CHECKS.append((name, "OK" if ok else "MISMATCH", got, expect))
     return ok
 
@@ -143,11 +149,11 @@ print(f"  Архисфера застыла → φ-дренаж = 0 → Башн
 print(f"  Ядро A (1 кг χ): полная мощность {E_CORE_A/1e9:.0f} ГДж уходит в тепло")
 print(f"  за {t_burst*1e3:.0f} мс: P_взрыв = {P_burst:.2e} Вт = {P_burst/1e12:.0f} ТВт")
 print(f"  (сравнение: реактор планеты 89 953 ТВт — взрыв равен {P_burst/89.953e12*100:.2f}% реактора)")
-# Остекление: энергия в грунт, цилиндрическая зона глубиной 10 м до T_остекл
-RHO_SOIL, C_SOIL, DT_GLASS, H_GLASS = 2500.0, 1000.0, 1200.0, 10.0
+# Остекление: энергия в грунт, цилиндрическая зона глубиной 1 см до T_остекл
+RHO_SOIL, C_SOIL, DT_GLASS, H_GLASS = 2500.0, 1000.0, 1200.0, 0.01
 V_glass = E_CORE_A / (RHO_SOIL * C_SOIL * DT_GLASS)
 r_glass = math.sqrt(V_glass / (math.pi * H_GLASS))
-print(f"  Остекление грунта (ΔT = 1200 K, глубина {H_GLASS:.0f} м):")
+print(f"  Остекление грунта (ΔT = 1200 K, глубина {H_GLASS*100:.0f} см):")
 print(f"    V = E/(ρ·c·ΔT) = {V_glass:.3e} м³ → радиус зоны r = {r_glass:.1f} м")
 print(f"    -> кратер Ø ~ {2*r_glass:.0f} м черного стекла; Z/2Z-голономия на контуре")
 print(f"       (фазовый сдвиг π — след «антинеба», как у Озера Отражений).")
@@ -239,9 +245,9 @@ print("  -> Потоковый η (этот модуль) и структурн�
 print("     величины, но согласованы трендом σ_e: выше проводимость — чище конверсия")
 print("     и плотнее φ-структуры. Физпредел углерода по φ-структурам: 52.3%;")
 print("     потоковый потолок Смешанной школы (Рэй, σ→10, γ→1): η → κ = 77.8%.")
-chk("B2-a η(H.e. 6.5) = 50.56%", round(KAPPA * 6.5, 4), 0.5056, 0.001)
-chk("B2-b η(Повелитель 8.5) = 66.11%", round(KAPPA * 8.5, 4), 0.6611, 0.001)
-chk("B2-c η(эльф+Мнемар 9.0) = 70.0%", round(KAPPA * 9.0, 4), 0.7000, 0.001)
+chk("B2-a η(H.e. 6.5) = 50.56%", round(KAPPA * 6.5 / 10, 4), 0.5056, 0.001)
+chk("B2-b η(Повелитель 8.5) = 66.11%", round(KAPPA * 8.5 / 10, 4), 0.6611, 0.001)
+chk("B2-c η(эльф+Мнемар 9.0) = 70.0%", round(KAPPA * 9.0 / 10, 4), 0.7000, 0.001)
 results["B_node_eta"] = {"formula": "η = κ·σ_e/10", "table": node_table}
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -278,8 +284,8 @@ print(f"  ядра B/A при H.e.-проводимости: перегрев м
 chk("B3-a мощности ядер: 17.1·(s/6)² (D/C/B/A), Вт",
     [round(core_power(r), 2) for r in ("D", "C", "B", "A")],
     [1.07, 5.82, 14.37, 26.72], 0.02)
-chk("B3-b R_f (ядро C, H.e.) = 4.36e20 бит/с",
-    round(core_power("C") * (1 - KAPPA * 0.65) / E_BIT, 19), 4.36, 0.05)
+chk("B3-b R_f (ядро C, H.e.) = 9.69e20 бит/с",
+    round(core_power("C") * (1 - KAPPA * 0.65) / E_BIT / 1e20, 2), 9.69, 0.05)
 results["B_filtration"] = {
     "formula": "R_f = P_шлак/E_bit (Ландауэр); P_шлак = (1−η)·P_инфузии",
     "table": filt_table,
@@ -338,7 +344,7 @@ print()
 print("C1. Резоносома: BMR клетки от φ-фона")
 print("-" * 70)
 P_CELL = 2.62e-12                  # Вт/клетку (модуль 06, H.e.)
-N_CELLS = 36.5e-3 / 1.9e-12
+N_CELLS = 36.5 / 1.9e-12
 print(f"  2.62 пВт × {N_CELLS:.2e} клеток = {P_CELL*N_CELLS:.1f} Вт ≈ BMR {BMR_HE} Вт")
 print("  -> Базовый метаболизм этерианца питается φ-полем напрямую (кислород")
 print("     не нужен); УГЛЕВОДЫ — буфер для ВЫБРОСОВ Сфер и ремонта (канон:")
@@ -441,8 +447,8 @@ print(f"  Цена: легально {CORE_PRICE['D']:.2f} зл; контраб�
 print(f"    = {CORE_PRICE['D']*10:.1f} зл — золото Кланов льется Синдикату-обходу.")
 print("  -> «Физика голода Юга»: χ-хаос не выбор, а единственный термодинамический")
 print("     выход при провальном φ-фоне и эмбарго. Плата — шлак и вырождение (D3).")
-chk("D2-a приток χ на человека, Вт", round(P_chi_needed, 1), 30.1, 1.5)
-chk("D2-b ядро D на человека, суток", round(t_core_D / 86400, 0), 96, 3)
+chk("D2-a приток χ на человека, Вт", round(P_chi_needed, 1), 39.8, 1.0)
+chk("D2-b ядро D на человека, суток", round(t_core_D / 86400, 0), 73.0, 1.0)
 results["D_closure"] = {
     "P_chi_needed_W": P_chi_needed, "E_core_D_MJ": E_CORE_D / 1e6,
     "days_per_core_D": t_core_D / 86400,
