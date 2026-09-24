@@ -1,46 +1,26 @@
-# Пустые транскрипции PNG→MD — реестр для заполнения
-# Сгенерировано CALCULUS_ETERIA, 2026-09-24; ОБНОВЛЕНО 2026-09-25 (Ф3, волна 1):
-#   31 заглушка из 83 ЗАПОЛНЕНА VLM-транскрипцией (z-ai vision, 18 уникальных PNG
-#   из FULL v2.13/images + корень репо) — география/маршруты/M1_M2/таймлайн/мировая карта.
-#   52 заглушки БЕЗ PNG в репозитории — транскрипция невозможна до восстановления
-#   источников: см. F3_MISSING_PNG.md (реестр + пути восстановления по категориям).
-# Список ниже сохранён как исторический (исходные 83 позиции).
+# Ф3: РЕЕСТР ПОТЕРЯННЫХ PNG (52 заглушек без исходников)
+# Сгенерировано 2026-09-25 из f3_mapping.json (волна 1 Ф3-транскрипций)
+#
+# Статус: 31 заглушка из 83 ЗАПОЛНЕНА VLM-транскрипцией (z-ai vision; PNG из
+# FULL v2.13/images + корень репо). Ниже — заглушки, чьи PNG ОТСУТСТВУЮТ в репозитории:
+# транскрипция невозможна без восстановления источника.
+#
+# ПУТИ ВОССТАНОВЛЕНИЯ:
+#   P3-схемы — перегенерация ядром P3_Voxel_Engine (жив) или перезаливка PNG
+#   Биофизика — перегенерация matplotlib-скриптами (у автора)
+#   Медиа — перезаливка ChatGPT-иллюстраций (22-23 черв. 2026)
+#   Технологии — перестройка из логов POLER_Toolkit_full
+#   Атлас v3/Final — итерации: финал уже транскрибирован (ATLAS_Beautiful)
 
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_ATLAS_Beautiful.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Atlas_NorthRoute.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Atlas_NorthRoute_v2.png.md
+## 01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС (6)
 01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Atlas_v3.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Globe_View1_EarthSide.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Globe_View2_NorthPole.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Globe_View3_South.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Map.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Map_QGIS.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Map_v2.png.md
 01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_Terrain_Agent4_Preview.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/2_Etheria_World_Map.png.md
 01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/3_Etheria_Atlas_v3.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_ATLAS_Beautiful.png.md
 01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_ATLAS_Final.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Atlas_NorthRoute.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Atlas_NorthRoute_v2.png.md
 01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Atlas_v3.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_GEOGRAPHIC_NorthRoute_FINAL.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Globe_View1_EarthSide.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Globe_View2_NorthPole.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Globe_View3_South.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Map.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Map_QGIS.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Map_v2.png.md
 01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_Terrain_Agent4_Preview.png.md
-01_ГЕОГРАФИЯ/КАРТЫ_АТЛАС/Etheria_World_Map.png.md
-01_ГЕОГРАФИЯ/МАРШРУТЫ/2_Etheria_NorthRoute_Elevation_Profile.png.md
-01_ГЕОГРАФИЯ/МАРШРУТЫ/2_Etheria_NorthRoute_T21_T0_v2.png.md
-01_ГЕОГРАФИЯ/МАРШРУТЫ/Etheria_NorthRoute_Elevation_Profile.png.md
-01_ГЕОГРАФИЯ/МАРШРУТЫ/Etheria_NorthRoute_T21_T0_FINAL.png.md
-01_ГЕОГРАФИЯ/МАРШРУТЫ/Etheria_NorthRoute_T21_T0_v2.png.md
-01_ГЕОГРАФИЯ/МАРШРУТЫ/Etheria_Transit_Points_v2.png.md
-02_ФИЗИКА/M1_M2/M1_M2_einstein_ring.png.md
-02_ФИЗИКА/M1_M2/M1_M2_parallax_sensitivity.png.md
+
+## 02_ФИЗИКА/P3_ПРОСТРАНСТВО (21)
 02_ФИЗИКА/P3_ПРОСТРАНСТВО/2_p3_endogenous_combined.png.md
 02_ФИЗИКА/P3_ПРОСТРАНСТВО/P3_schema_1_comparison.png.md
 02_ФИЗИКА/P3_ПРОСТРАНСТВО/P3_schema_2_homogeneous.png.md
@@ -62,7 +42,11 @@
 02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_vs_r3_distance.png.md
 02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_w_evolution.png.md
 02_ФИЗИКА/P3_ПРОСТРАНСТВО/p3_w_field_surface.png.md
+
+## 03_БИОФИЗИКА/БЕСТИАРИЙ (1)
 03_БИОФИЗИКА/БЕСТИАРИЙ/скелет 2.png.md
+
+## 03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ (8)
 03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/2_etheria_cooling_mechanisms.png.md
 03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/2_etheria_sweat_vs_exudate.png.md
 03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/2_etheria_temperature_dynamics.png.md
@@ -71,21 +55,25 @@
 03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/etheria_sweat_vs_exudate.png.md
 03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/etheria_temperature_dynamics.png.md
 03_БИОФИЗИКА/ТЕРМОРЕГУЛЯЦИЯ/etheria_thermoregulation_diagram.png.md
+
+## 03_БИОФИЗИКА/ФИЗИОЛОГИЯ (4)
 03_БИОФИЗИКА/ФИЗИОЛОГИЯ/2_etheria_pressure_valves.png.md
 03_БИОФИЗИКА/ФИЗИОЛОГИЯ/2_etheria_respiratory_gas_exchange.png.md
 03_БИОФИЗИКА/ФИЗИОЛОГИЯ/etheria_pressure_valves.png.md
 03_БИОФИЗИКА/ФИЗИОЛОГИЯ/etheria_respiratory_gas_exchange.png.md
+
+## 07_ТЕХНОЛОГИИ/ПРОМПТЫ (4)
 07_ТЕХНОЛОГИИ/ПРОМПТЫ/POLER_energy_analysis.png.md
 07_ТЕХНОЛОГИИ/ПРОМПТЫ/POLER_iterations_analysis.png.md
 07_ТЕХНОЛОГИИ/ПРОМПТЫ/POLER_scaling_curve.png.md
 07_ТЕХНОЛОГИИ/ПРОМПТЫ/POLER_v034_scaling_curve.png.md
+
+## 08_МЕДИА/ИЗОБРАЖЕНИЯ (8)
 08_МЕДИА/ИЗОБРАЖЕНИЯ/2_ChatGPT Image 22 черв. 2026 р., 23_29_53.png.md
 08_МЕДИА/ИЗОБРАЖЕНИЯ/2_ChatGPT Image 23 черв. 2026 р., 23_40_09.png.md
-08_МЕДИА/ИЗОБРАЖЕНИЯ/2_Etheria_Timeline_T64_T0.png.md
 08_МЕДИА/ИЗОБРАЖЕНИЯ/2_unnamed.png.md
 08_МЕДИА/ИЗОБРАЖЕНИЯ/ChatGPT Image 22 черв. 2026 р., 23_23_18.png.md
 08_МЕДИА/ИЗОБРАЖЕНИЯ/ChatGPT Image 22 черв. 2026 р., 23_29_53.png.md
 08_МЕДИА/ИЗОБРАЖЕНИЯ/ChatGPT Image 23 черв. 2026 р., 23_40_09.png.md
-08_МЕДИА/ИЗОБРАЖЕНИЯ/Etheria_Timeline_T64_T0.png.md
 08_МЕДИА/ИЗОБРАЖЕНИЯ/cc999e63-30e7-4d56-a833-794b06a0f27b_image.png.md
 08_МЕДИА/ИЗОБРАЖЕНИЯ/unnamed.png.md
