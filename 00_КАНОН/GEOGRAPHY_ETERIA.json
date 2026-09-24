@@ -637,9 +637,16 @@
   },
   "10.1 H.e. гестация (канон DEB, he_pregnancy_deb.R)": {
    "value": 280.0,
-   "unit": "дней; 9.2 эт.мес; гиперплотность 22.9x; σ_e 0→6.5",
+   "unit": "ЗЕМНЫХ суток = 40 недель; 9.2 мес (земных); гиперплотность 22.9x; σ_e 0→6.5",
    "canon": 280.0,
    "delta_rel": 0.0,
+   "status": "OK"
+  },
+  "10.1b κ-календарь: 280 зем.сут × 7/9 = 217.78 эф.сут = 7.16 эф.мес": {
+   "value": 7.154916723705225,
+   "unit": "эф.мес — канон «(κ-скорректированная, эффективных 7.1 мес)»; метки FULL v2.13 инвертированы (§8.3)",
+   "canon": 7.1,
+   "delta_rel": 0.007734749817637331,
    "status": "OK"
   },
   "10.2 землянин: гестация (земной якорь)": {
@@ -1168,51 +1175,61 @@
   "H.e. видовая норма": {
    "M_kg": 36.5,
    "model_A_days": 280.0,
+   "model_A_etherian_days": 217.8,
    "model_B_days": 280
   },
   "H.e. шахтёр": {
    "M_kg": 38.0,
    "model_A_days": 282.8,
+   "model_A_etherian_days": 220.0,
    "model_B_days": 280
   },
   "H.e. акме": {
    "M_kg": 35.0,
    "model_A_days": 277.1,
+   "model_A_etherian_days": 215.5,
    "model_B_days": 280
   },
   "Эльф": {
    "M_kg": 28.0,
    "model_A_days": 262.0,
+   "model_A_etherian_days": 203.8,
    "model_B_days": 280
   },
   "Орк": {
    "M_kg": 105.0,
    "model_A_days": 364.7,
+   "model_A_etherian_days": 283.6,
    "model_B_days": 280
   },
   "Дриада": {
    "M_kg": 48.0,
    "model_A_days": 299.8,
+   "model_A_etherian_days": 233.2,
    "model_B_days": 280
   },
   "Гоблин": {
    "M_kg": 20.0,
    "model_A_days": 240.9,
+   "model_A_etherian_days": 187.4,
    "model_B_days": 280
   },
   "Драконит": {
    "M_kg": 62.0,
    "model_A_days": 319.7,
+   "model_A_etherian_days": 248.6,
    "model_B_days": 280
   },
   "Демон нижний": {
    "M_kg": 85.0,
    "model_A_days": 345.9,
+   "model_A_etherian_days": 269.0,
    "model_B_days": 280
   },
   "Демон-Повелитель": {
    "M_kg": 110.0,
    "model_A_days": 368.9,
+   "model_A_etherian_days": 286.9,
    "model_B_days": 280
   }
  },
