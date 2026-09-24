@@ -28,7 +28,7 @@ GEOGRAPHY_ETERIA.json (население 156.5M), CULTIVATION_ETERIA.json (ко
 import json, math, subprocess
 from pathlib import Path
 
-REPO = Path('/home/z/my-project/Eteryya')
+REPO = Path(__file__).resolve().parent.parent
 GEO  = json.loads((REPO / '00_КАНОН' / 'GEOGRAPHY_ETERIA.json').read_text())
 POLENGINE = str(Path.home() / '.local' / 'bin' / 'poler-engine')
 
