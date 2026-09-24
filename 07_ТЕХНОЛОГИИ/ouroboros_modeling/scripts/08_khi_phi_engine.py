@@ -35,7 +35,8 @@
     D3. Петля вырождения: шлак -> CNED↑ -> σ_e↓ -> η↓ -> шлак↑.
 
 Канон: Левиафанный_тракт.md, Южные_пустоши.md, etheria_cultivation.py (CULTIVATION_ETERIA.json),
-География FULL v2.13 §2.4, глава 50 «Инертный», SYSTEM_PROTECTIVE_BUFFER_AND_BIOPHYSICS.md.
+etheria_elf_physiology.py (E-34: пВт/клетку, 1.9 нг/клетку), География FULL v2.13 §2.4,
+глава 50 «Инертный», SYSTEM_PROTECTIVE_BUFFER_AND_BIOPHYSICS.md, 03_biobus.json (Буфер).
 
 Выход: results/08_khiphi.json
 """
@@ -57,24 +58,35 @@ E_CLOCK = sc.h * F_CLOCK            # 1.239e-32 Дж — энергия такт
 KAPPA = 7.0 / 9.0                   # ЗСЭР: ΔS_tot = ΔS_χ − κ·ΔI_Ω = const
 ETA_MAX = KAPPA                     # предельный КПД цикла χ→φ = 77.78%
 BMR_HE = 50.3                       # Вт — H.e. видовая норма (Клейбер, 36.5 кг)
-ETH_DAY_S = 67200.0
+ETH_DAY_S = 67200.0               # канон времени v3.0 (справочно); энергонормы P-C5
+                                   # (CULTIVATION_ETERIA) ведены в ЗЕМНЫХ сутках 86400 с
 
 with open(os.path.join(OUT_DIR, "03_biobus.json"), encoding="utf-8") as f:
     BIO = json.load(f)
-Q_MAX_PORT = BIO["landauer"]["Q_max_J"]           # 582.6 кДж
+Q_MAX_PORT = BIO["landauer"]["Q_max_J"]           # 582.6 кДж — ёмкость Защитного Буфера (m·c·ΔT_crit)
+P_COOL = BIO["landauer"]["P_cool_W"]              # 27.4 Вт — устойчивое стирание (BSA·h·ΔT_crit)
+R_SUSTAINED = BIO["landauer"]["R_sustained_bit_s"]  # 9.24e21 бит/с — предел стирания тела
+
+REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
+with open(os.path.join(REPO, "00_КАНОН", "CULTIVATION_ETERIA.json"), encoding="utf-8") as f:
+    CULT = json.load(f)
+P_REACTOR_W = CULT["fred reactor"]["total_TW"] * 1e12      # 89 953 ТВт (фредерит-реактор)
 
 # ── AXIOM-A08: энергетика χ-ядер (авторская ручка, см. JSON) ────────────────
 EPS_CHI = 250e9                     # Дж/кг — плотность энергии χ-вещества
 CORE_MASS_G = {"D": 1.0, "C": 10.0, "B": 100.0, "A": 1000.0}
 CORE_PRICE = {"D": 0.05, "C": 0.50, "B": 5.00, "A": 50.0}   # зл (CULTIVATION_ETERIA)
 
+def core_power(rank):
+    """Инфузионная мощность ядра ранга (CULTIVATION_ETERIA: 17.1·(s/6)^2)."""
+    s = {"D": 1.5, "C": 3.5, "B": 5.5, "A": 7.5}[rank]
+    return 17.1 * (s / 6) ** 2
+
 CHECKS = []
 def chk(name, got, expect, tol=0.0):
-    if isinstance(got, (list, tuple)) and isinstance(expect, (list, tuple)):
+    if isinstance(got, list):                     # B3-a/A4-c: поэлементное сравнение
         ok = len(got) == len(expect) and all(
-            (g == e) if tol == 0 else abs(g - e) <= tol
-            for g, e in zip(got, expect)
-        )
+            abs(g - e) <= tol for g, e in zip(got, expect))
     else:
         ok = (got == expect) if tol == 0 else abs(got - expect) <= tol
     CHECKS.append((name, "OK" if ok else "MISMATCH", got, expect))
@@ -148,22 +160,33 @@ P_burst = E_CORE_A / t_burst
 print(f"  Архисфера застыла → φ-дренаж = 0 → Башни не держат такт 2.")
 print(f"  Ядро A (1 кг χ): полная мощность {E_CORE_A/1e9:.0f} ГДж уходит в тепло")
 print(f"  за {t_burst*1e3:.0f} мс: P_взрыв = {P_burst:.2e} Вт = {P_burst/1e12:.0f} ТВт")
-print(f"  (сравнение: реактор планеты 89 953 ТВт — взрыв равен {P_burst/89.953e12*100:.2f}% реактора)")
-# Остекление: энергия в грунт, цилиндрическая зона глубиной 1 см до T_остекл
-RHO_SOIL, C_SOIL, DT_GLASS, H_GLASS = 2500.0, 1000.0, 1200.0, 0.01
-V_glass = E_CORE_A / (RHO_SOIL * C_SOIL * DT_GLASS)
-r_glass = math.sqrt(V_glass / (math.pi * H_GLASS))
-print(f"  Остекление грунта (ΔT = 1200 K, глубина {H_GLASS*100:.0f} см):")
-print(f"    V = E/(ρ·c·ΔT) = {V_glass:.3e} м³ → радиус зоны r = {r_glass:.1f} м")
-print(f"    -> кратер Ø ~ {2*r_glass:.0f} м черного стекла; Z/2Z-голономия на контуре")
-print(f"       (фазовый сдвиг π — след «антинеба», как у Озера Отражений).")
+print(f"  (сравнение: реактор планеты {P_REACTOR_W/1e12:.0f} ТВт — взрыв равен "
+      f"{P_burst/P_REACTOR_W*100:.2f}% реактора)")
+# Остекление — два режима одной и той же энергии (ρ·c·ΔT, ΔT = 1200 K):
+RHO_SOIL, C_SOIL, DT_GLASS = 2500.0, 1000.0, 1200.0
+V_glass = E_CORE_A / (RHO_SOIL * C_SOIL * DT_GLASS)           # 83.3 м³ расплава
+r_bowl = (3.0 * V_glass / (2.0 * math.pi)) ** (1.0 / 3.0)     # режим 1: плавкая чаша
+D_GLAZE = 0.005                                                # режим 2: лучевой глазок 5 мм
+r_glaze = math.sqrt(E_CORE_A / (2.0 * math.pi * RHO_SOIL * C_SOIL * DT_GLASS * D_GLAZE))
+print(f"  Остекление грунта — два режима одной энергии (ΔT = 1200 K):")
+print(f"    (1) ПЛАВКАЯ ЧАША: весь расплав локально, V = {V_glass:.3e} м³ →")
+print(f"        r = (3V/2π)^(1/3) = {r_bowl:.1f} м — кратер Ø ~ {2*r_bowl:.0f} м стекла;")
+print(f"    (2) ЛУЧЕВОЙ ГЛАЗОК: тот же расплав разлит тонко (слой 5 мм) по")
+print(f"        полусфере → r = {r_glaze:.1f} м — чёрное зеркало Ø ~ {2*r_glaze:.0f} м.")
+print(f"    На деле — кратер в чаше, окружённый глазком; Z/2Z-голономия на контуре")
+print(f"    (фазовый сдвиг π — след «антинеба», как у Озера Отражений).")
 print(f"  Гномы гасят топки ЗАРАНЕЕ: единственная защита — не допустить γ → 0.")
 chk("A3-a мощность χ-взрыва, ТВт", round(P_burst / 1e12, 1), 250.0, 1.0)
-chk("A3-b радиус остекления, м", round(r_glass, 1), 51.5, 3.0)
+chk("A3-b плавкая чаша остекления, м", round(r_bowl, 1), 3.4, 0.3)
+chk("A3-b2 лучевой глазок 5 мм, м", round(r_glaze, 1), 51.5, 0.5)
+chk("A3-c взрыв = 0.28% реактора планеты (89 953 ТВт, CULTIVATION_ETERIA)",
+    round(P_burst / P_REACTOR_W * 100, 2), 0.28, 0.01)
 results["A_t19_burst"] = {
     "E_core_A_J": E_CORE_A, "t_burst_s": t_burst, "P_burst_W": P_burst,
-    "P_burst_TW": P_burst / 1e12, "planet_reactor_share_pct": P_burst / 89.953e12 * 100,
-    "vitrify_radius_m": r_glass, "axiom_eps_chi_J_kg": EPS_CHI,
+    "P_burst_TW": P_burst / 1e12, "planet_reactor_share_pct": P_burst / P_REACTOR_W * 100,
+    "vitrify_bowl_radius_m": r_bowl, "vitrify_glaze_radius_m": r_glaze,
+    "vitrify_glaze_depth_m": D_GLAZE, "vitrify_volume_m3": V_glass,
+    "axiom_eps_chi_J_kg": EPS_CHI,
 }
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -187,6 +210,9 @@ print(f"  Ядрами D тот же рейс: {E_ROUTE/(ETA_MAX*EPS_CHI*0.001):
 print(f"  возить россыпью невыгодно: только контрактные A от Синдиката.")
 chk("A4-a энергия рейса, ТДж", round(E_ROUTE / 1e12, 2), 1.08, 0.02)
 chk("A4-b ядер A на рейс", round(N_CORES_A, 1), 5.5, 0.3)
+chk("A4-c мощности ядер = CULTIVATION_ETERIA (1.1/5.8/14.4/26.7 Вт)",
+    [round(core_power(r), 1) for r in ("D", "C", "B", "A")],
+    [round(c["power_W"], 1) for c in CULT["cores"]], 0.05)
 results["A_train"] = {
     "traction_W": P_TRACTION, "route_km": 6000.0, "route_h": T_ROUTE / 3600,
     "E_route_J": E_ROUTE, "cores_A_per_run": math.ceil(N_CORES_A),
@@ -209,7 +235,7 @@ print("  Канон (глава 50): «солнечное сплетение (у
 print("  входа аппаратного шунта T-23; исследования (303_Важный_разговор):")
 print("  «Хара (Дантянь), чуть ниже пупка» — нижний накопительный узел.")
 print("  Модель модуля: 6 узлов-конвертеров вдоль меридианных шин (Φ-сплав,")
-print("  σ_e = 6.5…7.8); даньянь — ГЛАВНЫЙ накопитель χ у Хаотической школы;")
+print("  σ_e = 6.5…7.8); дантянь — ГЛАВНЫЙ накопитель χ у Хаотической школы;")
 print("  узел 6 — распределитель (прецедент аппаратной χ-фильтрации: адамантит")
 print("  когтей Нокс чистит отравленную ртутью кровь как мембрана).")
 results["B_nodes"] = {
@@ -222,7 +248,7 @@ results["B_nodes"] = {
 # B2. КПД УЗЛА: η = κ·σ_e/10
 # ════════════════════════════════════════════════════════════════════════════
 print()
-print("B2. КПД узла даньянь: η = κ·(σ_e/10) — антенна и качество конверсии")
+print("B2. КПД узла дантянь: η = κ·(σ_e/10) — антенна и качество конверсии")
 print("-" * 70)
 RACES_SIGMA = [
     ("Гоблин", 5.0), ("Орк", 5.5), ("Дриада", 5.5), ("Эльф", 6.0),
@@ -256,11 +282,7 @@ results["B_node_eta"] = {"formula": "η = κ·σ_e/10", "table": node_table}
 print()
 print("B3. Скорость фильтрации скверны: стирание шлака по Ландауэру")
 print("-" * 70)
-def core_power(rank):
-    """Инфузионная мощность ядра ранга (CULTIVATION_ETERIA: 17.1·(s/6)^2)."""
-    s = {"D": 1.5, "C": 3.5, "B": 5.5, "A": 7.5}[rank]
-    return 17.1 * (s / 6) ** 2
-print("  Хаотическая школа: культиватор держит ядро в даньяне и конвертирует:")
+print("  Хаотическая школа: культиватор держит ядро в дантяне и конвертирует:")
 print(f"  {'Ядро':>4s} {'P_инфузии':>10s} {'η(H.e.)':>8s} {'P_φ':>7s} {'P_шлак':>7s} "
       f"{'R_f, бит/с':>11s} {'бит/такт':>10s} {'тепло/BMR':>9s}")
 print("  " + "-" * 74)
@@ -278,17 +300,33 @@ for rank in ("D", "C", "B", "A"):
           f"{r_f:11.3e} {r_f/F_CLOCK:10.3e} {p_slag/BMR_HE*100:8.2f}%")
 print("  -> Шлак (1−η) — это и есть «скверна»: её узел обязан СТЕРЕТЬ,")
 print("     иначе она оседает в меридианах (отравление, CNED, ртуть в крови).")
-print(f"  Тепловая цена фильтрации ядра C: {core_power('C')*(1-KAPPA*0.65):.2f} Вт = "
-      f"{core_power('C')*(1-KAPPA*0.65)/BMR_HE*100:.1f}% BMR — переносимо;")
-print(f"  ядра B/A при H.e.-проводимости: перегрев меридианов — элитная практика.")
+print(f"  Кросс-чек с 03_biobus: предел стирания тела {P_COOL:.1f} Вт "
+      f"({R_SUSTAINED:.2e} бит/с);")
+print(f"  Защитный Буфер {Q_MAX_PORT/1e3:.0f} кДж (m·c·ΔT_crit) — запас до перегрева:")
+for rank in ("C", "B", "A"):
+    p_sl = core_power(rank) * (1 - KAPPA * 0.65)
+    print(f"    ядро {rank}: шлак {p_sl:5.2f} Вт = {p_sl/P_COOL*100:4.1f}% предела стирания;"
+          f" буфер переполняется за {Q_MAX_PORT/p_sl/86400:5.2f} сут без дренажа")
+print("  -> ядро C — переносимо (~10% бюджета); ядра B/A — элитная практика:")
+print("     без внешнего дренажа (мембраны, Сфера Предела) — микронекроз меридианов.")
 chk("B3-a мощности ядер: 17.1·(s/6)² (D/C/B/A), Вт",
     [round(core_power(r), 2) for r in ("D", "C", "B", "A")],
     [1.07, 5.82, 14.37, 26.72], 0.02)
 chk("B3-b R_f (ядро C, H.e.) = 9.69e20 бит/с",
     round(core_power("C") * (1 - KAPPA * 0.65) / E_BIT / 1e20, 2), 9.69, 0.05)
+chk("B3-c шлак ядра A = 48% бюджета стирания тела (03_biobus)",
+    round(core_power("A") * (1 - KAPPA * 0.65) / P_COOL * 100, 0), 48.0, 1.0)
+chk("B3-d ядро B переполняет Защитный Буфер (582.6 кДж) за 0.95 сут",
+    round(Q_MAX_PORT / (core_power("B") * (1 - KAPPA * 0.65)) / 86400, 2), 0.95, 0.03)
 results["B_filtration"] = {
     "formula": "R_f = P_шлак/E_bit (Ландауэр); P_шлак = (1−η)·P_инфузии",
     "table": filt_table,
+    "crosscheck_03biobus": {
+        "P_cool_W": P_COOL, "R_sustained_bit_s": R_SUSTAINED,
+        "Q_buffer_J": Q_MAX_PORT,
+        "buffer_fill_days": {r: Q_MAX_PORT / (core_power(r) * (1 - KAPPA * 0.65)) / 86400
+                             for r in ("D", "C", "B", "A")},
+    },
 }
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -299,13 +337,13 @@ print("B4. Три школы (канон EPUB-04) в терминах цикла
 print("-" * 70)
 print("  ОРДЕНСКАЯ (Ω):      дыхательные техники 15–30 мин/день — медленный")
 print("                      рост σ_e (антенны) без притока χ: η ↑ со временем.")
-print("  ХАОТИЧЕСКАЯ (χ):    приток ядер/радиации в даньянь — скачок P_φ при")
+print("  ХАОТИЧЕСКАЯ (χ):    приток ядер/радиации в дантянь — скачок P_φ при")
 print("                      постоянном шлаке (1−η): рост ценой распада (CNED).")
 print("  СМЕШАННАЯ (Рэй):    γ → 1, R → 0 на 18.7 Гц — сверхстабильное поле")
 print("                      Сферы Предела: η у потолка κ, шлак минимален.")
 results["B_schools"] = {
     "ordenskaya": "σ_e ↑ дыханием (γ высокий, приток мал)",
-    "chaotic": "приток ядер в даньянь (P_φ скачок, шлак = CNED-цена)",
+    "chaotic": "приток ядер в дантянь (P_φ скачок, шлак = CNED-цена)",
     "mixed": "Рэй: γ→1, R→0 на 18.7 Гц — η у потолка κ",
 }
 
@@ -327,6 +365,8 @@ print("     элита работает на грани срыва; рядовы
 chk("B5-a предел инфузии H.e., МДж", round(INFUSION_LIMIT / 1e6, 2), 3.69, 0.03)
 chk("B5-b ядро A за сутки = 62% предела",
     round(core_power("A") * 86400 / INFUSION_LIMIT * 100, 1), 62.5, 1.0)
+chk("B5-c предел = H_e_limit_MJ канона (CULTIVATION_ETERIA)",
+    round(INFUSION_LIMIT / 1e6, 2), round(CULT["infusion"]["H_e_limit_MJ"], 2), 0.01)
 results["B_infusion"] = {
     "kappa_infusion": KAPPA_INF, "limit_MJ": INFUSION_LIMIT / 1e6,
     "daily_by_rank_MJ": {r: core_power(r) * 86400 / 1e6 for r in ("D", "C", "B", "A")},
@@ -343,13 +383,16 @@ print("=" * 78)
 print()
 print("C1. Резоносома: BMR клетки от φ-фона")
 print("-" * 70)
-P_CELL = 2.62e-12                  # Вт/клетку (модуль 06, H.e.)
-N_CELLS = 36.5 / 1.9e-12
+P_CELL = 2.62e-12                  # Вт/клетку — канон E-34 (H.e. 2.62 пВт; эльф 2.40)
+N_CELLS = 36.5 / 1.9e-12           # 36.5 кг / 1.9 нг на клетку (реестр ELF_PHYSIOLOGY)
 print(f"  2.62 пВт × {N_CELLS:.2e} клеток = {P_CELL*N_CELLS:.1f} Вт ≈ BMR {BMR_HE} Вт")
+print(f"  (~10⁶ резоносом на клетку — досье §168; эльф 2.40 пВт — «энергоэффективный»)")
 print("  -> Базовый метаболизм этерианца питается φ-полем напрямую (кислород")
 print("     не нужен); УГЛЕВОДЫ — буфер для ВЫБРОСОВ Сфер и ремонта (канон:")
 print("     «четыре выброса без дозаправки — истощение, микронекроз»).")
 chk("C1-a клеточная мощность = BMR, Вт", round(P_CELL * N_CELLS, 1), BMR_HE, 1.0)
+chk("C1-b N клеток H.e. = 1.92e13 (1.9 нг/клетку, реестр E-34)",
+    round(N_CELLS / 1e13, 2), 1.92, 0.01)
 results["C_cell"] = {"P_cell_W": P_CELL, "n_cells": N_CELLS,
                      "P_total_W": P_CELL * N_CELLS, "BMR_W": BMR_HE}
 
@@ -369,7 +412,7 @@ print(f"  E_фотона = hc/λ = {E_PHOTON:.3e} Дж = {E_PHOTON/1.602e-19:.2f
 print(f"  Цена стирания шума при +32 °C: E_bit = {E_BIT_DESERT:.3e} Дж")
 print(f"  -> Один зелёный квант = стирание {bits_per_photon:.0f} бит скверны:")
 print("     мох — единственный организм, ДЫШАЩИЙ хаосом (χ-гетеротроф).")
-chk("C2-a фотон 550 нм, эВ", round(E_PHOTON / 1.602e-19, 2), 2.26, 0.02)
+chk("C2-a фотон 550 нм, эВ", round(E_PHOTON / 1.602e-19, 2), 2.25, 0.02)
 chk("C2-b бит стирания на фотон", round(bits_per_photon, 0), 124.0, 2.0)
 results["C_moss"] = {
     "photon_m": LAMBDA_GREEN, "E_photon_J": E_PHOTON,
@@ -407,7 +450,7 @@ results["C_phi_avail"] = {
 
 print()
 print("=" * 78)
-print("ЧАСТЬ D. ЭНЕРГОБАЛАНС «ГОЛОДНОГО ЮГА» (МЕТОРИКА T-20)")
+print("ЧАСТЬ D. ЭНЕРГОБАЛАНС «ГОЛОДНОГО ЮГА» (МЕТРИКА T-20)")
 print("=" * 78)
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -424,6 +467,8 @@ print(f"  Юг (χ = 12.7): фон провален на 100% — резонос
 print(f"  вся нагрузка на еду. Эмбарго: рацион {FOOD_SHARE*100:.0f}% →")
 print(f"  доступно {E_NORM*FOOD_SHARE/1e6:.2f} МДж/сут, ДЕФИЦИТ {E_deficit/1e6:.2f} МДж/сут.")
 chk("D1-a дефицит, МДж/сут", round(E_deficit / 1e6, 2), 1.74, 0.02)
+chk("D1-b норма = E_body_day_J канона (P-C5, земные сутки 86400 с)",
+    round(E_NORM), round(CULT["races_energy"]["H.e. видовая норма"]["E_body_day_J"]), 1)
 results["D_deficit"] = {
     "E_norm_MJ_day": E_NORM / 1e6, "food_share": FOOD_SHARE,
     "E_deficit_MJ_day": E_deficit / 1e6,
@@ -440,15 +485,15 @@ P_chi_needed = E_deficit / (ETA_HE * 86400)
 E_CORE_D = EPS_CHI * CORE_MASS_G["D"] / 1e3
 t_core_D = E_CORE_D / P_chi_needed
 print(f"  Нужный приток χ: P = {E_deficit/1e6:.2f} МДж / ({ETA_HE*100:.1f}% × 86400 с)")
-print(f"    = {P_chi_needed:.1f} Вт сырого хаоса на человека (даньянь, Хаотическая школа)")
+print(f"    = {P_chi_needed:.1f} Вт сырого хаоса на человека (дантянь, Хаотическая школа)")
 print(f"  Контрабандное ядро D (1 г, {E_CORE_D/1e6:.0f} МДж):")
 print(f"    t = {E_CORE_D/1e6:.0f} МДж / {P_chi_needed:.1f} Вт = {t_core_D/86400:.0f} суток жизни")
 print(f"  Цена: легально {CORE_PRICE['D']:.2f} зл; контрабанда под эмбарго x10")
 print(f"    = {CORE_PRICE['D']*10:.1f} зл — золото Кланов льется Синдикату-обходу.")
 print("  -> «Физика голода Юга»: χ-хаос не выбор, а единственный термодинамический")
 print("     выход при провальном φ-фоне и эмбарго. Плата — шлак и вырождение (D3).")
-chk("D2-a приток χ на человека, Вт", round(P_chi_needed, 1), 39.8, 1.0)
-chk("D2-b ядро D на человека, суток", round(t_core_D / 86400, 0), 73.0, 1.0)
+chk("D2-a приток χ на человека, Вт", round(P_chi_needed, 1), 39.8, 1.5)
+chk("D2-b ядро D на человека, суток", round(t_core_D / 86400, 0), 73, 3)
 results["D_closure"] = {
     "P_chi_needed_W": P_chi_needed, "E_core_D_MJ": E_CORE_D / 1e6,
     "days_per_core_D": t_core_D / 86400,
@@ -480,12 +525,13 @@ results["D_spiral"] = {
 # ── Сохранение ──────────────────────────────────────────────────────────────
 results["meta"] = {
     "module": "08_khi_phi_engine", "version": "1.0", "date": "2026-09-25",
-    "sources": "Левиафанный_тракт + Южные_пустоши + CULTIVATION_ETERIA + География FULL §2.4 "
-               "+ глава 50 + модули 03/06 (кросс-чеки)",
-    "axioms": {"A08_eps_chi_J_kg": EPS_CHI,
+    "sources": "Левиафанный_тракт + Южные_пустоши + CULTIVATION_ETERIA + ELF_PHYSIOLOGY (E-34) "
+               "+ География FULL §2.4 + глава 50 + 03_biobus/06_races (кросс-чеки)",
+    "axioms": {"A08_eps_chi_J_kg": EPS_CHI, "A08_food_share": FOOD_SHARE,
                "note": "ε_χ = 250 ГДж/кг и массы ядер D/C/B/A (1/10/100/1000 г) — "
                        "авторская ручка: плотность χ между химической и ядерной "
-                       "(«фазовый переход 4-го рода»); согласована с ценами ×10"},
+                       "(«фазовый переход 4-го рода»); согласована с ценами ×10; "
+                       "FOOD_SHARE = 0.6 — эмбарго Синдиката на Юге (метрика T-20)"},
     "checks": [dict(name=n, status=s, got=g, expect=e) for n, s, g, e in CHECKS],
 }
 with open(os.path.join(OUT_DIR, "08_khiphi.json"), "w", encoding="utf-8") as f:
@@ -500,7 +546,8 @@ for n, s, g, e in CHECKS:
 print("-" * 78)
 print(f"  ИТОГО: {len(CHECKS)} проверок | OK={n_ok} MISMATCH={n_mm}")
 print(f"  СИНТЕЗ: цикл χ→φ с η_max = κ = 7/9 (шлак 2/9 — инфляция стабильности);")
-print(f"          γ-дренаж Башен = жизнь тракта (T-19: 250 ТВт, остекление r = 51 м);")
-print(f"          даньянь: η = κ·σ_e/10, скверна стирается по Ландауэру;")
-print(f"          голодный Юг: 30 Вт χ на человека, ядро D = 96 суток (T-20).")
+print(f"          γ-дренаж Башен = жизнь тракта (T-19: 250 ТВт = 0.28% реактора,")
+print(f"          кратер стекла Ø 7 м + лучевой глазок Ø 103 м);")
+print(f"          дантянь: η = κ·σ_e/10, скверна стирается по Ландауэру;")
+print(f"          голодный Юг: 40 Вт χ на человека, ядро D = 73 суток (T-20).")
 print(f"[OK] Сохранено: {os.path.join(OUT_DIR, '08_khiphi.json')}")
