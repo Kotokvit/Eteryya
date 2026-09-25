@@ -964,5 +964,23 @@
   "exact": "57.4663847929377223610734201588",
   "unit": "порядков величины лестницы времён [NEW]",
   "status": "NEW"
+ },
+ "navier_stokes_incompressibility_div": {
+  "value": 0.0,
+  "exact": "0.0",
+  "unit": "[div(v)=0 — соленоидальность]",
+  "canon": 0.0,
+  "delta_abs": 0.0,
+  "delta_rel": 0.0,
+  "status": "OK"
+ },
+ "navier_stokes_taylor_green_residual": {
+  "value": 0.0,
+  "exact": "0.0",
+  "unit": "[невязка NS = 0]",
+  "canon": 0.0,
+  "delta_abs": 0.0,
+  "delta_rel": 0.0,
+  "status": "OK"
  }
 }
