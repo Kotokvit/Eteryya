@@ -243,15 +243,48 @@ function renderHits(query, text) {
 
     const act = document.createElement('div');
     act.className = 'hit-actions';
+    
     const hl = document.createElement('button');
-    hl.textContent = ' подсветить на странице';
-    hl.addEventListener('click', async () => {
+    hl.textContent = '👁 Подсветить';
+    hl.addEventListener('click', async (e) => {
+      e.stopPropagation();
       const n = await highlightTerms(query);
-      hl.textContent = n > 0 ? ' подсвечено: ' + n : ' нет совпадений';
+      hl.textContent = n > 0 ? 'Подсвечено: ' + n : 'Нет совпадений';
     });
     act.appendChild(hl);
-    box.appendChild(act);
 
+    const openBtn = document.createElement('button');
+    openBtn.textContent = '📂 Открыть с помощью…';
+    openBtn.title = 'Двойной клик на карточке также открывает меню выбора программы';
+    
+    const openWithAction = (e) => {
+      if (e) e.stopPropagation();
+      const target = h.url || h.title;
+      const app = prompt(
+        `Выберите программу для открытия:\n[1] 📝 Typora\n[2] ⚡ Poler Edit\n[3] 💻 VS Code / Cursor\n[4] 🌐 Браузер (новая вкладка)\n[5] 📋 Скопировать ссылку\n\nВведите цифру 1-5:`,
+        '1'
+      );
+      if (!app) return;
+      if (app === '1') {
+        mcp('poler_exec', { command: `flatpak run io.typora.Typora "${target}" || typora "${target}"` }).catch(() => {});
+      } else if (app === '2') {
+        mcp('poler_exec', { command: `/home/vitalij/.local/bin/poler-edit "${target}"` }).catch(() => {});
+      } else if (app === '3') {
+        mcp('poler_exec', { command: `code "${target}" || cursor "${target}"` }).catch(() => {});
+      } else if (app === '4') {
+        chrome.tabs.create({ url: h.url });
+      } else if (app === '5') {
+        navigator.clipboard.writeText(h.url);
+        openBtn.textContent = '✓ Скопировано';
+        setTimeout(() => { openBtn.textContent = '📂 Открыть с помощью…'; }, 2000);
+      }
+    };
+
+    openBtn.addEventListener('click', openWithAction);
+    box.addEventListener('dblclick', openWithAction);
+    act.appendChild(openBtn);
+
+    box.appendChild(act);
     resultsEl.appendChild(box);
   }
 }
