@@ -596,6 +596,28 @@
     const seenIds = new Set();
     const seenNames = new Set();
 
+    // Автоматический скролл до самого низа для подгрузки всех файлов виртуализированного списка
+    toast('⏳ Авто-прокрутка папки до конца для подгрузки всех файлов…');
+    const scrollContainer = $('[role="main"], [data-target="doc"], .drive-list-container, c-wiz, div[tabindex="-1"]') || window;
+    let prevCount = 0;
+    let stableTicks = 0;
+    for (let s = 0; s < 35; s++) {
+      if (scrollContainer && scrollContainer.scrollTo) {
+        scrollContainer.scrollTo(0, scrollContainer.scrollHeight || 9999999);
+      }
+      window.scrollTo(0, document.body.scrollHeight || 9999999);
+      await new Promise((r) => setTimeout(r, 350));
+      
+      const currentEls = $$('[data-id], [role="row"], [data-target="doc"]');
+      if (currentEls.length === prevCount && currentEls.length > 0) {
+        stableTicks++;
+        if (stableTicks >= 3) break; // список полностью загружен
+      } else {
+        stableTicks = 0;
+        prevCount = currentEls.length;
+      }
+    }
+
     // Поиск элементов с ID и ссылками
     const sels = isOne
       ? ['[role="row"][aria-label]', '[data-listindex][aria-label]', '[role="gridcell"] [aria-label]']
