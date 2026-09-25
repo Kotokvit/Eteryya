@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>POLER DropZone — перетащите файлы в архив</title>
+  <link rel="stylesheet" href="dropzone.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon48.png" alt="">
+    <div class="brand-text">
+      <h1>POLER DropZone <span class="ver">v2.1</span></h1>
+      <span id="dot" class="dot offline">шлюз: проверяю…</span>
+    </div>
+    <details class="cfg">
+      <summary title="Endpoint и Bearer-токен MCP-шлюза">⚙️ Шлюз</summary>
+      <div class="cfg-body">
+        <label>Endpoint
+          <input id="cfg-endpoint" type="text" placeholder="http://127.0.0.1:8765/">
+        </label>
+        <label>Bearer-токен
+          <input id="cfg-token" type="password" placeholder="(из config.json движка)">
+        </label>
+        <div class="cfg-actions">
+          <button id="cfg-save">💾 Сохранить</button>
+          <button id="cfg-test">🧪 Проверить</button>
+        </div>
+        <div id="cfg-status" class="cfg-status" hidden></div>
+      </div>
+    </details>
+  </header>
+
+  <!-- ============ ЗОНА: перетащить / выбрать / вставить ============ -->
+  <section id="zone" class="zone">
+    <div class="zone-inner">
+      <div class="zone-icon">📂</div>
+      <div class="zone-title">Перетащите файлы сюда мышью</div>
+      <div class="zone-sub">
+        или <label class="linklike" for="file-pick">выберите на диске</label>,
+        или нажмите <b>Ctrl+V</b> — вставится текст из буфера и скриншоты
+      </div>
+      <input id="file-pick" type="file" multiple hidden>
+      <div class="zone-note dim">
+        Текст и код — полностью · картинки — как Markdown-вложение (до 3 МБ) ·
+        прочее — пропускается с пометкой
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ОЧЕРЕДЬ ОТПРАВКИ ============ -->
+  <main id="queue" class="queue" hidden>
+    <div class="queue-head">
+      <span>Очередь: <b id="q-count">0</b></span>
+      <button id="q-clear" title="Убрать всё из очереди (в POLER ничего не уходит)">🧹 Очистить</button>
+    </div>
+    <div id="items" class="items"></div>
+    <div class="queue-foot">
+      <button id="send-all" class="primary">📥 Отправить всё в POLER</button>
+      <span id="progress" class="dim"></span>
+    </div>
+  </main>
+
+  <footer>
+    <span class="dim">Alt+P — захват ветки ИИ-чата · правый клик на любой странице — «POLER — Архиватор»</span>
+    <a id="foot-panel" href="#">🔍 Панель поиска</a>
+  </footer>
+
+  <script src="dropzone.js"></script>
+</body>
+</html>

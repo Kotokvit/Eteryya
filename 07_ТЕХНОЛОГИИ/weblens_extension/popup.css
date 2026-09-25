@@ -1,0 +1,307 @@
+/* POLER WebLens v2.1 — popup-архиватор. Тёмная тема движка, крупные цели для мыши. */
+
+:root {
+  --bg: #0e1a26;
+  --bg2: #13222f;
+  --fg: #dbe7f0;
+  --dim: #7d93a5;
+  --cy: #22d3ee;
+  --mg: #e83e8c;
+  --line: #1f3446;
+  --ok: #4ade80;
+  --err: #f87171;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 420px;
+  height: 580px;
+  overflow: hidden;
+}
+
+body {
+  font: 13px/1.45 "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------------------- шапка ------------------------------- */
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+header img { width: 34px; height: 34px; }
+.brand-text { display: flex; flex-direction: column; gap: 1px; }
+h1 { font-size: 15px; margin: 0; letter-spacing: 0.3px; }
+
+.ver {
+  font-size: 10px;
+  color: var(--cy);
+  border: 1px solid var(--cy);
+  border-radius: 6px;
+  padding: 0 4px;
+  vertical-align: 2px;
+  margin-left: 2px;
+}
+
+.dot { font-size: 11px; color: var(--dim); }
+.dot::before { content: "●"; margin-right: 4px; }
+.dot.online { color: var(--ok); }
+.dot.offline { color: var(--err); }
+
+/* ------------------------------- вкладки ------------------------------- */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px 0;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.tab {
+  flex: 1;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  color: var(--dim);
+  padding: 7px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.tab:hover { color: var(--fg); }
+.tab.active {
+  background: var(--bg2);
+  border-color: var(--line);
+  color: var(--fg);
+  position: relative;
+  top: 1px;
+}
+.chip {
+  background: var(--cy);
+  color: #06222b;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 0 5px;
+  margin-left: 3px;
+  vertical-align: 1px;
+}
+
+/* ------------------------------ панели ------------------------------ */
+
+.pane {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+.pane.active { display: flex; }
+
+/* ------------------------- вкладка «Отправить» ------------------------- */
+
+.quick { display: flex; gap: 6px; }
+.quick button {
+  flex: 1;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--fg);
+  padding: 9px 6px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.quick button:hover { border-color: var(--cy); color: #ecfeff; }
+
+.field { display: flex; flex-direction: column; gap: 3px; }
+.field > span { font-size: 11px; color: var(--dim); }
+.field > span b { color: var(--cy); }
+
+input, textarea {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--fg);
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  width: 100%;
+}
+input:focus, textarea:focus { border-color: var(--cy); }
+
+textarea {
+  flex: 1;
+  min-height: 170px;
+  resize: none;
+  line-height: 1.5;
+}
+
+.primary {
+  background: linear-gradient(135deg, #0891b2, #0e7490);
+  color: #ecfeff;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+}
+.primary:hover { filter: brightness(1.15); }
+.primary:disabled { opacity: 0.55; cursor: default; }
+
+.primary-sm {
+  background: linear-gradient(135deg, #0891b2, #0e7490);
+  color: #ecfeff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.primary-sm:hover { filter: brightness(1.15); }
+
+.hint { font-size: 11px; color: var(--dim); }
+.hint a { color: var(--cy); text-decoration: none; }
+.hint a:hover { text-decoration: underline; }
+.hint code {
+  color: var(--cy);
+  font-size: 10px;
+  background: var(--bg2);
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+
+.status {
+  font-size: 12px;
+  border-radius: 8px;
+  border-left: 3px solid var(--line);
+  background: var(--bg2);
+  padding: 8px 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.status.ok { color: var(--ok); border-color: var(--ok); }
+.status.err { color: var(--err); border-color: var(--err); }
+
+/* ------------------------- вкладка «История» ------------------------- */
+
+.history { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+.hist {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg2);
+  padding: 8px 10px;
+}
+.hist-top { display: flex; align-items: baseline; gap: 6px; }
+.hist-dot { flex-shrink: 0; font-size: 10px; }
+.hist.ok .hist-dot { color: var(--ok); }
+.hist.err .hist-dot { color: var(--err); }
+.hist-title {
+  font-weight: 600;
+  font-size: 12px;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hist-meta { font-size: 11px; color: var(--dim); margin-top: 3px; }
+.hist-url {
+  color: var(--cy);
+  font-size: 10px;
+  text-decoration: none;
+  word-break: break-all;
+  display: block;
+  margin-top: 2px;
+}
+.hist-url:hover { text-decoration: underline; }
+.hist-preview {
+  color: var(--dim);
+  font-size: 11px;
+  margin-top: 4px;
+  max-height: 52px;
+  overflow: hidden;
+  word-break: break-word;
+}
+.hist-err { color: var(--err); font-size: 11px; margin-top: 4px; word-break: break-word; }
+.hist-actions { display: flex; gap: 6px; margin-top: 6px; }
+.hist-actions button {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--fg);
+  font-size: 11px;
+  padding: 4px 9px;
+  cursor: pointer;
+}
+.hist-actions button:hover { border-color: var(--cy); }
+
+.hist-empty { color: var(--dim); font-size: 12px; padding: 14px 4px; }
+.hist-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+.hist-foot button {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--fg);
+  font-size: 11px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.hist-foot button:hover { border-color: var(--mg); }
+
+/* -------------------------- вкладка «Шлюз» -------------------------- */
+
+.cfg-actions { display: flex; gap: 6px; }
+.cfg-actions button {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--fg);
+  padding: 9px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cfg-actions button:hover { border-color: var(--cy); }
+
+/* ------------------------------- подвал ------------------------------- */
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 7px 12px;
+  font-size: 11px;
+  color: var(--dim);
+  display: flex;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.foot-actions a { color: var(--cy); text-decoration: none; margin-left: 10px; }
+.foot-actions a:hover { text-decoration: underline; }
+
+.dim { color: var(--dim); }
+
+/* скроллбары в теме */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #2a4a63; }

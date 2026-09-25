@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>POLER Архиватор</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon48.png" alt="">
+    <div class="brand-text">
+      <h1>POLER Архиватор <span class="ver">v2.1</span></h1>
+      <span id="dot" class="dot offline" title="проверяю MCP-шлюз…">шлюз: проверяю…</span>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="send">📋 Отправить</button>
+    <button class="tab" data-tab="history">🕘 История <span id="hist-n" class="chip" hidden>0</span></button>
+    <button class="tab" data-tab="cfg">⚙️ Шлюз</button>
+  </nav>
+
+  <!-- ============ ВКЛАДКА: ОТПРАВИТЬ (банальное копировать-вставить) ============ -->
+  <section id="tab-send" class="pane active">
+    <div class="quick">
+      <button id="q-clipboard" title="Взять текст из буфера обмена (то, что вы только что скопировали)">
+        📋 Из буфера
+      </button>
+      <button id="q-selection" title="Взять текст, выделенный на текущей странице">
+        🖱 Выделенное
+      </button>
+      <button id="q-page" title="Взять весь текст текущей страницы">
+        📄 Страница
+      </button>
+    </div>
+
+    <label class="field">
+      <span>Заголовок</span>
+      <input id="title" type="text" placeholder="авто: первая строка текста" autocomplete="off">
+    </label>
+
+    <label class="field">
+      <span>Откуда (ссылка)</span>
+      <input id="url" type="text" placeholder="адрес страницы-источника" autocomplete="off">
+    </label>
+
+    <label class="field">
+      <span>Текст — нажмите <b>Ctrl+V</b> и вставьте</span>
+      <textarea id="content" spellcheck="false"
+        placeholder="Скопируйте что угодно в любом приложении — нажмите здесь Ctrl+V…&#10;&#10;Можно и перетащить текстовый файл прямо сюда."></textarea>
+    </label>
+
+    <div class="hint">
+      Ctrl+Enter — отправить · файлы и картинки — в <a id="open-zone" href="#">📂 DropZone</a>
+    </div>
+
+    <button id="send" class="primary" title="Отправить в POLER (Ctrl+Enter)">
+      📥 Архивировать в POLER
+    </button>
+
+    <div id="status" class="status" hidden></div>
+  </section>
+
+  <!-- ============ ВКЛАДКА: ИСТОРИЯ ============ -->
+  <section id="tab-history" class="pane">
+    <div id="history" class="history"></div>
+    <div class="hist-foot">
+      <span class="dim">последние 40 отправок · хранится локально</span>
+      <button id="hist-clear" title="Очистить журнал">🧹 Очистить</button>
+    </div>
+  </section>
+
+  <!-- ============ ВКЛАДКА: ШЛЮЗ (настройки) ============ -->
+  <section id="tab-cfg" class="pane">
+    <label class="field">
+      <span>Endpoint MCP-шлюза</span>
+      <input id="cfg-endpoint" type="text" placeholder="http://127.0.0.1:8765/" autocomplete="off">
+    </label>
+    <label class="field">
+      <span>Bearer-токен</span>
+      <input id="cfg-token" type="password" placeholder="(из config.json движка)" autocomplete="off">
+    </label>
+    <label class="field">
+      <span>Размер части, символов <i class="dim">(большие пакеты режутся автоматически)</i></span>
+      <input id="cfg-chunk" type="number" min="1000" step="1000" placeholder="120000">
+    </label>
+    <div class="cfg-actions">
+      <button id="cfg-save" class="primary-sm">💾 Сохранить</button>
+      <button id="cfg-test">🧪 Проверить шлюз</button>
+    </div>
+    <div id="cfg-status" class="status" hidden></div>
+    <div class="hint">
+      По умолчанию адрес и токен берутся из <code>config.json</code> расширения
+      (материализует poler-engine). Здесь можно переопределить — сохранится
+      локально, в chrome.storage.
+    </div>
+  </section>
+
+  <footer>
+    <span class="dim" title="Захват ветки ИИ-чата целиком">Alt+P — ветка чата</span>
+    <span class="foot-actions">
+      <a id="foot-zone" href="#" title="Открыть DropZone в новой вкладке">📂 DropZone</a>
+      <a id="foot-panel" href="#" title="Открыть боковую панель поиска по индексам">🔍 Панель</a>
+    </span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
