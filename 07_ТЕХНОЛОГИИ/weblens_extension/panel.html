@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>POLER WebLens</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="icons/icon48.png" alt="">
+      <div>
+        <h1>POLER WebLens</h1>
+        <span id="status" class="status offline">движок: проверяю…</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="search">
+    <input id="q" type="search" placeholder="поиск по всем индексам (веб + NLM + код)…" autofocus>
+    <button id="go" title="Искать (Enter)">Найти</button>
+  </section>
+
+  <section class="actions">
+    <button id="capture" title="Добавить открытую страницу в общий индекс движка">⟕ Индексировать эту страницу</button>
+    <button id="clear" title="Убрать подсветку">Очистить подсветку</button>
+  </section>
+
+  <main id="results">
+    <div class="hint">
+      Один поиск по всему, что вы накопили: проползенные сайты, NotebookLM,
+      локальный код. Прочитали страницу — нажмите «Индексировать», и она
+      навсегда в общем индексе.
+    </div>
+  </main>
+
+  <footer>
+    <span id="pages"></span>
+    <span class="dim">Alt+P — открыть/закрыть панель</span>
+  </footer>
+
+  <script src="panel.js"></script>
+</body>
+</html>
