@@ -224,7 +224,7 @@ def compute_projector(Jc: np.ndarray, delta: float = 1e-10) -> Pgl4Matrix:
     Каузальный проектор Π_Λ = I − Jcᵀ(Jc·Jcᵀ + δI)⁻¹Jc
     
     Из P3_Voxel_Engine: PhysicsEngine::compute_projector
-    Подавление шума, физика φ-сплавов.
+    Подавление шума, физика ф-сплавов.
     Вычисляется через Newton-Schulz inversion (8 итераций).
     """
     I4 = np.eye(4)
