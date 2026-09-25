@@ -28,10 +28,10 @@
   "A2_clock_energetics": {
     "mode_field_T": 1e-10,
     "cavity_volume_m3": 4.285139898506562e+19,
-    "stored_energy_kJ": 170.5002990790893,
+    "stored_energy_kJ": 170.50029919441712,
     "Q": 10.0,
-    "ringing_power_MW": 2.0033029014612684,
-    "reactor_fraction": 2.2258921127347428e-11,
+    "ringing_power_MW": 2.003302902816319,
+    "reactor_fraction": 2.2258921142403547e-11,
     "mechanical_drive_GW_per_nm": 0.8577800811240383
   },
   "A3_mode_geography": {
@@ -59,19 +59,19 @@
     "skin_depth_table": [
       {
         "sigma_eff_S_m": 3.0,
-        "delta_m": 67.19526962278147
+        "delta_m": 67.1952696455072
       },
       {
         "sigma_eff_S_m": 10.0,
-        "delta_m": 36.804364930039064
+        "delta_m": 36.80436494248645
       },
       {
         "sigma_eff_S_m": 30.0,
-        "delta_m": 21.249009999711276
+        "delta_m": 21.249010006897777
       },
       {
         "sigma_eff_S_m": 100.0,
-        "delta_m": 11.638562101494708
+        "delta_m": 11.63856210543092
       }
     ],
     "canon_band_m": [

@@ -28,20 +28,20 @@ RESULTS = os.path.join(HERE, "results")
 PDF_SKILL_SCRIPTS = "/home/z/my-project/skills/pdf/scripts"
 sys.path.insert(0, PDF_SKILL_SCRIPTS)
 
-# ── Шрифты ──────────────────────────────────────────────────────────────────
-FONT_DIR = "/usr/share/fonts"
-pdfmetrics.registerFont(TTFont("FreeSerif", f"{FONT_DIR}/truetype/freefont/FreeSerif.ttf"))
-pdfmetrics.registerFont(TTFont("FreeSerif-Bold", f"{FONT_DIR}/truetype/freefont/FreeSerifBold.ttf"))
-pdfmetrics.registerFont(TTFont("FreeSerif-Italic", f"{FONT_DIR}/truetype/freefont/FreeSerifItalic.ttf"))
-pdfmetrics.registerFont(TTFont("FreeSerif-BoldItalic", f"{FONT_DIR}/truetype/freefont/FreeSerifBoldItalic.ttf"))
-pdfmetrics.registerFont(TTFont("DejaVuSans", f"{FONT_DIR}/truetype/dejavu/DejaVuSansMono.ttf"))
-pdfmetrics.registerFont(TTFont("DejaVuSans-Bold", f"{FONT_DIR}/truetype/dejavu/DejaVuSansMono-Bold.ttf"))
+# ── Шрифты (CachyOS / Arch TTF) ───────────────────────────────────────────────
+FONT_DIR = "/usr/share/fonts/TTF"
+pdfmetrics.registerFont(TTFont("FreeSerif", f"{FONT_DIR}/DejaVuSerif.ttf"))
+pdfmetrics.registerFont(TTFont("FreeSerif-Bold", f"{FONT_DIR}/DejaVuSerif-Bold.ttf"))
+pdfmetrics.registerFont(TTFont("FreeSerif-Italic", f"{FONT_DIR}/DejaVuSerif-Italic.ttf"))
+pdfmetrics.registerFont(TTFont("FreeSerif-BoldItalic", f"{FONT_DIR}/DejaVuSerif-BoldItalic.ttf"))
+pdfmetrics.registerFont(TTFont("DejaVuSans", f"{FONT_DIR}/DejaVuSansMono.ttf"))
+pdfmetrics.registerFont(TTFont("DejaVuSans-Bold", f"{FONT_DIR}/DejaVuSansMono-Bold.ttf"))
 registerFontFamily("FreeSerif", normal="FreeSerif", bold="FreeSerif-Bold",
                    italic="FreeSerif-Italic", boldItalic="FreeSerif-BoldItalic")
 registerFontFamily("DejaVuSans", normal="DejaVuSans", bold="DejaVuSans-Bold")
 
-from pdf import install_font_fallback  # noqa: E402
-install_font_fallback()
+# from pdf import install_font_fallback
+# install_font_fallback()
 
 # ── Палитра (cascade, intent=cold, mode=minimal, seed=42) ───────────────────
 PAGE_BG       = colors.HexColor('#f4f5f5')
@@ -963,10 +963,15 @@ def normalize(page):
         page.mediabox.upper_right = (A4_W, A4_H)
     return page
 
-FINAL = "/home/z/my-project/download/Система_Уроборос_Мастер-план_v2.0.pdf"
+FINAL = "/home/vitalij/Стільниця/Eteryya/07_ТЕХНОЛОГИИ/ouroboros_modeling/Система_Уроборос_Мастер-план_v2.0.pdf"
 os.makedirs(os.path.dirname(FINAL), exist_ok=True)
 writer = PdfWriter()
-writer.add_page(normalize(PdfReader(os.path.join(HERE, "cover.pdf")).pages[0]))
+cov_file = os.path.join(HERE, "cover.pdf")
+if not os.path.exists(cov_file):
+    cov_file = os.path.join(os.path.dirname(HERE), "cover.pdf")
+if os.path.exists(cov_file):
+    writer.add_page(normalize(PdfReader(cov_file).pages[0]))
+
 for p in PdfReader(BODY_PDF).pages:
     writer.add_page(normalize(p))
 writer.add_metadata({

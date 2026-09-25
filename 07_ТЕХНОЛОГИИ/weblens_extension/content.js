@@ -561,27 +561,102 @@
     };
   }
 
-  function harvestDriveOrOneDrive() {
+  async function fetchGoogleFileContent(id, name) {
+    if (!id || id.length < 5) return null;
+    const endpoints = [
+      `https://docs.google.com/document/d/${id}/export?format=txt`,
+      `https://docs.google.com/spreadsheets/d/${id}/export?format=csv`,
+      `https://docs.google.com/presentation/d/${id}/export?format=txt`,
+      `https://drive.google.com/uc?id=${id}&export=download`,
+      `https://drive.usercontent.google.com/download?id=${id}&export=download&authuser=0`
+    ];
+    for (const url of endpoints) {
+      try {
+        const res = await fetch(url, { credentials: 'include' });
+        if (!res.ok) continue;
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('text/html') && !url.includes('docs.google.com')) {
+          // HTML-страница подтверждения или логина вместо файла — пропускаем
+          continue;
+        }
+        const text = await res.text();
+        if (text && text.trim().length > 0 && !text.includes('<!DOCTYPE html>')) {
+          return { url, text };
+        }
+      } catch (_) {
+        // Ошибка сети или CORS — пробуем следующий эндпоинт
+      }
+    }
+    return null;
+  }
+
+  async function harvestDriveOrOneDrive() {
     const isOne = platform.id === 'onedrive';
-    const names = [];
-    const seen = new Set();
+    const items = [];
+    const seenIds = new Set();
+    const seenNames = new Set();
+
+    // Поиск элементов с ID и ссылками
     const sels = isOne
       ? ['[role="row"][aria-label]', '[data-listindex][aria-label]', '[role="gridcell"] [aria-label]']
-      : ['[data-id][data-tooltip]', '[data-id][aria-label]', '[role="row"][aria-label]'];
+      : ['[data-id]', '[data-target="doc"]', 'c-wiz[data-item-id]', '[role="row"]', 'a[href*="/file/d/"]', 'a[href*="/drive/folders/"]'];
+
     for (const sel of sels) {
       $$(sel).forEach((el) => {
+        let id = el.getAttribute('data-id') || el.getAttribute('data-item-id') || '';
+        if (!id) {
+          const href = el.getAttribute('href') || (el.querySelector('a') && el.querySelector('a').getAttribute('href')) || '';
+          const m = href.match(/\/d\/([a-zA-Z0-9_-]+)/) || href.match(/id=([a-zA-Z0-9_-]+)/);
+          if (m) id = m[1];
+        }
         const name = (el.getAttribute('aria-label') || el.getAttribute('data-tooltip') ||
           String(el.innerText || '').split('\n')[0] || '').trim();
-        if (name && !seen.has(name)) { seen.add(name); names.push(name); }
+        
+        if (id && !seenIds.has(id)) {
+          seenIds.add(id);
+          items.push({ id, name: name || ('file_' + id) });
+        } else if (name && !seenNames.has(name)) {
+          seenNames.add(name);
+          items.push({ id: '', name });
+        }
       });
     }
+
     let preview = '';
     const pv = $('.drive-viewer-text, [role="document"]');
     if (pv) preview = scrub(pv.innerText || '').trim();
+
+    // Прямая выкачка файлов сессии
+    let downloadedCount = 0;
+    const fetchedFiles = [];
+    for (let i = 0; i < items.length; i++) {
+      const it = items[i];
+      if (it.id) {
+        toast(`⏳ Сессионная загрузка [${i + 1}/${items.length}]: ${it.name.slice(0, 30)}...`);
+        const fetched = await fetchGoogleFileContent(it.id, it.name);
+        if (fetched && fetched.text) {
+          downloadedCount++;
+          fetchedFiles.push({ name: it.name, id: it.id, text: fetched.text });
+          // Стримим файл прямо в poler-engine
+          await chrome.runtime.sendMessage({
+            type: 'poler:harvest',
+            payload: {
+              source: 'gdrive-file',
+              title: it.name,
+              url: `https://drive.google.com/file/d/${it.id}/view`,
+              content: `# 📄 ${it.name}\n\nURL: https://drive.google.com/file/d/${it.id}/view\n\n---\n\n${fetched.text}`
+            }
+          }).catch(() => {});
+        }
+      }
+    }
+
     return {
       kind: isOne ? 'onedrive-folder' : 'gdrive-folder',
       title: pageTitle(),
-      names,
+      items,
+      downloadedCount,
+      fetchedFiles,
       preview
     };
   }
@@ -591,12 +666,16 @@
     L.push('', '---', '');
     if (r.body) {
       L.push(r.body.trim());
-    } else if (r.names && r.names.length) {
-      L.push('## 📁 Состав папки (' + r.names.length + ' объектов)', '');
-      r.names.forEach((n) => L.push('- ' + n));
+    } else if (r.items && r.items.length) {
+      L.push('## 📁 Состав папки (' + r.items.length + ' объектов, загружено напрямую: ' + (r.downloadedCount || 0) + ')', '');
+      r.items.forEach((it) => {
+        const status = it.id ? ' [ID: `' + it.id + '`]' : '';
+        L.push('- ' + it.name + status);
+      });
       L.push('');
-      L.push('> Пакетное вскрытие файлов требует их открытия (экспорт по одному);');
-      L.push('> список собран как манифест папки — по нему движок может запросить докачку.');
+      if (r.downloadedCount > 0) {
+        L.push(`> ✅ Успешно извлечено и отправлено в архив ${r.downloadedCount} файлов через сессию браузера.`);
+      }
     } else {
       L.push('_Папка/документ не распознаны — захват дал пустой результат._');
     }

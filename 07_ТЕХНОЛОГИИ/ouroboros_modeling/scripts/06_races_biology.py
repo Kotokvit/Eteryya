@@ -342,7 +342,7 @@ print("=" * 78)
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.font_manager as fm
-fm.fontManager.addfont("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
+fm.fontManager.addfont("/usr/share/fonts/TTF/DejaVuSans.ttf")
 import matplotlib.pyplot as plt
 plt.rcParams["font.sans-serif"] = ["DejaVu Sans"]
 plt.rcParams["axes.unicode_minus"] = False
