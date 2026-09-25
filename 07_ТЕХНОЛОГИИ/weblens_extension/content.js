@@ -858,6 +858,30 @@
     }
   });
 
+  /* ==================== АВТО-КОПИРОВАНИЕ ПРИ ПРАВОМ КЛИКЕ ==================== */
+  document.addEventListener('contextmenu', (e) => {
+    try {
+      const sel = window.getSelection();
+      const txt = sel ? String(sel.toString() || '').trim() : '';
+      if (txt && txt.length > 0) {
+        navigator.clipboard.writeText(txt).then(() => {
+          toast(`📋 Скопировано в буфер (${txt.length} симв.)`);
+        }).catch(() => {
+          const ta = document.createElement('textarea');
+          ta.value = txt;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          toast(`📋 Скопировано в буфер (${txt.length} симв.)`);
+        });
+      }
+    } catch (_) {}
+  }, true);
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', mountFloatButton);
   } else {

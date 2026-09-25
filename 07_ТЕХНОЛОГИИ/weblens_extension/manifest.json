@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "description": "Универсальный потоковый комбайн: пакетный сбор диалогов (Grok, ChatGPT, Claude, Gemini, DeepSeek, NotebookLM) и облачных папок (Google Drive, OneDrive) в poler-engine через MCP-шлюз 127.0.0.1:8765. Плюс резонансный поиск по всем индексам движка.",
   "minimum_chrome_version": "116",
-  "permissions": ["sidePanel", "activeTab", "scripting", "tabs", "storage"],
+  "permissions": ["sidePanel", "activeTab", "scripting", "tabs", "storage", "clipboardWrite"],
   "host_permissions": ["http://127.0.0.1/*", "http://localhost/*", "https://*/*"],
   "background": {
     "service_worker": "background.js"
