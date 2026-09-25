@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <title>POLER WebLens</title>
+  <title>POLER WebLens — Universal Harvester</title>
   <link rel="stylesheet" href="panel.css">
 </head>
 <body>
@@ -10,14 +10,38 @@
     <div class="brand">
       <img src="icons/icon48.png" alt="">
       <div>
-        <h1>POLER WebLens</h1>
+        <h1>POLER WebLens <span class="ver">v2.0</span></h1>
         <span id="status" class="status offline">движок: проверяю…</span>
       </div>
     </div>
   </header>
 
+  <!-- ============ КОМБАЙН: сбор веток чатов и облачных папок ============ -->
+  <section class="harvest">
+    <div class="hrow">
+      <span class="dim">Вкладка:</span>
+      <b id="platform">—</b>
+    </div>
+    <button id="harvest" class="primary" title="Собрать всю ветку диалога / папку в poler-engine (как Alt+P)">
+      📥 Захватить ветку в POLER
+    </button>
+    <div class="hrow small">
+      <button id="ping" title="JSON-RPC tools/list на 127.0.0.1:8765/mcp">🧪 Тест шлюза</button>
+      <span id="ping-result" class="dim"></span>
+    </div>
+    <div id="hlog" class="hlog"></div>
+    <details id="cfg">
+      <summary>⚙ Шлюз MCP (endpoint / Bearer)</summary>
+      <label>Endpoint<input id="cfg-endpoint" placeholder="http://127.0.0.1:8765/"></label>
+      <label>Bearer-токен<input id="cfg-token" type="password" placeholder="из config.json движка"></label>
+      <button id="cfg-save">Сохранить (chrome.storage)</button>
+      <div class="dim small">Пакет уходит на <code>&lt;endpoint&gt;/mcp</code>, метод <code>tools/call → poler_chunk</code>.</div>
+    </details>
+  </section>
+
+  <!-- ============ ПОИСК ПО ИНДЕКСАМ ДВИЖКА (легаси v0.19) ============ -->
   <section class="search">
-    <input id="q" type="search" placeholder="поиск по всем индексам (веб + NLM + код)…" autofocus>
+    <input id="q" type="search" placeholder="поиск по всем индексам (веб + NLM + код)…">
     <button id="go" title="Искать (Enter)">Найти</button>
   </section>
 
@@ -36,7 +60,7 @@
 
   <footer>
     <span id="pages"></span>
-    <span class="dim">Alt+P — открыть/закрыть панель</span>
+    <span class="dim">Alt+P — захват ветки · клик по иконке — панель</span>
   </footer>
 
   <script src="panel.js"></script>

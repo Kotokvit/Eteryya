@@ -1,8 +1,127 @@
-// POLER WebLens — side panel: поиск по общему индексу движка,
-// захват текущей страницы, подсветка терминов результата.
+// POLER WebLens v2.0 — side panel.
+// Секция A (v2.0): комбайн — захват ветки активной вкладки, тест шлюза,
+//   конфиг endpoint/Bearer (chrome.storage поверх config.json).
+// Секция B (легаси v0.19): поиск по общему индексу движка, захват страницы,
+//   подсветка терминов результата.
 
 const $ = (id) => document.getElementById(id);
 const resultsEl = $('results');
+const hlogEl = $('hlog');
+
+/* ======================= СЕКЦИЯ A: КОМБАЙН ======================= */
+
+function hlog(msg, cls) {
+  const d = document.createElement('div');
+  d.className = 'hline ' + (cls || '');
+  d.textContent = msg;
+  hlogEl.appendChild(d);
+  while (hlogEl.childNodes.length > 12) hlogEl.removeChild(hlogEl.firstChild);
+}
+
+async function activeTab() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  return tab;
+}
+
+/** Платформа активной вкладки — спрашиваем у content.js. */
+async function refreshPlatform() {
+  const tab = await activeTab();
+  const el = $('platform');
+  if (!tab || !/^https?:/.test(tab.url || '')) {
+    el.textContent = 'не веб-страница';
+    return;
+  }
+  let info = null;
+  try {
+    info = await chrome.tabs.sendMessage(tab.id, { type: 'poler:harvest-info' });
+  } catch (_) {
+    // контент-скрипт ещё не инжектирован — при захвате инъектируем
+  }
+  if (info && info.ok) {
+    el.textContent = info.label + ' (' + info.kind + ')';
+    el.className = 'ok';
+  } else {
+    el.textContent = (info && info.label) || 'не поддерживается';
+    el.className = 'off';
+  }
+}
+
+/** Захват ветки/папки активной вкладки (то же, что Alt+P на странице). */
+async function doHarvest() {
+  const btn = $('harvest');
+  btn.disabled = true;
+  const old = btn.textContent;
+  btn.textContent = '⏳ Сбор… (авто-скролл может занять до минуты)';
+  hlog('⏳ sweep: авто-скролл DOM → Markdown → poler_chunk…');
+  try {
+    const tab = await activeTab();
+    if (!tab || tab.id == null || !/^https?:/.test(tab.url || '')) {
+      throw new Error('откройте обычную веб-страницу (http/https)');
+    }
+    let res = null;
+    try {
+      res = await chrome.tabs.sendMessage(tab.id, { type: 'poler:harvest-run' });
+    } catch (_) {
+      await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['content.js'] });
+      res = await chrome.tabs.sendMessage(tab.id, { type: 'poler:harvest-run' });
+    }
+    if (res && res.ok) {
+      hlog('✅ В POLER: ' + (res.chars || 0) + ' симв. · стратегия: ' + (res.strategy || '—'), 'ok');
+    } else {
+      hlog('❌ ' + ((res && res.error) || 'нет ответа от content.js'), 'err');
+    }
+  } catch (e) {
+    hlog('❌ ' + String((e && e.message) || e), 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = old;
+  }
+}
+
+/** Тест шлюза: JSON-RPC tools/list → число инструментов. */
+async function doPing() {
+  const out = $('ping-result');
+  out.textContent = '…';
+  const r = await chrome.runtime.sendMessage({ type: 'poler:ping' });
+  if (r && r.ok) {
+    out.textContent = '✅ ' + (r.tools >= 0 ? r.tools + ' tools' : 'JSON-RPC жив') + ' на /mcp';
+    out.className = 'ok';
+  } else {
+    out.textContent = '❌ ' + ((r && (r.error || 'HTTP ' + r.status)) || 'нет ответа');
+    out.className = 'off';
+  }
+}
+
+/** Конфиг шлюза: показать текущий, сохранить override. */
+async function refreshConfig() {
+  const r = await chrome.runtime.sendMessage({ type: 'poler:config-get' });
+  if (r && r.ok) {
+    $('cfg-endpoint').value = r.endpoint || '';
+    $('cfg-token').placeholder = r.token || '(пусто)';
+  }
+}
+
+async function saveConfig() {
+  const r = await chrome.runtime.sendMessage({
+    type: 'poler:config-set',
+    payload: {
+      endpoint: $('cfg-endpoint').value.trim(),
+      token: $('cfg-token').value.trim()
+    }
+  });
+  hlog(r && r.ok ? '✅ конфиг шлюза сохранён' : '❌ не сохранено',
+       r && r.ok ? 'ok' : 'err');
+  await refreshConfig();
+}
+
+$('harvest').addEventListener('click', doHarvest);
+$('ping').addEventListener('click', doPing);
+$('cfg-save').addEventListener('click', saveConfig);
+
+refreshPlatform();
+refreshConfig();
+
+/* ================= СЕКЦИЯ B: ПОИСК (легаси) ================= */
 
 /** Статус демона движка (GET /health без токена — smoke-проба). */
 async function checkStatus() {
@@ -14,7 +133,7 @@ async function checkStatus() {
     });
     el.textContent = res.ok ? 'движок: на связи' : 'движок: нет ответа';
     el.className = 'status ' + (res.ok ? 'online' : 'offline');
-  } catch {
+  } catch (_) {
     el.textContent = 'движок: офлайн (запустите --web-lens)';
     el.className = 'status offline';
   }

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "POLER WebLens",
-  "version": "0.19.0",
-  "description": "Поиск POLER Engine прямо в браузере: единый индекс (веб + NotebookLM + код), подсветка терминов, захват страниц в базу знаний.",
+  "name": "POLER WebLens — Universal Harvester",
+  "version": "2.0.0",
+  "description": "Универсальный потоковый комбайн: пакетный сбор диалогов (Grok, ChatGPT, Claude, Gemini, DeepSeek, NotebookLM) и облачных папок (Google Drive, OneDrive) в poler-engine через MCP-шлюз 127.0.0.1:8765. Плюс резонансный поиск по всем индексам движка.",
   "minimum_chrome_version": "116",
   "permissions": ["sidePanel", "activeTab", "scripting", "tabs", "storage"],
   "host_permissions": ["http://127.0.0.1/*", "http://localhost/*", "https://*/*"],
@@ -13,7 +13,7 @@
     "default_path": "panel.html"
   },
   "action": {
-    "default_title": "POLER WebLens (Alt+P)",
+    "default_title": "POLER WebLens — Alt+P захват ветки в POLER",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",
@@ -23,10 +23,13 @@
   },
   "commands": {
     "_execute_action": {
+      "description": "Открыть панель WebLens (поиск по индексам)"
+    },
+    "harvest-thread": {
       "suggested_key": {
         "default": "Alt+P"
       },
-      "description": "Открыть панель POLER WebLens"
+      "description": "Захватить ветку/папку в POLER"
     }
   },
   "content_scripts": [
