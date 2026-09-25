@@ -7,3 +7,5 @@ __pycache__/
 
 # Local tooling (не пушим)
 .local/
+*.poler
+07_ТЕХНОЛОГИИ/dist/*.tar.gz
