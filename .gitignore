@@ -8,4 +8,6 @@ __pycache__/
 # Local tooling (не пушим)
 .local/
 *.poler
+00_КАНОН/poler
+00_КАНОН/poler-box
 07_ТЕХНОЛОГИИ/dist/*.tar.gz
